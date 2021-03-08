@@ -1,7 +1,14 @@
+import Footer from './components/Footer';
+import Header from './components/Header';
+
 const App = () => {
   return (
     <>
-      <h1>Hello</h1>
+      <Header />
+      <main>
+        <h1>欢迎来到-shop</h1>
+      </main>
+      <Footer />
     </>
   );
 };
