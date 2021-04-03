@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core';
 import { yellow } from '@material-ui/core/colors';
 const useStyles = makeStyles({
   rating: {
-    display: 'flex',
     alignItems: 'center',
   },
 });
@@ -59,7 +58,8 @@ const Rating = ({ value, text, color }) => {
           <StarOutlineIcon style={{ color }} />
         )}
       </span>
-      <span>{text && text}</span>
+      <br />
+      <div>{text && text}</div>
     </div>
   );
 };

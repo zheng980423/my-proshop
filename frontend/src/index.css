@@ -4,3 +4,11 @@ body {
 main {
   min-height: 80vh;
 }
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}

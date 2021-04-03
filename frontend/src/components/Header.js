@@ -2,6 +2,7 @@ import {
   AppBar,
   Button,
   Container,
+  Link,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -9,6 +10,7 @@ import { makeStyles } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 const drawWidth = 240;
 const useStyles = makeStyles(theme => {
   return {
@@ -30,7 +32,7 @@ const useStyles = makeStyles(theme => {
     },
     appbar: {},
     toolbar: { padding: 0 },
-    date: { flexGrow: 1 },
+    date: { flexGrow: 1, textDecoration: 'none' },
     avatar: {
       marginLeft: theme.spacing(2),
     },
@@ -40,18 +42,22 @@ const useStyles = makeStyles(theme => {
 
 const Header = () => {
   const classes = useStyles();
-  const preventDefault = event => event.preventDefault();
+
   return (
     <header>
       <AppBar className={classes.appbar} elevation={1}>
-        <Container>
+        <Container maxWidth="md">
           <Toolbar className={classes.toolbar}>
-            <Typography className={classes.date}>Proshop</Typography>
+            <Typography className={classes.date}>
+              <Link color="inherit" component={RouterLink} to="/">
+                Proshop
+              </Link>
+            </Typography>
             <Typography>
               <Button
-                href="/cart"
-                onClick={preventDefault}
                 color="inherit"
+                component={RouterLink}
+                to="/cart"
                 startIcon={<ShoppingCartIcon />}
               >
                 Cart
@@ -60,9 +66,9 @@ const Header = () => {
             <Typography>
               <Button
                 className={classes.link}
-                href="/login"
                 color="inherit"
-                onClick={preventDefault}
+                component={RouterLink}
+                to="/login"
                 startIcon={<AccountCircleIcon />}
               >
                 Sign In

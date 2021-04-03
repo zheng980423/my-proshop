@@ -11,6 +11,7 @@ import {
 import { blue, green, pink, yellow } from '@material-ui/core/colors';
 import Rating from './Rating';
 import React from 'react';
+import { Link } from 'react-router-dom';
 const useStyles = makeStyles({
   avatar: {
     backgroundColor: note => {
@@ -39,18 +40,20 @@ const Product = ({ product }) => {
   return (
     <>
       <Card elevation={1} className={classes.root}>
-        <CardActionArea href={`/product/${product._id}`}>
-          <CardMedia
-            className={classes.productImg}
-            component="img"
-            alt="Contemplative Reptile"
-            image={product.image}
-            title={product.name}
-          />
-        </CardActionArea>
+        <Link to={`/product/${product._id}`}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.productImg}
+              component="img"
+              alt="Contemplative Reptile"
+              image={product.image}
+              title={product.name}
+            />
+          </CardActionArea>
+        </Link>
         <CardContent className={classes.cardcontent}>
           <Typography gutterBottom variant="h5" component="h2" noWrap>
-            {product.name}
+            <Link to={`/product/${product._id}`}>{product.name}</Link>
           </Typography>
           <Typography variant="body2" color="textSecondary" component="div">
             <Rating
