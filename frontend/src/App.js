@@ -18,7 +18,7 @@ const App = () => {
       <div className={classes.toolbar}></div>
       <main className={classes.main}>
         <Container>
-          <HomeScreen></HomeScreen>
+          <HomeScreen />
         </Container>
       </main>
       <Footer />

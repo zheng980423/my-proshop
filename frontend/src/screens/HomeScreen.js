@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
 import Product from '../components/Product';
 import products from '../products';
@@ -9,9 +9,13 @@ const HomeScreen = () => {
       <Typography variant="h5" component="h1">
         Latest Products
       </Typography>
-      {products.map(product => (
-        <Product key={product._id} product={product} />
-      ))}
+      <Grid container spacing={2}>
+        {products.map(product => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
+            <Product product={product} />
+          </Grid>
+        ))}
+      </Grid>
     </>
   );
 };
