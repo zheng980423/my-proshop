@@ -19,7 +19,7 @@ const App = () => {
       <Header />
       <div className={classes.toolbar}></div>
       <main className={classes.main}>
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Route path="/" component={HomeScreen} exact />
           <Route path="/product/:id" component={ProductScreen} />
         </Container>

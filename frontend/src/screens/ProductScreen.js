@@ -28,7 +28,12 @@ const ProductScreen = ({ match }) => {
 
   return (
     <>
-      <Button color="inherit" component={RouterLink} to="/">
+      <Button
+        color="inherit"
+        style={{ marginBottom: '1.5rem' }}
+        component={RouterLink}
+        to="/"
+      >
         Go Back
       </Button>
       <Card className={classes.root}>

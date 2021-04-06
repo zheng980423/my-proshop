@@ -1,13 +1,13 @@
 import {
   AppBar,
-  Button,
   Container,
+  IconButton,
   Link,
   Toolbar,
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -33,10 +33,10 @@ const useStyles = makeStyles(theme => {
     appbar: {},
     toolbar: { padding: 0 },
     date: { flexGrow: 1, textDecoration: 'none' },
-    avatar: {
-      marginLeft: theme.spacing(2),
-    },
-    link: { color: '#fff', padding: theme.spacing(1) },
+    // avatar: {
+    //   marginLeft: theme.spacing(2),
+    // },
+    // link: { color: '#fff', padding: theme.spacing(1) },
   };
 });
 
@@ -46,7 +46,7 @@ const Header = () => {
   return (
     <header>
       <AppBar className={classes.appbar} elevation={1}>
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Toolbar className={classes.toolbar}>
             <Typography className={classes.date}>
               <Link color="inherit" component={RouterLink} to="/">
@@ -54,25 +54,19 @@ const Header = () => {
               </Link>
             </Typography>
             <Typography>
-              <Button
-                color="inherit"
-                component={RouterLink}
-                to="/cart"
-                startIcon={<ShoppingCartIcon />}
-              >
-                Cart
-              </Button>
+              <IconButton color="inherit" component={RouterLink} to="/cart">
+                <AddShoppingCartIcon />
+              </IconButton>
             </Typography>
             <Typography>
-              <Button
+              <IconButton
                 className={classes.link}
                 color="inherit"
                 component={RouterLink}
                 to="/login"
-                startIcon={<AccountCircleIcon />}
               >
-                Sign In
-              </Button>
+                <AccountCircleIcon />
+              </IconButton>
             </Typography>
           </Toolbar>
         </Container>

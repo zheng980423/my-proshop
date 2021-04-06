@@ -33,7 +33,10 @@ const useStyles = makeStyles({
   },
   productImg: {
     objectFit: 'cover',
+    // width: '100%',
+    // height: 100,
   },
+  root: {},
 });
 const Product = ({ product }) => {
   const classes = useStyles(product);
@@ -52,28 +55,32 @@ const Product = ({ product }) => {
           </CardActionArea>
         </Link>
         <CardContent className={classes.cardcontent}>
-          <Typography gutterBottom variant="h5" component="h2" noWrap>
+          <Typography gutterBottom variant="subtitle1" component="h2" noWrap>
             <Link to={`/product/${product._id}`}>{product.name}</Link>
           </Typography>
           <Typography variant="body2" color="textSecondary" component="div">
             <Rating
               value={product.rating}
-              text={`${product.numReviews} reviews`}
+              text={`共${product.numReviews}条评论`}
             />
           </Typography>
-          <Typography variant="h4" component="h2">
+          <Typography variant="h5" component="h2">
             <small>￥</small>
             {product.price}
           </Typography>
         </CardContent>
 
         <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary" href={`/product/${product._id}`}>
-            Learn More
-          </Button>
+          <Link to={`/product/${product._id}`}>
+            <Button className={classes.shareBtn} size="small" color="primary">
+              Share
+            </Button>
+          </Link>
+          <Link to={`/product/${product._id}`}>
+            <Button size="small" color="primary">
+              Learn More
+            </Button>
+          </Link>
         </CardActions>
       </Card>
     </>
