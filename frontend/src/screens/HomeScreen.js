@@ -17,7 +17,7 @@ const HomeScreen = () => {
       <Typography variant="h5" component="h1" className={classes.title}>
         Latest Products
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container alignItems="stretch" spacing={6}>
         {products.map(product => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
             <Product product={product} />

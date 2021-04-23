@@ -37,6 +37,11 @@ const useStyles = makeStyles({
     // height: 100,
   },
   root: {},
+  cardActions: {
+    padding: '0 16px 8px 16px',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
 });
 const Product = ({ product }) => {
   const classes = useStyles(product);
@@ -70,15 +75,15 @@ const Product = ({ product }) => {
           </Typography>
         </CardContent>
 
-        <CardActions>
+        <CardActions className={classes.cardActions}>
           <Link to={`/product/${product._id}`}>
             <Button className={classes.shareBtn} size="small" color="primary">
-              Share
+              了解更多
             </Button>
           </Link>
           <Link to={`/product/${product._id}`}>
             <Button size="small" color="primary">
-              Learn More
+              分享
             </Button>
           </Link>
         </CardActions>

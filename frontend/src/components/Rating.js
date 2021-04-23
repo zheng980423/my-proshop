@@ -54,7 +54,7 @@ const Rating = ({ value, text, color }) => {
         <StarOutlineIcon style={{ color }} />
       )}
 
-      <div> {text && text}</div>
+      <span> {text && text}</span>
     </div>
   );
 };
