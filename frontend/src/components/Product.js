@@ -63,7 +63,12 @@ const Product = ({ product }) => {
           <Typography gutterBottom variant="subtitle1" component="h2" noWrap>
             <Link to={`/product/${product._id}`}>{product.name}</Link>
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="div">
+          <Typography
+            variant="body2"
+            gutterBottom
+            color="textSecondary"
+            component="div"
+          >
             <Rating
               value={product.rating}
               text={`共${product.numReviews}条评论`}

@@ -3,13 +3,17 @@ import StarIcon from '@material-ui/icons/Star';
 import StarHalfIcon from '@material-ui/icons/StarHalf';
 import StarOutlineIcon from '@material-ui/icons/StarOutline';
 import { makeStyles } from '@material-ui/core';
-import { yellow } from '@material-ui/core/colors';
-const useStyles = makeStyles({
+import { yellow, grey } from '@material-ui/core/colors';
+const useStyles = makeStyles(theme => ({
   group: {
+    display: 'flex',
     alignItems: 'center',
-    // justifyContent: 'center',
   },
-});
+  text: {
+    color: grey[500],
+    paddingLeft: theme.spacing(1),
+  },
+}));
 const Rating = ({ value, text, color }) => {
   const classes = useStyles();
   return (
@@ -54,7 +58,7 @@ const Rating = ({ value, text, color }) => {
         <StarOutlineIcon style={{ color }} />
       )}
 
-      <span> {text && text}</span>
+      <span className={classes.text}> {text && text}</span>
     </div>
   );
 };

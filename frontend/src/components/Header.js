@@ -46,7 +46,7 @@ const Header = () => {
   return (
     <header>
       <AppBar className={classes.appbar} elevation={1}>
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" fixed>
           <Toolbar className={classes.toolbar}>
             <Typography className={classes.date}>
               <Link color="inherit" component={RouterLink} to="/">

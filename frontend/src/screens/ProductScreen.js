@@ -1,7 +1,6 @@
 import {
   Button,
   Card,
-  CardContent,
   CardMedia,
   makeStyles,
   Typography,
@@ -11,14 +10,18 @@ import {
   Paper,
   List,
   ListItem,
-  ListItemText,
   Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  FormHelperText,
 } from '@material-ui/core';
 
-import React from 'react';
+import { useState } from 'react';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { Link as RouterLink } from 'react-router-dom';
 import Rating from '../components/Rating';
-
+import { red } from '@material-ui/core/colors';
 import products from '../products';
 
 const useStyles = makeStyles(theme => ({
@@ -27,23 +30,51 @@ const useStyles = makeStyles(theme => ({
   // },
   media: {
     paddingTop: '56.25%', // 16:9
-
+    height: '200px',
+    width: '100%',
     objectFit: 'cover',
+  },
+  description: {
+    padding: theme.spacing(2),
   },
   // grid: {
   //   borderRight: '1px solid #eee',
   // },
   margin: {
     margin: theme.spacing(2),
+    marginLeft: '0px',
     // margin: theme.spacing(1),
   },
+  price: {
+    color: red[500],
+    fontSize: '1.5rem',
+  },
+  container: {
+    padding: '0px',
+  },
+  name: {
+    paddingBottom: theme.spacing(2),
+  },
+  listitem: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  addtocartbtn: { width: '100%' },
+
   paper: { padding: theme.spacing(2) },
+  grid2: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+
+  grid1: {},
 }));
 
 const ProductScreen = ({ match }) => {
   const classes = useStyles();
   const product = products.find(product => product._id === match.params.id);
-
+  const [qty, setQty] = useState(1);
   return (
     <>
       <Button
@@ -55,12 +86,13 @@ const ProductScreen = ({ match }) => {
         Go Back
       </Button>
       <Grow in>
-        <Container>
+        <Container className={classes.container}>
           <Grid
             container
             justify="space-between"
             alignItems="stretch"
             spacing={3}
+            className={classes.grid}
           >
             <Grid item xs={12} sm={12} md={7}>
               <Card className={classes.root}>
@@ -71,17 +103,30 @@ const ProductScreen = ({ match }) => {
                 />
               </Card>
             </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <Paper className={classes.paper} elevation={1}>
-                <Typography variant="h5" component="h1">
-                  {product.name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {product.description}
-                </Typography>
-                <List component="nav" aria-label="mailbox folders">
+            <Grid className={classes.grid2} item xs={12} sm={12} md={5}>
+              <Paper className={classes.paper} elevation={0}>
+                <div className={classes.description}>
+                  <Typography
+                    variant="h5"
+                    className={classes.name}
+                    component="h1"
+                  >
+                    {product.name}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {product.description}
+                  </Typography>
+                </div>
+
+                <List component="div" aria-label="mailbox folders">
                   <ListItem>
-                    <ListItemText primary={`$${product.price}`} />
+                    <Typography className={classes.price}>
+                      ${product.price}
+                    </Typography>
                   </ListItem>
                   <Divider light />
                   <ListItem>
@@ -91,6 +136,70 @@ const ProductScreen = ({ match }) => {
                     />
                   </ListItem>
                   <Divider light />
+                </List>
+              </Paper>
+              <Paper className={classes.paper}>
+                <List
+                  component="div"
+                  className={classes.root}
+                  aria-label="mailbox folders"
+                >
+                  <ListItem className={classes.listitem} button>
+                    <Typography>价格：</Typography>
+                    <Typography>${product.price}</Typography>
+                  </ListItem>
+                  <Divider />
+                  <ListItem className={classes.listitem} button divider>
+                    <Typography>状态:</Typography>
+                    <Typography>
+                      {product.countInStock > 0 ? '有库存' : '售罄'}
+                    </Typography>
+                  </ListItem>
+                  <ListItem className={classes.listitem}>
+                    <Typography>数量:</Typography>
+                    <FormControl
+                      variant="filled"
+                      disabled={product.countInStock === 0}
+                    >
+                      <InputLabel htmlFor="filled-age-native-simple">
+                        {product.countInStock > 0 ? '数量' : '0'}
+                      </InputLabel>
+                      <Select
+                        native
+                        value={qty}
+                        onChange={e => setQty(e.target.value)}
+                        inputProps={{
+                          name: 'qty',
+                          id: 'filled-qty',
+                        }}
+                      >
+                        {[...Array(product.countInStock).keys()].map(x => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </Select>
+                      {product.countInStock > 0 ? (
+                        ''
+                      ) : (
+                        <FormHelperText>已售罄</FormHelperText>
+                      )}
+                    </FormControl>
+                  </ListItem>
+                  <Divider light />
+                  <ListItem className={classes.listitem}>
+                    <Typography style={{ width: '100%' }}>
+                      <Button
+                        startIcon={<AddShoppingCartIcon />}
+                        variant="contained"
+                        color="primary"
+                        className={classes.addtocartbtn}
+                        disabled={product.countInStock === 0}
+                      >
+                        添加到购物车
+                      </Button>
+                    </Typography>
+                  </ListItem>
                 </List>
               </Paper>
             </Grid>
