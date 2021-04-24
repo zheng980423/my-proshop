@@ -17,12 +17,12 @@ import {
   FormHelperText,
 } from '@material-ui/core';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { Link as RouterLink } from 'react-router-dom';
 import Rating from '../components/Rating';
 import { red } from '@material-ui/core/colors';
-import products from '../products';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   // root: {
@@ -73,7 +73,15 @@ const useStyles = makeStyles(theme => ({
 
 const ProductScreen = ({ match }) => {
   const classes = useStyles();
-  const product = products.find(product => product._id === match.params.id);
+
+  const [product, setProduct] = useState({});
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${match.params.id}`);
+      setProduct(data);
+    };
+    fetchProduct();
+  }, [match]);
   const [qty, setQty] = useState(1);
   return (
     <>
