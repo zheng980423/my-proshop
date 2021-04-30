@@ -1,6 +1,5 @@
 const products = [
   {
-    _id: '1',
     name: 'Airpods无线蓝牙耳机',
     image: '/images/airpods.jpg',
     description:
@@ -11,9 +10,9 @@ const products = [
     countInStock: 10,
     rating: 4.5,
     numReviews: 12,
+    user: '5d7a514b5d2c12c7449be042',
   },
   {
-    _id: '2',
     name: 'iPhone 11 Pro 256GB',
     image: '/images/phone.jpg',
     description:
@@ -24,9 +23,9 @@ const products = [
     countInStock: 7,
     rating: 4.0,
     numReviews: 8,
+    user: '5d7a514b5d2c12c7449be042',
   },
   {
-    _id: '3',
     name: 'Cannon EOS 摄像机',
     image: '/images/camera.jpg',
     description:
@@ -37,9 +36,9 @@ const products = [
     countInStock: 5,
     rating: 3,
     numReviews: 12,
+    user: '5d7a514b5d2c12c7449be042',
   },
   {
-    _id: '4',
     name: 'Sony PS4 白色版',
     image: '/images/playstation.jpg',
     description:
@@ -50,9 +49,9 @@ const products = [
     countInStock: 11,
     rating: 5,
     numReviews: 12,
+    user: '5d7a514b5d2c12c7449be042',
   },
   {
-    _id: '5',
     name: '罗技游戏鼠标',
     image: '/images/mouse.jpg',
     description:
@@ -63,9 +62,9 @@ const products = [
     countInStock: 7,
     rating: 3.5,
     numReviews: 10,
+    user: '5d7a514b5d2c12c7449be042',
   },
   {
-    _id: '6',
     name: '亚马逊机器人',
     image: '/images/alexa.jpg',
     description:
@@ -76,6 +75,7 @@ const products = [
     countInStock: 0,
     rating: 4,
     numReviews: 12,
+    user: '5d7a514b5d2c12c7449be042',
   },
 ];
 

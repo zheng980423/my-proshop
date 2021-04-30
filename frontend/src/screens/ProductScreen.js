@@ -25,21 +25,17 @@ import { red } from '@material-ui/core/colors';
 import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
-  // root: {
-  //   display: 'flex',
-  // },
   media: {
     paddingTop: '56.25%', // 16:9
     height: '200px',
+    maxWidth: '100%',
     width: '100%',
     objectFit: 'cover',
   },
   description: {
     padding: theme.spacing(2),
   },
-  // grid: {
-  //   borderRight: '1px solid #eee',
-  // },
+
   margin: {
     margin: theme.spacing(2),
     marginLeft: '0px',
@@ -103,7 +99,7 @@ const ProductScreen = ({ match }) => {
             className={classes.grid}
           >
             <Grid item xs={12} sm={12} md={7}>
-              <Card className={classes.root}>
+              <Card className={classes.mediaCard}>
                 <CardMedia
                   className={classes.media}
                   image={product.image}
