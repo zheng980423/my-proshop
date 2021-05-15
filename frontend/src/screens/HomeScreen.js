@@ -1,7 +1,9 @@
 import { Grid, Typography, makeStyles } from '@material-ui/core';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { listProducts } from '../actions/productActions';
 import Product from '../components/Product';
-import axios from 'axios';
+import SkeletonArticle from '../skeletons/SkeletonArticle';
 const useStyles = makeStyles(theme => {
   return {
     title: {
@@ -11,27 +13,35 @@ const useStyles = makeStyles(theme => {
 });
 
 const HomeScreen = () => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const productList = useSelector(state => state.productList);
+  const { loading, error, products } = productList;
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get('/api/products');
-      setProducts(data);
-    };
-    fetchProducts();
-  }, []);
+    dispatch(listProducts());
+  }, [dispatch]);
   const classes = useStyles();
   return (
     <>
       <Typography variant="h5" component="h1" className={classes.title}>
         Latest Products
       </Typography>
-      <Grid container alignItems="stretch" spacing={6}>
-        {products.map(product => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
-            <Product product={product} />
-          </Grid>
-        ))}
-      </Grid>
+      {loading ? (
+        <Typography variant="h2" component="h1" className={classes.title}>
+          <SkeletonArticle />
+        </Typography>
+      ) : error ? (
+        <Typography variant="h3" component="h1" className={classes.title}>
+          {error}
+        </Typography>
+      ) : (
+        <Grid container alignItems="stretch" spacing={6}>
+          {products.map(product => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
+              <Product product={product} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </>
   );
 };
