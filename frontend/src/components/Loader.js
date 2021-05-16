@@ -1,5 +1,16 @@
 import React from 'react';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 export const Loader = () => {
-  return <div></div>;
+  return (
+    <CircularProgress
+      style={{
+        width: '100px',
+        height: '100px',
+        margin: 'auto',
+        display: 'block',
+      }}
+    >
+      <span className="sr-only">加载中</span>
+    </CircularProgress>
+  );
 };

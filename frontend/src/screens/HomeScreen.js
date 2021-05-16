@@ -2,7 +2,9 @@ import { Grid, Typography, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
+
 import Product from '../components/Product';
+import Message from '../components/Message';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 const useStyles = makeStyles(theme => {
   return {
@@ -27,12 +29,12 @@ const HomeScreen = () => {
       </Typography>
       {loading ? (
         <Typography variant="h2" component="h1" className={classes.title}>
-          <SkeletonArticle />
+          {[1, 2, 3, 4, 5].map(n => (
+            <SkeletonArticle key={n}></SkeletonArticle>
+          ))}
         </Typography>
       ) : error ? (
-        <Typography variant="h3" component="h1" className={classes.title}>
-          {error}
-        </Typography>
+        <Message variant="error">{error}</Message>
       ) : (
         <Grid container alignItems="stretch" spacing={6}>
           {products.map(product => (
