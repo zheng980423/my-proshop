@@ -5,7 +5,7 @@ const users = [
     name: 'Admin User',
     email: 'admin@example.com',
     password: bcrpty.hashSync('12345', 10),
-    isAdmin: true,
+    role: 'publisher',
   },
   {
     name: 'zwf',
