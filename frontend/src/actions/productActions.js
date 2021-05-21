@@ -11,6 +11,7 @@ import {
 export const listProducts = () => async dispatch => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
+
     // setTimeout(async () => {
     //   const { data } = await axios.get('/api/products');
 
@@ -37,11 +38,9 @@ export const listProductDetails = id => async dispatch => {
 
     //   dispatch({ type: PRODUCT_DETAIL_SUCCESS, payload: data });
     // }, 3000);
-    setTimeout(async () => {
-      let { data } = await axios.get(`/api/products/${id}`);
 
-      dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
-    }, 2000);
+    let { data } = await axios.get(`/api/products/${id}`);
+    dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: PRODUCT_DETAILS_FAIL,

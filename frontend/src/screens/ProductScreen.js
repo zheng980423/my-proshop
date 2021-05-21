@@ -71,16 +71,21 @@ const useStyles = makeStyles(theme => ({
   grid1: {},
 }));
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = ({ history, match }) => {
+  const [qty, setQty] = useState(1);
   const classes = useStyles();
   const dispatch = useDispatch();
   const productDetails = useSelector(state => state.productDetails);
   const { loading, error, product } = productDetails;
+
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
   }, [dispatch, match]);
 
-  const [qty, setQty] = useState(1);
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
+
   return (
     <>
       <Button
@@ -95,7 +100,7 @@ const ProductScreen = ({ match }) => {
       {loading ? (
         [1, 2, 3, 4, 5].map(n => <SkeletonArticle key={n}></SkeletonArticle>)
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant="error">{error}</Message>
       ) : (
         <Grow in>
           <Container className={classes.container}>
@@ -110,7 +115,9 @@ const ProductScreen = ({ match }) => {
                 <Card className={classes.mediaCard}>
                   <CardMedia
                     className={classes.media}
-                    image={product.image}
+                    image={
+                      product.image ? product.image : '/images/airpods.jpg'
+                    }
                     title={product.name}
                   />
                 </Card>
@@ -203,6 +210,7 @@ const ProductScreen = ({ match }) => {
                       <Typography style={{ width: '100%' }}>
                         <Button
                           startIcon={<AddShoppingCartIcon />}
+                          onClick={addToCartHandler}
                           variant="contained"
                           color="primary"
                           className={classes.addtocartbtn}
