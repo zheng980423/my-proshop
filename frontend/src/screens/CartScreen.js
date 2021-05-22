@@ -17,8 +17,6 @@ import {
   Paper,
   Typography,
   FormControl,
-  InputLabel,
-  FormHelperText,
   Button,
 } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
@@ -28,7 +26,7 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import Message from '../components/Message';
 import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
-import Rating from '../components/Rating';
+
 const useStyles = makeStyles(theme => ({
   media: {
     paddingTop: '56.25%', // 16:9

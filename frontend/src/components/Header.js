@@ -30,13 +30,8 @@ const useStyles = makeStyles(theme => {
     title: {
       padding: theme.spacing(3),
     },
-    appbar: {},
     toolbar: { padding: 0 },
     date: { flexGrow: 1, textDecoration: 'none' },
-    // avatar: {
-    //   marginLeft: theme.spacing(2),
-    // },
-    // link: { color: '#fff', padding: theme.spacing(1) },
   };
 });
 
