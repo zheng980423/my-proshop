@@ -22,10 +22,10 @@ const App = () => {
       <div className={classes.toolbar}></div>
       <main className={classes.main}>
         <Container maxWidth="lg" fixed>
-          <Route path="/" component={HomeScreen} exact />
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/login" component={LoginScreen} />
+          <Route path="/" component={HomeScreen} exact />
         </Container>
       </main>
       <Footer />

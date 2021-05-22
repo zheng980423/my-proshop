@@ -56,16 +56,19 @@ const useStyles = makeStyles(theme => {
     },
   };
 });
-const LoginScreen = () => {
+const LoginScreen = ({ location, history }) => {
   const classes = useStyles();
   const [checked, setChecked] = useState(false);
+  const redirect = location.search ? location.search.split('=')[1] : '/';
   const addToCartHandler = () => {};
   const handleChange = () => {
     setChecked(!checked);
   };
-  const submitHandler = () => {};
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const userLogin = useSelector(state => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
   const GreenRadio = withStyles({
     root: {
       color: green[400],
@@ -75,8 +78,22 @@ const LoginScreen = () => {
     },
     checked: {},
   })(props => <Radio color="default" {...props} />);
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push(redirect);
+    }
+  }, [history, userInfo, redirect, dispatch]);
+  const submitHandler = e => {
+    e.preventDefault();
+    //DISPATCH LOGIN
+    dispatch(login(email, password));
+  };
+
   return (
     <div className="container">
+      {error && <Message variant="error">{error}</Message>}
+      {loading && <SkeletonArticle />}
       <form noValidate autoComplete="off" onSubmit={submitHandler}>
         <Paper className={classes.paper}>
           <Grid container alignItems="stretch" spacing={6}>
@@ -159,7 +176,11 @@ const LoginScreen = () => {
               </Button>
               <Typography variant="h5" component="h1" align="center">
                 还没有账户？
-                <Link color="primary" component={RouterLink} to="/signup">
+                <Link
+                  color="primary"
+                  component={RouterLink}
+                  to={redirect ? `/register?redirect=${redirect}` : '/register'}
+                >
                   注册
                 </Link>
               </Typography>
