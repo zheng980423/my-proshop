@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 import { login } from '../actions/userActions';
-import ShuffleIcon from '@material-ui/icons/Shuffle';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import { Link as RouterLink } from 'react-router-dom';
 const useStyles = makeStyles(theme => {

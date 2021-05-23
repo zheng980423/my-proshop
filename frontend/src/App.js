@@ -7,6 +7,7 @@ import LoginScreen from './screens/LoginScreen';
 import { makeStyles } from '@material-ui/core';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container } from '@material-ui/core';
+import RegisterScreen from './screens/RegisterScreen';
 const useStyles = makeStyles(theme => {
   return {
     toolbar: theme.mixins.toolbar,
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/login" component={LoginScreen} />
+          <Route path="/register" component={RegisterScreen} />
           <Route path="/" component={HomeScreen} exact />
         </Container>
       </main>
