@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    image: { type: String, default: './assets/defaultImgs/defaultAvatar.png' },
+    image: { type: String, default: '/images/airpods.jpg' },
     email: {
       type: String,
       required: [true, 'Please add an email'],

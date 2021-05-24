@@ -1,6 +1,5 @@
 import {
   Button,
-  makeStyles,
   TextField,
   Typography,
   Link,
@@ -11,19 +10,14 @@ import {
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 import { register } from '../actions/userActions';
 import { Link as RouterLink } from 'react-router-dom';
-const useStyles = makeStyles(theme => {
-  return {};
-});
 const RegisterScreen = ({ location, history }) => {
-  const classes = useStyles();
   const redirect = location.search ? location.search.split('=')[1] : '/';
-  const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
   const userRegister = useSelector(state => state.userRegister);

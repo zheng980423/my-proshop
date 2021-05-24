@@ -43,6 +43,32 @@ const getUserProfile = asyncHandler(async (req, res) => {
     throw new Error('用户不存在');
   }
 });
+
+//@description 更新用户信息
+//@router PUT /api/users/profile
+//@access private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+    const updatatedUser = await user.save();
+    res.json({
+      _id: updatatedUser._id,
+      name: updatatedUser.name,
+      email: updatatedUser.email,
+      role: updatatedUser.role,
+      image: updatatedUser.image,
+    });
+  } else {
+    res.status(404);
+    throw new Error('用户不存在');
+  }
+});
 //@description 注册用户
 //@router POST /api/users
 //@access public
@@ -73,4 +99,4 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('用户数据无效');
   }
 });
-export { authUser, getUserProfile, registerUser };
+export { authUser, getUserProfile, registerUser, updateUserProfile };

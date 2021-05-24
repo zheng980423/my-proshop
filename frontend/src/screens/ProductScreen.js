@@ -43,7 +43,6 @@ const useStyles = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(2),
     marginLeft: '0px',
-    // margin: theme.spacing(1),
   },
   price: {
     color: red[500],
@@ -80,7 +79,7 @@ const ProductScreen = ({ history, match }) => {
 
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
-  }, [dispatch, match]);
+  }, [dispatch, match.params.id]);
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
