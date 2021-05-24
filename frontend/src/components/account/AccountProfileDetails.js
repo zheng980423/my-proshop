@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../Message';
 import SkeletonArticle from '../../skeletons/SkeletonArticle';
 import { getUserDetails, updateUserProfile } from '../../actions/userActions';
-import { Link as RouterLink } from 'react-router-dom';
+
 import {
   Box,
   Button,
