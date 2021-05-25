@@ -24,5 +24,13 @@ const protect = asyncHandler(async (req, res, next) => {
     throw new Error('没有登录凭证');
   }
 });
+const admin = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    next();
+  } else {
+    res.status(401);
+    throw new Error('not authorizad as an admin');
+  }
+};
 
-export { protect };
+export { protect, admin };
