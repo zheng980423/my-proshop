@@ -83,11 +83,7 @@ const Header = () => {
             {userInfo ? (
               //menu avatar
               <>
-                <Button
-                  component={RouterLink}
-                  style={{ color: 'white' }}
-                  onClick={handleClick}
-                >
+                <Button style={{ color: 'white' }} onClick={handleClick}>
                   <Avatar
                     className={classes.small}
                     src={userInfo.image}
@@ -116,9 +112,7 @@ const Header = () => {
                   >
                     我的账户
                   </MenuItem>
-                  <MenuItem component={RouterLink} onClick={logoutHandler}>
-                    登出
-                  </MenuItem>
+                  <MenuItem onClick={logoutHandler}>登出</MenuItem>
                 </Menu>
               </>
             ) : (

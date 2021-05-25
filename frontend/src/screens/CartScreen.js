@@ -105,7 +105,7 @@ const CartScreen = ({ match, location, history }) => {
   return (
     <>
       <Typography variant="h5" component="h1" className={classes.title}>
-        Latest Products
+        购物车
       </Typography>
       <Grow in>
         <Container className={classes.container}>
