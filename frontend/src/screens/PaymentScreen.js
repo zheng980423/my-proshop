@@ -36,7 +36,7 @@ const PaymentScreen = ({ location, history }) => {
         justifyContent: 'center',
       }}
     >
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         <CheckoutSteps activeStep={2}></CheckoutSteps>
         <Formik
           initialValues={{

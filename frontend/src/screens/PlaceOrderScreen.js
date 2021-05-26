@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -16,29 +16,9 @@ import {
 } from '@material-ui/core';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
-import Message from '../components/Message';
+import { createOrder } from '../actions/orderActions';
 
-const products = [
-  { name: 'Product 1', desc: 'A nice thing', price: '$9.99' },
-  { name: 'Product 2', desc: 'Another thing', price: '$3.45' },
-  { name: 'Product 3', desc: 'Something else', price: '$6.51' },
-  { name: 'Product 4', desc: 'Best thing of all', price: '$14.11' },
-  { name: 'Shipping', desc: '', price: 'Free' },
-];
-const addresses = [
-  '1 Material-UI Drive',
-  'Reactville',
-  'Anytown',
-  '99999',
-  'USA',
-];
-const payments = [
-  { name: 'Card type', detail: 'Visa' },
-  { name: 'Card holder', detail: 'Mr John Smith' },
-  { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Expiry date', detail: '04/2024' },
-];
+import Message from '../components/Message';
 
 const useStyles = makeStyles(theme => ({
   listItem: {
@@ -61,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   addtocartbtn: { width: '100%' },
 }));
 
-export default function PlaceOrderScreen() {
+export default function PlaceOrderScreen({ history }) {
   const classes = useStyles();
   const disaptch = useDispatch();
   const cart = useSelector(state => state.cart);
@@ -85,7 +65,27 @@ export default function PlaceOrderScreen() {
     Number(cart.shippingPrice) +
     Number(cart.taxPrice)
   ).toFixed(2);
-  const placeOrderHandler = () => {};
+  const orderCreate = useSelector(state => state.orderCreate);
+  const { order, success, error } = orderCreate;
+  const placeOrderHandler = () => {
+    disaptch(
+      createOrder({
+        orderItems: cartItems,
+        shippingAddress: shippingAddress,
+        paymentMethod: paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      })
+    );
+  };
+  useEffect(() => {
+    if (success) {
+      history.push(`/order/${order._id}`);
+    }
+    // eslint-disable-next-line
+  }, [history, success]);
   return (
     <Box
       sx={{
@@ -96,7 +96,7 @@ export default function PlaceOrderScreen() {
         justifyContent: 'center',
       }}
     >
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         <React.Fragment>
           <CheckoutSteps activeStep={3}></CheckoutSteps>
           <Typography variant="h5" gutterBottom>
@@ -148,6 +148,13 @@ export default function PlaceOrderScreen() {
                 <Typography>总计:</Typography>
                 <Typography>${cart.totalPrice}</Typography>
               </ListItem>
+
+              {error && (
+                <ListItem className={classes.listItem} button divider>
+                  <Message variant="error">{error}</Message>{' '}
+                </ListItem>
+              )}
+
               <ListItem className={classes.listItem}>
                 <Typography style={{ width: '100%' }}>
                   <Button

@@ -27,7 +27,7 @@ const ShippingScreen = ({ location, history }) => {
         justifyContent: 'center',
       }}
     >
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         <CheckoutSteps activeStep={1}></CheckoutSteps>
         <Formik
           initialValues={{

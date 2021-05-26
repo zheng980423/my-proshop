@@ -16,7 +16,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
   } = req.body;
   if (orderItems && orderItems.length === 0) {
     res.status(400);
-    throw new Error('no order items');
+    throw new Error('该订单不存在');
   } else {
     const order = new Order({
       orderItems,
@@ -46,17 +46,17 @@ const getOrderById = asyncHandler(async (req, res) => {
     res.json(order);
   } else {
     res.status(404);
-    throw new Error('order not found');
+    throw new Error('订单不存在');
   }
 });
-//@description update order to paid
+//@description 更新订单为已支付
 //@router GET /api/orders/:id/pay
 //@access private
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
   if (order) {
-    order.IsPaid = true;
+    order.isPaid = true;
     order.paidAt = Date.now();
     order.paymentResult = {
       id: req.body.id,
