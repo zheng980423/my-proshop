@@ -24,7 +24,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import Rating from '../components/Rating';
 import { red } from '@material-ui/core/colors';
 
-import { listProductDetails } from '../actions/productActions';
+import { listProductDetails, listProducts } from '../actions/productActions';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 import Message from '../components/Message';
 
@@ -68,6 +68,23 @@ const useStyles = makeStyles(theme => ({
   },
 
   grid1: {},
+  section: {
+    borderRadius: '20px',
+    margin: '10px',
+    flex: 1,
+  },
+  imageSection: {
+    marginLeft: '20px',
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 0,
+    },
+  },
+  recommendedPosts: {
+    display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
+  },
 }));
 
 const ProductScreen = ({ history, match }) => {
@@ -76,14 +93,25 @@ const ProductScreen = ({ history, match }) => {
   const dispatch = useDispatch();
   const productDetails = useSelector(state => state.productDetails);
   const { loading, error, product } = productDetails;
-
+  const productList = useSelector(state => state.productList);
+  const { products } = productList;
   useEffect(() => {
+    dispatch(listProducts());
     dispatch(listProductDetails(match.params.id));
   }, [dispatch, match.params.id]);
+
+  const openPost = _id => history.push(`/product/${_id}`);
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
   };
+
+  const filterRule = x => {
+    const category = product.category;
+    return x.category === category && x._id !== match.params.id;
+  };
+  console.log(product.category);
+  const recommendedProducts = products.filter(filterRule);
 
   return (
     <>
@@ -223,6 +251,34 @@ const ProductScreen = ({ history, match }) => {
                 </Paper>
               </Grid>
             </Grid>
+
+            {!!recommendedProducts.length && (
+              <div className={classes.section}>
+                <Typography gutterBottom variant="h5">
+                  您可能也会喜欢
+                </Typography>
+                <Divider />
+                <div className={classes.recommendedPosts}>
+                  {recommendedProducts.map(
+                    ({ rating, price, numReviews, name, image, _id }) => (
+                      <div
+                        style={{ margin: '20px', cursor: 'pointer' }}
+                        onClick={() => openPost(_id)}
+                        key={_id}
+                      >
+                        <Typography gutterBottom variant="h6">
+                          {name}
+                        </Typography>
+                        <Typography gutterBottom variant="subtitle2">
+                          {price}
+                        </Typography>
+                        <img src={image} alt={name} width="200px" />
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+            )}
           </Container>
         </Grow>
       )}

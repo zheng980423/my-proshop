@@ -107,10 +107,10 @@ const Header = () => {
                   </MenuItem>
                   <MenuItem
                     component={RouterLink}
-                    to="/account"
+                    to="/myorders"
                     onClick={handleClose}
                   >
-                    我的账户
+                    我的订单
                   </MenuItem>
                   <MenuItem onClick={logoutHandler}>登出</MenuItem>
                 </Menu>

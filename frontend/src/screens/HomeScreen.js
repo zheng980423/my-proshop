@@ -1,8 +1,8 @@
-import { Grid, Typography, makeStyles } from '@material-ui/core';
+import { Typography, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
-
+import Masonry from 'react-masonry-css';
 import Product from '../components/Product';
 import Message from '../components/Message';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
@@ -22,10 +22,15 @@ const HomeScreen = () => {
     dispatch(listProducts());
   }, [dispatch]);
   const classes = useStyles();
+  const breakpoints = {
+    default: 3,
+    1100: 2,
+    700: 1,
+  };
   return (
     <>
       <Typography variant="h5" component="h1" className={classes.title}>
-        Latest Products
+        商品上新
       </Typography>
       {loading ? (
         <Typography variant="h2" component="h1" className={classes.title}>
@@ -36,13 +41,27 @@ const HomeScreen = () => {
       ) : error ? (
         <Message variant="error">{error}</Message>
       ) : (
-        <Grid container alignItems="stretch" spacing={6}>
+        // <Grid container alignItems="stretch" spacing={6}>
+        //   {products.map(product => (
+        //     <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
+        //       <Product product={product} />
+        //     </Grid>
+        //   ))}
+        // </Grid>
+
+        //masonry-css
+
+        <Masonry
+          breakpointCols={breakpoints}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
           {products.map(product => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
+            <div key={product._id}>
               <Product product={product} />
-            </Grid>
+            </div>
           ))}
-        </Grid>
+        </Masonry>
       )}
     </>
   );

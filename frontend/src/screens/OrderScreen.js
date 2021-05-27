@@ -210,7 +210,7 @@ export default function OrderScreen({ match, history }) {
               </List>
             </Paper>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12} md={6}>
                 <Typography variant="h5" gutterBottom className={classes.title}>
                   邮寄详情
                 </Typography>
@@ -244,7 +244,7 @@ export default function OrderScreen({ match, history }) {
                     </Grid>
                   </Grid>
                 </Grid>
-                {order.isPaid ? (
+                {order.isDelivered ? (
                   <Message variant="success">
                     已于 {order.deliveredAt}发货
                   </Message>
@@ -252,7 +252,7 @@ export default function OrderScreen({ match, history }) {
                   <Message variant="error">还没发货</Message>
                 )}
               </Grid>
-              <Grid item container direction="column" xs={12} sm={6}>
+              <Grid item container direction="column" xs={12} sm={12} md={6}>
                 <Typography variant="h5" gutterBottom className={classes.title}>
                   支付详情
                 </Typography>

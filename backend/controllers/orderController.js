@@ -72,7 +72,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     throw new Error('order not found');
   }
 });
-//@description get logged in user orders
+//@description 获取已登录用户的订单信息
 //@router GET /api/orders/myorders
 //@access private
 const getMyOrders = asyncHandler(async (req, res) => {
