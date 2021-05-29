@@ -46,7 +46,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function OrderScreen({ match, history }) {
   const orderId = match.params.id;
-
   const classes = useStyles();
 
   const [sdkReady, setSdkReady] = useState(false);

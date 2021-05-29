@@ -233,20 +233,26 @@ const ProductScreen = ({ history, match }) => {
                       </FormControl>
                     </ListItem>
                     <Divider light />
-                    <ListItem className={classes.listitem}>
-                      <Typography style={{ width: '100%' }}>
-                        <Button
-                          startIcon={<AddShoppingCartIcon />}
-                          onClick={addToCartHandler}
-                          variant="contained"
-                          color="primary"
-                          className={classes.addtocartbtn}
-                          disabled={product.countInStock === 0}
-                        >
-                          添加到购物车
-                        </Button>
-                      </Typography>
-                    </ListItem>
+                    {product.countInStock === 0 ? (
+                      <Message variant="info">
+                        该商品已经售罄啦，看看其他商品哦
+                      </Message>
+                    ) : (
+                      <ListItem className={classes.listitem}>
+                        <Typography style={{ width: '100%' }}>
+                          <Button
+                            startIcon={<AddShoppingCartIcon />}
+                            onClick={addToCartHandler}
+                            variant="contained"
+                            color="primary"
+                            className={classes.addtocartbtn}
+                            disabled={product.countInStock === 0}
+                          >
+                            添加到购物车
+                          </Button>
+                        </Typography>
+                      </ListItem>
+                    )}
                   </List>
                 </Paper>
               </Grid>

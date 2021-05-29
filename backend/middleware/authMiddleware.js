@@ -29,7 +29,7 @@ const admin = (req, res, next) => {
     next();
   } else {
     res.status(401);
-    throw new Error('not authorizad as an admin');
+    throw new Error('抱歉，您没有访问该页面的权限');
   }
 };
 

@@ -86,7 +86,7 @@ const Product = ({ product }) => {
               了解更多
             </Button>
           </Link>
-          <Link to={`/product/${product._id}`}>
+          <Link to={`/${product._id}`}>
             <Button size="small" color="primary">
               分享
             </Button>

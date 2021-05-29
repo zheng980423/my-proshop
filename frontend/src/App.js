@@ -2,6 +2,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
+import MyOrders from './screens/MyOrders';
 import CartScreen from './screens/CartScreen';
 import LoginScreen from './screens/LoginScreen';
 import { makeStyles } from '@material-ui/core';
@@ -11,9 +12,9 @@ import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ShippingSceen from './screens/ShippingSceen';
 import PaymentScreen from './screens/PaymentScreen';
+import UserListScreen from './screens/UserListScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
-import MyOrders from './screens/MyOrders';
 const useStyles = makeStyles(theme => {
   return {
     toolbar: theme.mixins.toolbar,
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/placeorder" component={PlaceOrderScreen} />
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/myorders" component={MyOrders} />
+          <Route path="/admin/users" component={UserListScreen} />
           <Route path="/" component={HomeScreen} exact />
         </Container>
       </main>
