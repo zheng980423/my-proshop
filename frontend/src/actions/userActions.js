@@ -16,6 +16,7 @@ import {
 } from '../constants/userConstants';
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants';
 import axios from 'axios';
+import { USER_LIST_RESET } from '../constants/adminConstants';
 export const login = (email, password) => async dispatch => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
@@ -53,6 +54,7 @@ export const logout = () => dispatch => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
+  dispatch({ type: USER_LIST_RESET });
 };
 
 export const register = (name, email, password) => async dispatch => {
@@ -96,7 +98,7 @@ export const getUserDetails = id => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(`/api/users/${id}`, config);
+    const { data } = await axios.get(`/api/admin/user/${id}`, config);
     dispatch({
       type: USER_DETAILS_SUCCESS,
       payload: data,

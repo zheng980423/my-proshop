@@ -55,11 +55,21 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const [adminAnchorEl, setAdminAnchorEl] = useState(null);
+  const handleAdminClick = event => {
+    setAdminAnchorEl(event.currentTarget);
+  };
+
+  const handleAdminClose = () => {
+    setAdminAnchorEl(null);
+  };
   const dispatch = useDispatch();
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
   const logoutHandler = () => {
     setAnchorEl(null);
+    setAdminAnchorEl(null);
     dispatch(logout());
   };
   const classes = useStyles();
@@ -112,6 +122,7 @@ const Header = () => {
                   >
                     我的订单
                   </MenuItem>
+
                   <MenuItem onClick={logoutHandler}>登出</MenuItem>
                 </Menu>
               </>
@@ -124,6 +135,42 @@ const Header = () => {
               >
                 <AccountCircleIcon />
               </IconButton>
+            )}
+            {userInfo && userInfo.role === 'admin' && (
+              <>
+                <Button style={{ color: 'white' }} onClick={handleAdminClick}>
+                  欢迎，管理员
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={adminAnchorEl}
+                  keepMounted
+                  open={Boolean(adminAnchorEl)}
+                  onClose={handleAdminClose}
+                >
+                  <MenuItem
+                    component={RouterLink}
+                    to="/admin/users"
+                    onClick={handleAdminClose}
+                  >
+                    用户列表
+                  </MenuItem>
+                  <MenuItem
+                    component={RouterLink}
+                    to="/admin/products"
+                    onClick={handleAdminClose}
+                  >
+                    商品列表
+                  </MenuItem>
+                  <MenuItem
+                    component={RouterLink}
+                    to="/admin/orders"
+                    onClick={handleAdminClose}
+                  >
+                    订单列表
+                  </MenuItem>
+                </Menu>
+              </>
             )}
           </Toolbar>
         </Container>

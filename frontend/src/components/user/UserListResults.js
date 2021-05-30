@@ -74,7 +74,7 @@ const UserListResults = ({ users, ...rest }) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
-
+  const handleDelete = () => {};
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -171,7 +171,7 @@ const UserListResults = ({ users, ...rest }) => {
                       <IconButton
                         edge="end"
                         aria-label="delete"
-                        onClick={() => {}}
+                        onClick={handleDelete}
                       >
                         <DeleteIcon />
                       </IconButton>

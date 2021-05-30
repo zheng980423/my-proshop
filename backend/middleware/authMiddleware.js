@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/userModel.js';
 import asyncHandler from 'express-async-handler';
+import User from '../models/userModel.js';
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
@@ -16,12 +16,12 @@ const protect = asyncHandler(async (req, res, next) => {
     } catch (error) {
       console.error(error);
       res.status(401);
-      throw new Error('登录失败');
+      throw new Error('not authorizad, token failed');
     }
   }
   if (!token) {
     res.status(401);
-    throw new Error('没有登录凭证');
+    throw new Error('not authorizad,no token');
   }
 });
 const admin = (req, res, next) => {
@@ -29,8 +29,7 @@ const admin = (req, res, next) => {
     next();
   } else {
     res.status(401);
-    throw new Error('抱歉，您没有访问该页面的权限');
+    throw new Error('not authorizad as an admin');
   }
 };
-
 export { protect, admin };
