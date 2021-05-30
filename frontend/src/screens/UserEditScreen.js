@@ -11,7 +11,8 @@ import {
 } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetail, updateUser } from '../actions/adminActions';
+import { ADMIN_USER_UPDATE_RESET } from '../constants/adminConstants';
 import Message from '../components/Message';
 
 import SkeletonArticle from '../skeletons/SkeletonArticle';
@@ -23,20 +24,33 @@ const UserEditScreen = ({ history, match }) => {
 
   const dispatch = useDispatch();
 
-  const userDetails = useSelector(state => state.userDetails);
-  const { loading, error, user } = userDetails;
+  const adminUserDetail = useSelector(state => state.adminUserDetail);
+  const { loading, error, user } = adminUserDetail;
+
+  const adminUserUpdate = useSelector(state => state.adminUserUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = adminUserUpdate;
 
   useEffect(() => {
-    if (!user.name || user._id !== userId) {
-      dispatch(getUserDetails(userId));
+    if (successUpdate) {
+      dispatch({ type: ADMIN_USER_UPDATE_RESET });
+      history.push('/admin/users');
     } else {
-      setName(user.name);
-      setEmail(user.email);
+      if (!user.name || user._id !== userId) {
+        dispatch(getUserDetail(userId));
+      } else {
+        setName(user.name);
+        setEmail(user.email);
+      }
     }
-  }, [dispatch, userId, user]);
+  }, [user, dispatch, userId, successUpdate, history]);
 
   const submitHandler = e => {
     e.preventDefault();
+    dispatch(updateUser({ _id: userId, name, email }));
   };
 
   return (
@@ -52,7 +66,10 @@ const UserEditScreen = ({ history, match }) => {
           <Grid container spacing={3}>
             <Grid item lg={12}>
               <>
-                {loading ? (
+                {errorUpdate && (
+                  <Message variant="error">{errorUpdate}</Message>
+                )}
+                {loading || loadingUpdate ? (
                   <SkeletonArticle />
                 ) : error ? (
                   <Message variant="error">{error}</Message>
