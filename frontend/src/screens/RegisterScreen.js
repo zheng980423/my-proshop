@@ -142,10 +142,10 @@ const RegisterScreen = ({ location, history }) => {
                 variant="outlined"
               />
               <Box
-                sx={{
+                style={{
                   alignItems: 'center',
                   display: 'flex',
-                  ml: -1,
+                  marginLeft: '-1rem',
                 }}
               >
                 <Checkbox

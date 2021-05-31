@@ -13,7 +13,7 @@ import {
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
 } from '../constants/adminConstants';
-import { USER_DETAILS_SUCCESS } from '../constants/userConstants';
+// import { USER_DETAILS_SUCCESS } from '../constants/userConstants';
 export const listUsers = () => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_LIST_REQUEST });
@@ -51,7 +51,7 @@ export const deleteUser = id => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    await axios.delete(`/api/admin/users/${id}`, config);
+    await axios.delete(`/api/admin/user/${id}`, config);
     dispatch({ type: USER_DELETE_SUCCESS });
   } catch (error) {
     dispatch({

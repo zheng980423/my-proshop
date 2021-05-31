@@ -16,6 +16,7 @@ import UserListScreen from './screens/UserListScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import UserEditScreen from './screens/UserEditScreen';
+import ProductListScreen from './screens/ProductListScreen';
 const useStyles = makeStyles(theme => {
   return {
     toolbar: theme.mixins.toolbar,
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/myorders" component={MyOrders} />
           <Route path="/admin/users" component={UserListScreen} />
+          <Route path="/admin/products" component={ProductListScreen} />
           <Route path="/admin/user/:id/edit" component={UserEditScreen} />
           <Route path="/" component={HomeScreen} exact />
         </Container>
