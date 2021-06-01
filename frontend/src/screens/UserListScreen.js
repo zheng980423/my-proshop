@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
 import { Link as RouterLink } from 'react-router-dom';
 
 import {
@@ -120,6 +121,7 @@ const UserListScreen = ({ history }) => {
   };
 
   const [open, setOpen] = useState(false);
+  const [clickOne, setClikenOne] = useState({});
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -148,7 +150,11 @@ const UserListScreen = ({ history }) => {
               <>
                 <Box>
                   <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button color="primary" variant="contained">
+                    <Button
+                      startIcon={<AddIcon />}
+                      color="primary"
+                      variant="contained"
+                    >
                       添加用户
                     </Button>
                   </Box>
@@ -283,15 +289,16 @@ const UserListScreen = ({ history }) => {
                                     <IconButton
                                       edge="end"
                                       aria-label="delete"
-                                      // onClick={() => {
-                                      //   deleteHandler(customer._id);
-                                      // }}
-                                      onClick={handleClickOpen}
+                                      onClick={() => {
+                                        handleClickOpen();
+                                        setClikenOne(customer);
+                                        // deleteHandler(customer._id);
+                                      }}
                                     >
                                       <DeleteIcon />
                                     </IconButton>
                                   </TableCell>
-                                  <Dialog
+                                  {/* <Dialog
                                     open={open}
                                     TransitionComponent={Transition}
                                     keepMounted
@@ -324,7 +331,13 @@ const UserListScreen = ({ history }) => {
                                         取消
                                       </Button>
                                     </DialogActions>
-                                  </Dialog>
+                                  </Dialog> */}
+                                  <Modal
+                                    customer={clickOne}
+                                    open={open}
+                                    handleClose={handleClose}
+                                    deleteHandler={deleteHandler}
+                                  />
                                 </TableRow>
                               ))}
                           </TableBody>
@@ -350,5 +363,39 @@ const UserListScreen = ({ history }) => {
     </DashboardLayout>
   );
 };
-
+function Modal({ open, handleClose, customer, deleteHandler }) {
+  return (
+    <>
+      <Dialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={open}
+        TransitionComponent={Transition}
+      >
+        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+          Register
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            {`该操作将会清空用户${customer.name}数据且不可逆，请谨慎考虑`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              deleteHandler(customer._id);
+            }}
+            variant="outlined"
+            color="secondary"
+          >
+            删除
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            取消
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+}
 export default UserListScreen;

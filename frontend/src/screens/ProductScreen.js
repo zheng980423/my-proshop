@@ -268,11 +268,14 @@ const ProductScreen = ({ history, match }) => {
                   {recommendedProducts.map(
                     ({ rating, price, numReviews, name, image, _id }) => (
                       <div
-                        style={{ margin: '20px', cursor: 'pointer' }}
+                        style={{
+                          margin: '20px 20px 20px 0px',
+                          cursor: 'pointer',
+                        }}
                         onClick={() => openPost(_id)}
                         key={_id}
                       >
-                        <Typography gutterBottom variant="h6">
+                        <Typography gutterBottom variant="h4">
                           {name}
                         </Typography>
                         <Typography gutterBottom variant="subtitle2">

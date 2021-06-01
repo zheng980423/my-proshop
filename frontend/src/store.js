@@ -17,6 +17,7 @@ import {
   userDeleteReducer,
   adminUserDetailReducer,
   adminUserUpdateReducer,
+  adminProductDeleteReducer,
 } from './reducers/adminReducers';
 import {
   userLoginReducer,
@@ -40,6 +41,7 @@ const reducer = combineReducers({
   userDelete: userDeleteReducer,
   adminUserDetail: adminUserDetailReducer,
   adminUserUpdate: adminUserUpdateReducer,
+  adminProductDelete: adminProductDeleteReducer,
 });
 const cartItemsFromStorage = localStorage.getItem('cartItems')
   ? JSON.parse(localStorage.getItem('cartItems'))

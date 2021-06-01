@@ -60,5 +60,17 @@ const updateUser = asyncHandler(async (req, res) => {
     throw new Error('用户不存在');
   }
 });
-
-export { getUsers, deleteUser, getUserById, updateUser };
+//@description 删除产品
+//@router DELETE /api/admin/product/:id
+//@access public admin
+const deleteProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    await product.remove();
+    res.json({ message: 'Product Removed' });
+  } else {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+});
+export { getUsers, deleteUser, getUserById, updateUser, deleteProduct };

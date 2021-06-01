@@ -14,6 +14,9 @@ import {
   ADMIN_USER_UPDATE_SUCCESS,
   ADMIN_USER_UPDATE_FAIL,
   ADMIN_USER_UPDATE_RESET,
+  ADMIN_PRODUCT_DELETE_REQUEST,
+  ADMIN_PRODUCT_DELETE_SUCCESS,
+  ADMIN_PRODUCT_DELETE_FAIL,
 } from '../constants/adminConstants';
 
 export const userListReducer = (state = { users: [] }, action) => {
@@ -67,6 +70,19 @@ export const adminUserUpdateReducer = (state = { user: {} }, action) => {
       return { loading: false, error: action.payload };
     case ADMIN_USER_UPDATE_RESET:
       return { user: {} };
+    default:
+      return state;
+  }
+};
+export const adminProductDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ADMIN_PRODUCT_DELETE_REQUEST:
+      return { loading: true };
+    case ADMIN_PRODUCT_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case ADMIN_PRODUCT_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+
     default:
       return state;
   }

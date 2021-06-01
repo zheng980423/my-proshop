@@ -1,5 +1,8 @@
 import axios from 'axios';
 import {
+  ADMIN_PRODUCT_DELETE_FAIL,
+  ADMIN_PRODUCT_DELETE_REQUEST,
+  ADMIN_PRODUCT_DELETE_SUCCESS,
   ADMIN_USER_DETAIL_FAIL,
   ADMIN_USER_DETAIL_REQUEST,
   ADMIN_USER_DETAIL_SUCCESS,
@@ -118,6 +121,31 @@ export const updateUser = user => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ADMIN_USER_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+export const deleteProduct = id => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_PRODUCT_DELETE_REQUEST,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    await axios.delete(`/api/admin/product/${id}`, config);
+    dispatch({ type: ADMIN_PRODUCT_DELETE_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_PRODUCT_DELETE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
