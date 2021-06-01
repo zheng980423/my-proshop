@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
+import Product from '../models/productModel.js';
 
 //@description 获取所有用户信息
 //@router GET /api/admin/users
@@ -67,10 +68,11 @@ const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     await product.remove();
-    res.json({ message: 'Product Removed' });
+    res.json({ message: 'product Removed' });
   } else {
     res.status(404);
-    throw new Error('Product not found');
+    throw new Error('User not found');
   }
 });
+
 export { getUsers, deleteUser, getUserById, updateUser, deleteProduct };

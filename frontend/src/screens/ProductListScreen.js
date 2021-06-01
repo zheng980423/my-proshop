@@ -340,7 +340,7 @@ const ProductListScreen = ({ history, match }) => {
       </Box>
 
       <Modal
-        customer={clickOne}
+        product={clickOne}
         open={open}
         handleClose={handleClose}
         deleteHandler={deleteHandler}
@@ -348,7 +348,7 @@ const ProductListScreen = ({ history, match }) => {
     </>
   );
 };
-function Modal({ open, handleClose, customer, deleteHandler }) {
+function Modal({ open, handleClose, product, deleteHandler }) {
   return (
     <>
       <Dialog
@@ -362,13 +362,13 @@ function Modal({ open, handleClose, customer, deleteHandler }) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            {`该操作将会清空商品${customer.name}数据且不可逆，请谨慎考虑`}
+            {`该操作将会清空商品${product.name}数据且不可逆，请谨慎考虑`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button
             onClick={() => {
-              deleteHandler(customer._id);
+              deleteHandler(product._id);
             }}
             variant="outlined"
             color="secondary"
