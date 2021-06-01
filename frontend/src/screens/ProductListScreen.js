@@ -27,7 +27,8 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { Edit } from 'react-feather';
 import { Link as RouterLink } from 'react-router-dom';
 import { listProducts } from '../actions/productActions';
-import { deleteProduct } from '../actions/adminActions';
+import { deleteProduct, createProduct } from '../actions/adminActions';
+import { ADMIN_PRODUCT_CREATE_RESET } from '../constants/adminConstants';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
@@ -51,24 +52,35 @@ const ProductListScreen = ({ history, match }) => {
     success: successDelete,
   } = adminProductDelete;
 
-  // const productCreate = useSelector(state => state.productCreate);
-  // const {
-  //   loading: loadingCreate,
-  //   error: errorCreate,
-  //   success: successCreate,
-  //   product: createdProduct,
-  // } = productCreate;
+  const adminProductCreate = useSelector(state => state.adminProductCreate);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+    product: createdProduct,
+  } = adminProductCreate;
 
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (userInfo && userInfo.role === 'admin') {
-      dispatch(listProducts());
-    } else {
+    dispatch({ type: ADMIN_PRODUCT_CREATE_RESET });
+    if (!userInfo || !userInfo.role === 'admin') {
       history.push('/login');
     }
-  }, [dispatch, history, userInfo, successDelete]);
+    if (successCreate) {
+      history.push(`/admin/product/${createdProduct._id}/edit`);
+    } else {
+      dispatch(listProducts());
+    }
+  }, [
+    dispatch,
+    history,
+    successCreate,
+    createdProduct,
+    userInfo,
+    successDelete,
+  ]);
 
   const deleteHandler = id => {
     dispatch(deleteProduct(id));
@@ -87,7 +99,9 @@ const ProductListScreen = ({ history, match }) => {
     setOpen(false);
   };
 
-  const createProductHandler = () => {};
+  const createProductHandler = () => {
+    dispatch(createProduct());
+  };
 
   return (
     <>
@@ -104,10 +118,12 @@ const ProductListScreen = ({ history, match }) => {
         <Container maxWidth="lg">
           {loadingDelete && <SkeletonArticle />}
           {errorDelete && <Message variant="error">{errorDelete}</Message>}
-          {loading ? (
+          {loading || loadingDelete || loadingCreate ? (
             <SkeletonArticle />
-          ) : error ? (
-            <Message variant="error">{error}</Message>
+          ) : error || errorDelete || errorCreate ? (
+            <Message variant="error">
+              {errorCreate ? errorCreate : errorDelete ? errorDelete : error}
+            </Message>
           ) : (
             <>
               <Box>

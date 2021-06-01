@@ -18,6 +18,9 @@ import {
   adminUserDetailReducer,
   adminUserUpdateReducer,
   adminProductDeleteReducer,
+  adminProductCreateReducer,
+  adminProductDetailsReducer,
+  adminProducUpdateReducer,
 } from './reducers/adminReducers';
 import {
   userLoginReducer,
@@ -42,6 +45,9 @@ const reducer = combineReducers({
   adminUserDetail: adminUserDetailReducer,
   adminUserUpdate: adminUserUpdateReducer,
   adminProductDelete: adminProductDeleteReducer,
+  adminProductCreate: adminProductCreateReducer,
+  adminProductDetails: adminProductDetailsReducer,
+  adminProductUpdate: adminProducUpdateReducer,
 });
 const cartItemsFromStorage = localStorage.getItem('cartItems')
   ? JSON.parse(localStorage.getItem('cartItems'))

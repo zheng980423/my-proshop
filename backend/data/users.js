@@ -10,6 +10,7 @@ const users = [
   {
     name: 'zwf',
     email: 'zwf@example.com',
+
     password: bcrpty.hashSync('12345', 10),
   },
   {

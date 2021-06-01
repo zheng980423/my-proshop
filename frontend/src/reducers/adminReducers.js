@@ -17,6 +17,17 @@ import {
   ADMIN_PRODUCT_DELETE_REQUEST,
   ADMIN_PRODUCT_DELETE_SUCCESS,
   ADMIN_PRODUCT_DELETE_FAIL,
+  ADMIN_PRODUCT_CREATE_REQUEST,
+  ADMIN_PRODUCT_CREATE_SUCCESS,
+  ADMIN_PRODUCT_CREATE_FAIL,
+  ADMIN_PRODUCT_CREATE_RESET,
+  ADMIN_PRODUCT_DETAIL_REQUEST,
+  ADMIN_PRODUCT_DETAIL_SUCCESS,
+  ADMIN_PRODUCT_DETAIL_FAIL,
+  ADMIN_PRODUCT_UPDATE_REQUEST,
+  ADMIN_PRODUCT_UPDATE_SUCCESS,
+  ADMIN_PRODUCT_UPDATE_FAIL,
+  ADMIN_PRODUCT_UPDATE_RESET,
 } from '../constants/adminConstants';
 
 export const userListReducer = (state = { users: [] }, action) => {
@@ -83,6 +94,55 @@ export const adminProductDeleteReducer = (state = {}, action) => {
     case ADMIN_PRODUCT_DELETE_FAIL:
       return { loading: false, error: action.payload };
 
+    default:
+      return state;
+  }
+};
+export const adminProductCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ADMIN_PRODUCT_CREATE_REQUEST:
+      return { loading: true };
+    case ADMIN_PRODUCT_CREATE_SUCCESS:
+      return { loading: false, success: true, product: action.payload };
+    case ADMIN_PRODUCT_CREATE_FAIL:
+      return { loading: false, error: action.payload };
+    case ADMIN_PRODUCT_CREATE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+export const adminProductDetailsReducer = (
+  state = { product: { reviews: [] } },
+  action
+) => {
+  switch (action.type) {
+    case ADMIN_PRODUCT_DETAIL_REQUEST:
+      return { loading: true, ...state };
+    case ADMIN_PRODUCT_DETAIL_SUCCESS:
+      return {
+        loading: false,
+        product: action.payload,
+      };
+    case ADMIN_PRODUCT_DETAIL_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+export const adminProducUpdateReducer = (state = { product: {} }, action) => {
+  switch (action.type) {
+    case ADMIN_PRODUCT_UPDATE_REQUEST:
+      return { loading: true };
+    case ADMIN_PRODUCT_UPDATE_SUCCESS:
+      return { loading: false, success: true, product: action.payload };
+    case ADMIN_PRODUCT_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    case ADMIN_PRODUCT_UPDATE_RESET:
+      return { product: {} };
     default:
       return state;
   }

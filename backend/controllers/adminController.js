@@ -74,5 +74,66 @@ const deleteProduct = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+//@description 新建产品
+//@router POST /api/admin/products
+//@access public admin
+const createProduct = asyncHandler(async (req, res) => {
+  const product = new Product({
+    name: '实例 名字',
+    price: 0,
+    user: req.user._id,
+    image: '/images/sample.jpg',
+    brand: '实例 品牌',
+    category: '实例 分类',
+    countInStock: 0,
+    nomReviews: 0,
+    description: '实例 描述',
+  });
+  const createdProduct = await product.save();
+  res.status(201).json(createdProduct);
+});
+//@description 更新产品信息
+//@router PUT /api/admin/product/:id
+//@access private/Admin
+const updateProduct = asyncHandler(async (req, res) => {
+  const { name, price, description, image, brand, category, countInStock } =
+    req.body;
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    product.name = name;
+    product.price = price;
+    product.description = description;
+    product.image = image;
+    product.brand = brand;
+    product.category = category;
+    product.countInStock = countInStock;
+    const updatedProduct = await product.save();
+    res.json(updatedProduct);
+  } else {
+    res.status(404);
+    throw new Error('prodcut not found');
+  }
+});
+//@desc  get  product by id
+//@route GET /api/admin/product/:id
+//@access private/admin
+const getProductById = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    res.json(product);
+  } else {
+    res.status(404);
+    throw new Error('该商品不存在');
+  }
+});
 
-export { getUsers, deleteUser, getUserById, updateUser, deleteProduct };
+export {
+  getUsers,
+  deleteUser,
+  getUserById,
+  getProductById,
+  updateUser,
+  deleteProduct,
+  createProduct,
+  updateProduct,
+};
