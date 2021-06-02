@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import Product from '../models/productModel.js';
-
+import Order from '../models/orderModel.js';
 //@description 获取所有用户信息
 //@router GET /api/admin/users
 //@access private/admin
@@ -126,7 +126,29 @@ const getProductById = asyncHandler(async (req, res) => {
     throw new Error('该商品不存在');
   }
 });
+//@description 管理员获取所有订单的信息
+//@router GET /api/admin/orders
+//@access private
+const getOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate('user', 'id name image');
+  res.json(orders);
+});
+//@description update order to delivered
+//@router GET /api/order/:id/deliver
+//@access private/ADMIN
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
 
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error('order not found');
+  }
+});
 export {
   getUsers,
   deleteUser,
@@ -136,4 +158,6 @@ export {
   deleteProduct,
   createProduct,
   updateProduct,
+  getOrders,
+  updateOrderToDelivered,
 };

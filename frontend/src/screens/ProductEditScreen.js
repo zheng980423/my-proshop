@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   Box,
   Button,
@@ -20,7 +21,7 @@ import SkeletonArticle from '../skeletons/SkeletonArticle';
 
 const ProductEditScreen = ({ history, match }) => {
   const productId = match.params.id;
-  console.log(productId);
+
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState('');
@@ -28,57 +29,59 @@ const ProductEditScreen = ({ history, match }) => {
   const [category, setCategory] = useState('');
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
-  // const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const dispatch = useDispatch();
 
   const adminProductDetails = useSelector(state => state.adminProductDetails);
   const { loading, error, product } = adminProductDetails;
 
-  // const adminProductUpdate = useSelector(state => state.adminProductUpdate);
-  // const {
-  //   loading: loadingUpdate,
-  //   error: errorUpdate,
-  //   success: successUpdate,
-  // } = adminProductUpdate;
+  const adminProductUpdate = useSelector(state => state.adminProductUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = adminProductUpdate;
   useEffect(() => {
-    // if (successUpdate) {
-    //   dispatch({ type: ADMIN_PRODUCT_UPDATE_RESET });
-    //   history.push('/admin/products');
-    // } else {
-    if (!product.name || product._id !== productId) {
-      dispatch(listProductDetail(productId));
+    if (successUpdate) {
+      dispatch({ type: ADMIN_PRODUCT_UPDATE_RESET });
+      history.push('/admin/products');
     } else {
-      setName(product.name);
-      setPrice(product.price);
-      setImage(product.image);
-      setBrand(product.brand);
-      setCategory(product.category);
-      setCountInStock(product.countInStock);
-      setDescription(product.description);
+      if (!product.name || product._id !== productId) {
+        dispatch(listProductDetail(productId));
+      } else {
+        setName(product.name);
+        setPrice(product.price);
+        setImage(product.image);
+        setBrand(product.brand);
+        setCategory(product.category);
+        setCountInStock(product.countInStock);
+        setDescription(product.description);
+      }
     }
-    // }
-  }, [dispatch, productId, product]);
-  // const uploadFileHandler = async e => {
-  //   const file = e.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append('image', file);
-  //   setUploading(true);
+  }, [dispatch, productId, successUpdate, product, history]);
+  const uploadFileHandler = async e => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    setUploading(true);
 
-  //   try {
-  //     const config = {
-  //       header: {
-  //         'Content-Type': 'multipart/form-data',
-  //       },
-  //     };
-  //     const { data } = await axios.post('/api/upload', formData, config);
-  //     setImage(data);
-  //     setUploading(false);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setUploading(false);
-  //   }
-  // };
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+
+      const { data } = await axios.post('/api/upload', formData, config);
+
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
+  };
 
   const submitHandler = e => {
     e.preventDefault();
@@ -110,10 +113,12 @@ const ProductEditScreen = ({ history, match }) => {
           <Grid container spacing={3}>
             <Grid item lg={12}>
               <>
-                {loading ? (
+                {loading || loadingUpdate ? (
                   <SkeletonArticle />
-                ) : error ? (
-                  <Message variant="error">{error}</Message>
+                ) : error || errorUpdate ? (
+                  <Message variant="error">
+                    {errorUpdate ? errorUpdate : error ? error : error}
+                  </Message>
                 ) : (
                   <>
                     <form
@@ -206,6 +211,9 @@ const ProductEditScreen = ({ history, match }) => {
                                 required
                                 value={description}
                                 variant="outlined"
+                                multiline
+                                rows={2}
+                                rowsMax={4}
                               />
                             </Grid>
                           </Grid>

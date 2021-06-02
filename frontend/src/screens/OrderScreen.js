@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import {
   Avatar,
   Box,
+  Button,
   Container,
   Divider,
   ListItemAvatar,
@@ -19,9 +20,10 @@ import SkeletonArticle from '../skeletons/SkeletonArticle';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderDetails, payOrder } from '../actions/orderActions';
-
+import { deliverOrder } from '../actions/adminActions';
 import Message from '../components/Message';
 import { ORDER_PAY_RESET } from '../constants/orderConstants';
+import { ADMIN_ORDER_DELIVER_RESET } from '../constants/adminConstants';
 
 const useStyles = makeStyles(theme => ({
   listItem: {
@@ -60,6 +62,9 @@ export default function OrderScreen({ match, history }) {
 
   const orderPay = useSelector(state => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+  const adminOrderDeliver = useSelector(state => state.adminOrderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } =
+    adminOrderDeliver;
 
   if (!loading) {
     //   Calculate prices
@@ -88,8 +93,9 @@ export default function OrderScreen({ match, history }) {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay) {
+    if (!order || successPay || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ADMIN_ORDER_DELIVER_RESET });
 
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
@@ -99,14 +105,17 @@ export default function OrderScreen({ match, history }) {
         setSdkReady(true);
       }
     }
-  }, [dispatch, history, userInfo, orderId, successPay, order]);
+  }, [dispatch, history, userInfo, orderId, successPay, order, successDeliver]);
 
   const successPaymentHandler = paymentResult => {
     console.log(paymentResult);
     dispatch(payOrder(orderId, paymentResult));
   };
+  const deliverHandler = paymentResult => {
+    dispatch(deliverOrder(order));
+  };
 
-  return loading ? (
+  return loading || loadingDeliver ? (
     <SkeletonArticle />
   ) : error ? (
     <Message variant="error">{error}</Message>
@@ -206,6 +215,21 @@ export default function OrderScreen({ match, history }) {
                     )}
                   </ListItem>
                 )}
+                {userInfo.role === 'admin' &&
+                  order.isPaid &&
+                  !order.isDelivered && (
+                    <ListItem className={classes.listItem}>
+                      <Typography component="div" style={{ width: '100%' }}>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          onClick={deliverHandler}
+                        >
+                          设置成已发货
+                        </Button>
+                      </Typography>
+                    </ListItem>
+                  )}
               </List>
             </Paper>
             <Grid container spacing={2}>

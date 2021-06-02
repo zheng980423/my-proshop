@@ -1,5 +1,11 @@
 import axios from 'axios';
 import {
+  ADMIN_ORDER_DELIVER_FAIL,
+  ADMIN_ORDER_DELIVER_REQUEST,
+  ADMIN_ORDER_DELIVER_SUCCESS,
+  ADMIN_ORDER_LIST_FAIL,
+  ADMIN_ORDER_LIST_REQUEST,
+  ADMIN_ORDER_LIST_SUCCESS,
   ADMIN_PRODUCT_CREATE_FAIL,
   ADMIN_PRODUCT_CREATE_REQUEST,
   ADMIN_PRODUCT_CREATE_SUCCESS,
@@ -248,6 +254,66 @@ export const updateProduct = product => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ADMIN_PRODUCT_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+export const listOrders = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_ORDER_LIST_REQUEST,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/admin/orders`, config);
+    dispatch({
+      type: ADMIN_ORDER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_ORDER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+export const deliverOrder = order => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_ORDER_DELIVER_REQUEST,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `/api/admin/order/${order._id}/deliver`,
+      {},
+      config
+    );
+    dispatch({
+      type: ADMIN_ORDER_DELIVER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_ORDER_DELIVER_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

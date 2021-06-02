@@ -9,6 +9,8 @@ import {
   getUsers,
   updateProduct,
   updateUser,
+  getOrders,
+  updateOrderToDelivered,
 } from '../controllers/adminController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 const router = express.Router();
@@ -24,4 +26,6 @@ router
   .put(protect, admin, updateProduct)
   .get(protect, admin, getProductById);
 router.route('/products').post(protect, admin, createProduct);
+router.route('/orders').get(protect, admin, getOrders);
+router.route('/order/:id/deliver').put(protect, admin, updateOrderToDelivered);
 export default router;
