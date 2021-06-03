@@ -15,6 +15,9 @@ import {
   InputLabel,
   Select,
   FormHelperText,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
 } from '@material-ui/core';
 
 import { useState, useEffect } from 'react';
@@ -24,9 +27,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import Rating from '../components/Rating';
 import { red } from '@material-ui/core/colors';
 
-import { listProductDetails, listProducts } from '../actions/productActions';
+import {
+  listProductDetails,
+  listProducts,
+  createProductReview,
+} from '../actions/productActions';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 import Message from '../components/Message';
+import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
 const useStyles = makeStyles(theme => ({
   media: {
@@ -89,10 +97,17 @@ const useStyles = makeStyles(theme => ({
 
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
   const classes = useStyles();
   const dispatch = useDispatch();
   const productDetails = useSelector(state => state.productDetails);
   const { loading, error, product } = productDetails;
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+  const productReviewCreate = useSelector(state => state.productReviewCreate);
+  const { error: errorProductReview, success: successProductReview } =
+    productReviewCreate;
   const productList = useSelector(state => state.productList);
   const { products } = productList;
   useEffect(() => {
@@ -254,6 +269,50 @@ const ProductScreen = ({ history, match }) => {
                       </ListItem>
                     )}
                   </List>
+                </Paper>
+              </Grid>
+              <Grid className={classes.grid2} item xs={12} sm={12} md={12}>
+                <Paper className={classes.paper} elevation={0}>
+                  <Typography gutterBottom variant="h5">
+                    评论区
+                  </Typography>
+                  <Divider />
+                  {product.reviews.length === 0 ? (
+                    <Message variant="info">没有评论</Message>
+                  ) : (
+                    <List style={{ width: '100%' }}>
+                      {product.reviews.map(review => (
+                        <>
+                          {' '}
+                          <ListItem key={review._id} alignItems="flex-start">
+                            <ListItemAvatar>
+                              <Avatar alt="Remy Sharp" src={review.image} />
+                            </ListItemAvatar>
+                            <ListItemText
+                              primary={
+                                <> {review.createdAt.substring(0, 10)}</>
+                              }
+                              secondary={
+                                <>
+                                  <Typography
+                                    component="span"
+                                    variant="body2"
+                                    style={{ display: 'inline' }}
+                                    color="textPrimary"
+                                  >
+                                    {review.name}
+                                  </Typography>
+
+                                  {review.comment}
+                                </>
+                              }
+                            />
+                          </ListItem>
+                          <Divider variant="inset" component="li" />
+                        </>
+                      ))}
+                    </List>
+                  )}
                 </Paper>
               </Grid>
             </Grid>
