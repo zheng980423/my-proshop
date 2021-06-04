@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
-
+import User from '../models/userModel.js';
 //@description fetch all products
 //@router Get /api/products
 //@access public
@@ -27,10 +27,10 @@ const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
 
   const product = await Product.findById(req.params.id);
-
+  const user = await User.findById(req.user._id);
   if (product) {
     const alreadyReviewed = product.reviews.find(
-      r => r.user.toString() === req.user._id.toString()
+      r => r.user.toString() === user.name.toString()
     );
 
     if (alreadyReviewed) {
@@ -39,12 +39,12 @@ const createProductReview = asyncHandler(async (req, res) => {
     }
 
     const review = {
-      name: req.user.name,
+      name: user.name,
       rating: Number(rating),
       comment,
-      user: req.user._id,
-      image: req.user.image,
-      role: req.user.role,
+      user,
+      role: user.role,
+      image: user.image,
     };
 
     product.reviews.push(review);

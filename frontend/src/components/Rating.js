@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
 }));
 const Rating = ({ value, text, color }) => {
   const classes = useStyles();
+
   return (
     <div className={classes.group}>
       {value >= 1 ? (

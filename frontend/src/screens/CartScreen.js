@@ -18,13 +18,14 @@ import {
   Typography,
   FormControl,
   Button,
+  Link,
 } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import Message from '../components/Message';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 
 const useStyles = makeStyles(theme => ({
@@ -104,6 +105,15 @@ const CartScreen = ({ match, location, history }) => {
 
   return (
     <>
+      <Button
+        className={classes.margin}
+        style={{ marginBottom: '1.5rem' }}
+        component={RouterLink}
+        to="/"
+      >
+        继 续 购 物
+      </Button>
+
       <Typography variant="h5" component="h1" className={classes.title}>
         购物车
       </Typography>

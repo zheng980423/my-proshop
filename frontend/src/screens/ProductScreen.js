@@ -18,15 +18,21 @@ import {
   ListItemAvatar,
   Avatar,
   ListItemText,
+  Chip,
+  Link,
+  Box,
+  TextField,
+  MenuItem,
 } from '@material-ui/core';
-
+import * as Yup from 'yup';
+import { Form, Formik } from 'formik';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { Link as RouterLink } from 'react-router-dom';
 import Rating from '../components/Rating';
 import { red } from '@material-ui/core/colors';
-
+import moment from 'moment';
 import {
   listProductDetails,
   listProducts,
@@ -74,7 +80,10 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
-
+  comment: {
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.background.default,
+  },
   grid1: {},
   section: {
     borderRadius: '20px',
@@ -97,8 +106,29 @@ const useStyles = makeStyles(theme => ({
 
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1);
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
+
+  const ratingOption = [
+    {
+      rating: 1,
+      des: '差劲',
+    },
+    {
+      rating: 2,
+      des: '一般般',
+    },
+    {
+      rating: 3,
+      des: '不错',
+    },
+    {
+      rating: 4,
+      des: '非常好',
+    },
+    {
+      rating: 5,
+      des: '物美价廉',
+    },
+  ];
   const classes = useStyles();
   const dispatch = useDispatch();
   const productDetails = useSelector(state => state.productDetails);
@@ -111,9 +141,13 @@ const ProductScreen = ({ history, match }) => {
   const productList = useSelector(state => state.productList);
   const { products } = productList;
   useEffect(() => {
+    if (successProductReview) {
+      alert('Review Added');
+      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+    }
     dispatch(listProducts());
     dispatch(listProductDetails(match.params.id));
-  }, [dispatch, match.params.id]);
+  }, [dispatch, match.params.id, successProductReview]);
 
   const openPost = _id => history.push(`/product/${_id}`);
 
@@ -125,7 +159,7 @@ const ProductScreen = ({ history, match }) => {
     const category = product.category;
     return x.category === category && x._id !== match.params.id;
   };
-  console.log(product.category);
+
   const recommendedProducts = products.filter(filterRule);
 
   return (
@@ -272,7 +306,7 @@ const ProductScreen = ({ history, match }) => {
                 </Paper>
               </Grid>
               <Grid className={classes.grid2} item xs={12} sm={12} md={12}>
-                <Paper className={classes.paper} elevation={0}>
+                <Paper className={classes.comment} elevation={0}>
                   <Typography gutterBottom variant="h5">
                     评论区
                   </Typography>
@@ -282,36 +316,196 @@ const ProductScreen = ({ history, match }) => {
                   ) : (
                     <List style={{ width: '100%' }}>
                       {product.reviews.map(review => (
-                        <>
-                          {' '}
-                          <ListItem key={review._id} alignItems="flex-start">
+                        <div key={review._id}>
+                          <ListItem alignItems="flex-start">
                             <ListItemAvatar>
-                              <Avatar alt="Remy Sharp" src={review.image} />
+                              <Avatar alt={review.name} src={review.image} />
                             </ListItemAvatar>
                             <ListItemText
                               primary={
-                                <> {review.createdAt.substring(0, 10)}</>
+                                <>
+                                  {review.name}
+                                  <Chip
+                                    style={{ marginLeft: '0.5rem' }}
+                                    color="primary"
+                                    label={review.role}
+                                    size="small"
+                                  />
+                                  <Rating value={review.rating} />
+                                </>
                               }
                               secondary={
                                 <>
                                   <Typography
                                     component="span"
-                                    variant="body2"
-                                    style={{ display: 'inline' }}
+                                    variant="h5"
+                                    style={{
+                                      display: 'block',
+                                      margin: '0rem,0rem,1rem,0rem',
+                                    }}
                                     color="textPrimary"
                                   >
-                                    {review.name}
+                                    {review.comment}
                                   </Typography>
 
-                                  {review.comment}
+                                  {moment(review.createdAt).format('LLL')}
                                 </>
                               }
                             />
                           </ListItem>
                           <Divider variant="inset" component="li" />
-                        </>
+                        </div>
                       ))}
                     </List>
+                  )}
+                </Paper>
+              </Grid>
+              <Grid className={classes.grid2} item xs={12} sm={12} md={12}>
+                <Paper className={classes.comment} elevation={0}>
+                  <Typography gutterBottom variant="h5">
+                    写一条评论
+                  </Typography>
+                  <Divider />
+                  {errorProductReview ? (
+                    <Message variant="error">{errorProductReview}</Message>
+                  ) : successProductReview ? (
+                    <Message variant="success">评论添加成功</Message>
+                  ) : (
+                    <></>
+                  )}
+
+                  {userInfo ? (
+                    <>
+                      <Formik
+                        initialValues={{
+                          rating: 1,
+                          comment: '',
+                        }}
+                        validationSchema={Yup.object().shape({
+                          comment: Yup.string()
+                            .max(255)
+                            .required('评论不能为空'),
+                          rating: Yup.number()
+                            .max(255)
+                            .required('评分不能为空'),
+                        })}
+                        onSubmit={(data, { resetForm, setSubmitting }) => {
+                          setSubmitting(true);
+                          const { rating, comment } = data;
+                          console.log(rating, comment);
+                          dispatch(
+                            createProductReview(match.params.id, {
+                              rating,
+                              comment,
+                            })
+                          );
+                          setSubmitting(false);
+                          resetForm();
+                        }}
+                      >
+                        {({
+                          errors,
+                          handleBlur,
+                          handleChange,
+                          isSubmitting,
+                          touched,
+                          values,
+                        }) => (
+                          <Form>
+                            <Box>
+                              <List>
+                                <ListItem button>
+                                  <ListItemAvatar>
+                                    <Avatar
+                                      alt={userInfo.name}
+                                      src={userInfo.image}
+                                    />
+                                  </ListItemAvatar>
+                                  <ListItemText
+                                    primary={
+                                      <>
+                                        <Rating
+                                          value={values.rating}
+                                          text={
+                                            ratingOption[values.rating - 1].des
+                                          }
+                                        ></Rating>
+                                      </>
+                                    }
+                                  />
+                                </ListItem>
+                              </List>
+                            </Box>
+
+                            <TextField
+                              variant="outlined"
+                              name="rating"
+                              select
+                              margin="normal"
+                              onBlur={handleBlur}
+                              label="选择评分"
+                              // fullWidth
+                              value={values.rating}
+                              onChange={handleChange}
+                              error={Boolean(touched.rating && errors.rating)}
+                              helperText={touched.rating && errors.rating}
+                            >
+                              {ratingOption.map(option => (
+                                <MenuItem
+                                  key={option.rating}
+                                  value={option.rating}
+                                >
+                                  {option.rating}颗星 - {option.des}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+
+                            <TextField
+                              error={Boolean(touched.comment && errors.comment)}
+                              fullWidth
+                              helperText={touched.comment && errors.comment}
+                              label="评论"
+                              margin="normal"
+                              placeholder="留下一条友善的评论"
+                              name="comment"
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              type="text"
+                              value={values.comment}
+                              variant="outlined"
+                              multiline
+                              rows={2}
+                              rowsMax={4}
+                            />
+
+                            <Box
+                              style={{
+                                paddingBottom: '2rem',
+                                marginTop: '2rem',
+                              }}
+                            >
+                              <Button
+                                color="primary"
+                                disabled={isSubmitting}
+                                size="large"
+                                type="submit"
+                                variant="contained"
+                              >
+                                提交评论
+                              </Button>
+                            </Box>
+                          </Form>
+                        )}
+                      </Formik>
+                    </>
+                  ) : (
+                    <Message variant="info">
+                      请{' '}
+                      <Link component={RouterLink} to="/">
+                        登录
+                      </Link>
+                      进行评论
+                    </Message>
                   )}
                 </Paper>
               </Grid>

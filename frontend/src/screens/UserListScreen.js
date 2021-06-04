@@ -292,46 +292,12 @@ const UserListScreen = ({ history }) => {
                                       onClick={() => {
                                         handleClickOpen();
                                         setClikenOne(customer);
-                                        // deleteHandler(customer._id);
                                       }}
                                     >
                                       <DeleteIcon />
                                     </IconButton>
                                   </TableCell>
-                                  {/* <Dialog
-                                    open={open}
-                                    TransitionComponent={Transition}
-                                    keepMounted
-                                    onClose={handleClose}
-                                    aria-labelledby="alert-dialog-slide-title"
-                                    aria-describedby="alert-dialog-slide-description"
-                                  >
-                                    <DialogTitle id="alert-dialog-slide-title">
-                                      {`确定要删除用户${customer.name}吗？`}
-                                    </DialogTitle>
-                                    <DialogContent>
-                                      <DialogContentText id="alert-dialog-slide-description">
-                                        该操作将会清空用户数据且不可逆，请谨慎考虑
-                                      </DialogContentText>
-                                    </DialogContent>
-                                    <DialogActions>
-                                      <Button
-                                        onClick={() => {
-                                          deleteHandler(customer._id);
-                                        }}
-                                        variant="outlined"
-                                        color="secondary"
-                                      >
-                                        删除
-                                      </Button>
-                                      <Button
-                                        onClick={handleClose}
-                                        color="primary"
-                                      >
-                                        取消
-                                      </Button>
-                                    </DialogActions>
-                                  </Dialog> */}
+
                                   <Modal
                                     customer={clickOne}
                                     open={open}

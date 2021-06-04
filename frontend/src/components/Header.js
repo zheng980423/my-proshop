@@ -11,12 +11,14 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import Badge from '@material-ui/core/Badge';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../actions/userActions';
+import { withStyles } from '@material-ui/styles';
 const drawWidth = 240;
 const useStyles = makeStyles(theme => {
   return {
@@ -45,6 +47,14 @@ const useStyles = makeStyles(theme => {
     },
   };
 });
+const StyledBadge = withStyles(theme => ({
+  badge: {
+    right: -3,
+    top: 13,
+    // border: `1px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}))(Badge);
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -67,6 +77,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
+  const cart = useSelector(state => state.cart);
+  const { cartItems } = cart;
   const logoutHandler = () => {
     setAnchorEl(null);
     setAdminAnchorEl(null);
@@ -86,7 +98,9 @@ const Header = () => {
             </Typography>
             <Typography>
               <IconButton color="inherit" component={RouterLink} to="/cart">
-                <AddShoppingCartIcon />
+                <StyledBadge badgeContent={cartItems.length} color="secondary">
+                  <ShoppingCartIcon />
+                </StyledBadge>
               </IconButton>
             </Typography>
 
