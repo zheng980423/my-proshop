@@ -142,7 +142,6 @@ const ProductScreen = ({ history, match }) => {
   const { products } = productList;
   useEffect(() => {
     if (successProductReview) {
-      alert('Review Added');
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
     dispatch(listProducts());
@@ -392,7 +391,7 @@ const ProductScreen = ({ history, match }) => {
                         onSubmit={(data, { resetForm, setSubmitting }) => {
                           setSubmitting(true);
                           const { rating, comment } = data;
-                          console.log(rating, comment);
+
                           dispatch(
                             createProductReview(match.params.id, {
                               rating,

@@ -3,7 +3,9 @@ import {
   Avatar,
   Button,
   Container,
+  fade,
   IconButton,
+  InputBase,
   Link,
   Menu,
   MenuItem,
@@ -18,6 +20,7 @@ import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../actions/userActions';
+import SearchIcon from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/styles';
 const drawWidth = 240;
 const useStyles = makeStyles(theme => {
@@ -96,6 +99,7 @@ const Header = () => {
                 Proshop
               </Link>
             </Typography>
+
             <Typography>
               <IconButton color="inherit" component={RouterLink} to="/cart">
                 <StyledBadge badgeContent={cartItems.length} color="secondary">
