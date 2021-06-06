@@ -1,13 +1,13 @@
-import { Typography, makeStyles } from '@material-ui/core';
+import { Typography, makeStyles, Box } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
 import Masonry from 'react-masonry-css';
 import Product from '../components/Product';
 import Message from '../components/Message';
-import { Route } from 'react-router-dom';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 import SearchBox from '../components/SearchBox';
+import PaginationComponent from '../components/Pagination';
 const useStyles = makeStyles(theme => {
   return {
     title: {
@@ -17,9 +17,10 @@ const useStyles = makeStyles(theme => {
 });
 
 const HomeScreen = ({ match }) => {
+  const pageNumber = match.params.pageNumber || 1;
   const dispatch = useDispatch();
   const productList = useSelector(state => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, page, pages } = productList;
 
   const [keyword, setKeyword] = useState('');
 
@@ -36,8 +37,8 @@ const HomeScreen = ({ match }) => {
   };
 
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(pageNumber));
+  }, [dispatch, pageNumber]);
 
   const classes = useStyles();
   const breakpoints = {
@@ -74,6 +75,21 @@ const HomeScreen = ({ match }) => {
               </div>
             ))}
           </Masonry>
+          <Box
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: '2rem',
+            }}
+          >
+            <PaginationComponent
+              style={{ width: '100%' }}
+              pages={pages}
+              page={page}
+            />
+          </Box>
         </>
       )}
     </>

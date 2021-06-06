@@ -20,7 +20,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import Pagination from '@material-ui/lab/Pagination';
+
 import { Search as SearchIcon } from 'react-feather';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
@@ -33,17 +33,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 import Message from '../components/Message';
+
 import AddIcon from '@material-ui/icons/Add';
+import PaginationComponent from '../components/Pagination';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const ProductListScreen = ({ history, match }) => {
+  const pageNumber = match.params.pageNumber || 1;
   const dispatch = useDispatch();
 
   const productList = useSelector(state => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, page, pages } = productList;
 
   const adminProductDelete = useSelector(state => state.adminProductDelete);
   const {
@@ -63,6 +66,16 @@ const ProductListScreen = ({ history, match }) => {
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
 
+  // //pagination state
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [productsPerPage] = useState(10);
+  // const indexOfLastProduct = currentPage * productsPerPage;
+  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  // const currentItems = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  // //更改页
+  // const paginate = pageNumber => setCurrentPage(pageNumber);
+
   useEffect(() => {
     dispatch({ type: ADMIN_PRODUCT_CREATE_RESET });
     if (!userInfo || !userInfo.role === 'admin') {
@@ -71,7 +84,7 @@ const ProductListScreen = ({ history, match }) => {
     if (successCreate) {
       history.push(`/admin/product/${createdProduct._id}/edit`);
     } else {
-      dispatch(listProducts());
+      dispatch(listProducts(pageNumber));
     }
   }, [
     dispatch,
@@ -80,6 +93,7 @@ const ProductListScreen = ({ history, match }) => {
     createdProduct,
     userInfo,
     successDelete,
+    pageNumber,
   ]);
 
   const deleteHandler = id => {
@@ -303,37 +317,6 @@ const ProductListScreen = ({ history, match }) => {
                                 删除
                               </Button>
                             </Grid>
-                            {/* <Dialog
-                              open={open}
-                              TransitionComponent={Transition}
-                              keepMounted
-                              onClose={handleClose}
-                              aria-labelledby="alert-dialog-slide-title"
-                              aria-describedby="alert-dialog-slide-description"
-                            >
-                              <DialogTitle id="alert-dialog-slide-title">
-                                {`确定要删除${product.name}吗？`}
-                              </DialogTitle>
-                              <DialogContent>
-                                <DialogContentText id="alert-dialog-slide-description">
-                                  该操作将会清空用户数据且不可逆，请谨慎考虑
-                                </DialogContentText>
-                              </DialogContent>
-                              <DialogActions>
-                                <Button
-                                  onClick={() => {
-                                    deleteHandler(product._id);
-                                  }}
-                                  variant="outlined"
-                                  color="secondary"
-                                >
-                                  删除
-                                </Button>
-                                <Button onClick={handleClose} color="primary">
-                                  取消
-                                </Button>
-                              </DialogActions>
-                            </Dialog> */}
                           </Grid>
                         </Box>
                       </Card>
@@ -343,12 +326,14 @@ const ProductListScreen = ({ history, match }) => {
               </Box>
               <Box
                 style={{
+                  width: '100%',
                   display: 'flex',
+                  alignItems: 'center',
                   justifyContent: 'center',
-                  paddingTop: '3rem',
+                  marginTop: '2rem',
                 }}
               >
-                <Pagination color="primary" count={3} size="small" />
+                <PaginationComponent pages={pages} page={page} isAdmin={true} />
               </Box>
             </>
           )}

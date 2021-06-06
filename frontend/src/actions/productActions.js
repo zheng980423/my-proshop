@@ -11,28 +11,32 @@ import {
   PRODUCT_CREATE_REVIEW_FAIL,
 } from '../constants/productConstants';
 
-export const listProducts = () => async dispatch => {
-  try {
-    dispatch({ type: PRODUCT_LIST_REQUEST });
+export const listProducts =
+  (pageNumber = '') =>
+  async dispatch => {
+    try {
+      dispatch({ type: PRODUCT_LIST_REQUEST });
 
-    // setTimeout(async () => {
-    //   const { data } = await axios.get('/api/products');
+      // setTimeout(async () => {
+      //   const { data } = await axios.get('/api/products');
 
-    //   dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
-    // }, 3000);
-    const { data } = await axios.get(`/api/products`);
+      //   dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
+      // }, 3000);
+      const { data } = await axios.get(
+        `/api/products?pageNumber=${pageNumber}`
+      );
 
-    dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: PRODUCT_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 export const listProductDetails = id => async dispatch => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });

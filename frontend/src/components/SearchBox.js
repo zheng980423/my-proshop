@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => {
       outline: 'none',
       '&::placeholder': {
         color: '#b3c5cd',
+        fontSize: '1rem',
       },
     },
   };
