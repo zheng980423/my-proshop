@@ -13,12 +13,16 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
+  Fab,
   Grid,
   InputAdornment,
+  makeStyles,
   Slide,
   SvgIcon,
   TextField,
   Typography,
+  useScrollTrigger,
+  Zoom,
 } from '@material-ui/core';
 
 import { Search as SearchIcon } from 'react-feather';
@@ -36,10 +40,54 @@ import Message from '../components/Message';
 
 import AddIcon from '@material-ui/icons/Add';
 import PaginationComponent from '../components/Pagination';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+
+const useStyles = makeStyles(theme => {
+  return {
+    title: {
+      padding: ' 0 0 1.5rem 0',
+    },
+    root: {
+      position: 'fixed',
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
+    },
+  };
+});
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+function ScrollTop(props) {
+  const { children, window } = props;
+  const classes = useStyles();
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    target: window ? window() : undefined,
+    disableHysteresis: true,
+    threshold: 100,
+  });
+
+  const handleClick = event => {
+    const anchor = (event.target.ownerDocument || document).querySelector(
+      '#back-to-top-anchor'
+    );
+
+    if (anchor) {
+      anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+  return (
+    <Zoom in={trigger}>
+      <div onClick={handleClick} role="presentation" className={classes.root}>
+        {children}
+      </div>
+    </Zoom>
+  );
+}
 
 const ProductListScreen = ({ history, match }) => {
   const pageNumber = match.params.pageNumber || 1;
@@ -161,6 +209,7 @@ const ProductListScreen = ({ history, match }) => {
                     <CardContent>
                       <Box style={{ maxWidth: 500 }}>
                         <TextField
+                          id="back-to-top-anchor"
                           fullWidth
                           InputProps={{
                             startAdornment: (
@@ -340,6 +389,11 @@ const ProductListScreen = ({ history, match }) => {
         </Container>
       </Box>
 
+      <ScrollTop>
+        <Fab color="secondary" size="small" aria-label="scroll back to top">
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTop>
       <Modal
         product={clickOne}
         open={open}

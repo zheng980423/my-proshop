@@ -1,4 +1,11 @@
-import { Typography, makeStyles, Box } from '@material-ui/core';
+import {
+  Typography,
+  makeStyles,
+  Box,
+  useScrollTrigger,
+  Zoom,
+  Fab,
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
@@ -7,14 +14,51 @@ import Product from '../components/Product';
 import Message from '../components/Message';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 import SearchBox from '../components/SearchBox';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import PaginationComponent from '../components/Pagination';
 const useStyles = makeStyles(theme => {
   return {
     title: {
       padding: ' 0 0 1.5rem 0',
     },
+    root: {
+      position: 'fixed',
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
+    },
   };
 });
+
+function ScrollTop(props) {
+  const { children, window } = props;
+  const classes = useStyles();
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    target: window ? window() : undefined,
+    disableHysteresis: true,
+    threshold: 100,
+  });
+
+  const handleClick = event => {
+    const anchor = (event.target.ownerDocument || document).querySelector(
+      '#back-to-top-anchor'
+    );
+
+    if (anchor) {
+      anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
+  return (
+    <Zoom in={trigger}>
+      <div onClick={handleClick} role="presentation" className={classes.root}>
+        {children}
+      </div>
+    </Zoom>
+  );
+}
 
 const HomeScreen = ({ match }) => {
   const pageNumber = match.params.pageNumber || 1;
@@ -58,7 +102,7 @@ const HomeScreen = ({ match }) => {
         <Message variant="error">{error}</Message>
       ) : (
         <>
-          <SearchBox onChange={onInputChange} />
+          <SearchBox id="back-to-top-anchor" onChange={onInputChange} />
           <Typography variant="h5" component="h1" className={classes.title}>
             商品上新
           </Typography>
@@ -90,6 +134,11 @@ const HomeScreen = ({ match }) => {
               page={page}
             />
           </Box>
+          <ScrollTop>
+            <Fab color="secondary" size="small" aria-label="scroll back to top">
+              <KeyboardArrowUpIcon />
+            </Fab>
+          </ScrollTop>
         </>
       )}
     </>
