@@ -103,9 +103,8 @@ const HomeScreen = ({ match }) => {
         <Message variant="error">{error}</Message>
       ) : (
         <>
-          <div id="back-to-top-anchor">
-            <ProductCarousel />
-          </div>
+          <div id="back-to-top-anchor"></div>
+          {!keyword && <ProductCarousel />}
 
           <SearchBox onChange={onInputChange} />
           <Typography variant="h5" component="h1" className={classes.title}>

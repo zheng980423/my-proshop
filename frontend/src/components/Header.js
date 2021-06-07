@@ -98,7 +98,6 @@ const Header = () => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
-  const [clickOne, setClikenOne] = useState({});
 
   const handleClickOpen = () => {
     setOpen(true);

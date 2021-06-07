@@ -17,8 +17,11 @@ export const StyledSliderItem = styled.div`
         ${props => props.slideMargin * 2}px
     );
   img {
-    height: 100%;
-    width: 100%;
+    height: 200px;
+    /* padding-top: 56.25%; */
+    width: 200px;
+
+    object-fit: 'cover';
     border-radius: 1.5vw;
     box-sizing: border-box;
   }

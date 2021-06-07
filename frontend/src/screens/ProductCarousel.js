@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import Dialog from '@material-ui/core/Dialog';
+import React, { useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import Message from '../components/Message';
+import { listTopProducts } from '../actions/productActions';
+import SkeletonArticle from '../skeletons/SkeletonArticle';
 // Components
 import Slider from '../components/Slider';
-import CharacterCard from '../components/CharacterCard';
 
 const SliderProps = {
   zoomFactor: 30, // How much the image should zoom on hover in percent
-  slideMargin: 10, // Margin on each side of slides
+  slideMargin: 2, // Margin on each side of slides
   maxVisibleSlides: 5,
   pageTransition: 500, // Transition when flipping pages
 };
@@ -14,40 +19,44 @@ const SliderProps = {
 // Types
 
 const ProductCarousel = () => {
-  const [data, setData] = useState([]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [activeCharacter, setActiveCharacter] = useState({});
+  // const [data, setData] = useState([]);
+  // const [isDialogOpen, setIsDialogOpen] = useState(false);
+  // const [activeCharacter, setActiveCharacter] = useState({});
 
-  const handleDialogOpen = character => {
-    setIsDialogOpen(true);
-    setActiveCharacter(character);
-  };
+  //setTopRatedItems
+  const dispatch = useDispatch();
+
+  const productTopRated = useSelector(state => state.productTopRated);
+  const { loading, error, products } = productTopRated;
+
+  // const handleDialogOpen = character => {
+  //   setIsDialogOpen(true);
+  //   setActiveCharacter(character);
+  // };
 
   useEffect(() => {
-    const getData = async () => {
-      const data = await (
-        await fetch('https://finalspaceapi.com/api/v0/character/')
-      ).json();
-      setData(data);
-    };
+    dispatch(listTopProducts());
+  }, [dispatch]);
 
-    getData();
-  }, []);
-
-  console.log(data);
-
-  if (data.length < 1) return <div>Loading ...</div>;
-
-  return (
+  return loading ? (
+    <SkeletonArticle />
+  ) : error ? (
+    <Message variant="error">{error}</Message>
+  ) : (
     <>
-      <Dialog onClose={() => setIsDialogOpen(false)} open={isDialogOpen}>
+      {/* <Dialog onClose={() => setIsDialogOpen(false)} open={isDialogOpen}>
         <CharacterCard character={activeCharacter} />
-      </Dialog>
+      </Dialog> */}
 
       <Slider {...SliderProps}>
-        {data.map(character => (
-          <div key={character.id} onClick={() => handleDialogOpen(character)}>
-            <img src={character.img_url} alt="character" />
+        {products.map(product => (
+          <div
+            key={product._id}
+            // onClick={() => handleDialogOpen(product)}
+          >
+            <Link to={`/product/${product._id}`}>
+              <img src={product.image} alt="character" />
+            </Link>
           </div>
         ))}
       </Slider>
