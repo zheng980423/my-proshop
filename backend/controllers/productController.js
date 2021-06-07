@@ -8,10 +8,11 @@ const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
   const count = await Product.countDocuments();
+  const allProducts = await Product.find({});
   const products = await Product.find({})
     .limit(pageSize)
     .skip(pageSize * (page - 1));
-  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+  res.json({ allProducts, products, page, pages: Math.ceil(count / pageSize) });
 });
 //@description fetch single product
 //@router Get /api/products/:id
@@ -67,4 +68,12 @@ const createProductReview = asyncHandler(async (req, res) => {
     throw new Error('Product not found');
   }
 });
-export { getProducts, getProductById, createProductReview };
+// @desc    get  top rated Products
+// @route   GET /api/products/top
+// @access  public
+const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+
+  res.json(products);
+});
+export { getProducts, getProductById, createProductReview, getTopProducts };

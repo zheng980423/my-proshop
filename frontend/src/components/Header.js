@@ -3,10 +3,16 @@ import {
   Avatar,
   Button,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   IconButton,
   Link,
   Menu,
   MenuItem,
+  Slide,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -56,6 +62,10 @@ const StyledBadge = withStyles(theme => ({
   },
 }))(Badge);
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = event => {
@@ -82,9 +92,21 @@ const Header = () => {
   const logoutHandler = () => {
     setAnchorEl(null);
     setAdminAnchorEl(null);
+    setOpen(false);
     dispatch(logout());
   };
   const classes = useStyles();
+
+  const [open, setOpen] = useState(false);
+  const [clickOne, setClikenOne] = useState({});
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setOpen(false);
+  };
 
   return (
     <header>
@@ -138,8 +160,20 @@ const Header = () => {
                     我的订单
                   </MenuItem>
 
-                  <MenuItem onClick={logoutHandler}>登出</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleClose();
+                      handleClickOpen();
+                    }}
+                  >
+                    登出
+                  </MenuItem>
                 </Menu>
+                <Modal
+                  open={open}
+                  handleModalClose={handleModalClose}
+                  logoutHandler={logoutHandler}
+                />
               </>
             ) : (
               <IconButton
@@ -193,5 +227,34 @@ const Header = () => {
     </header>
   );
 };
+function Modal({ open, handleModalClose, logoutHandler }) {
+  return (
+    <>
+      <Dialog
+        onClose={handleModalClose}
+        aria-labelledby="customized-dialog-title"
+        open={open}
+        TransitionComponent={Transition}
+      >
+        <DialogTitle id="customized-dialog-title" onClose={handleModalClose}>
+          注销
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            {'确定注销吗？'}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={logoutHandler} variant="contained" color="primary">
+            确认
+          </Button>
+          <Button onClick={handleModalClose} color="secondary">
+            取消
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+}
 
 export default Header;

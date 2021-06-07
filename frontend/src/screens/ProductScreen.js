@@ -30,7 +30,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { Link as RouterLink } from 'react-router-dom';
-import Rating from '../components/Rating';
+// import Rating from '../components/Rating';
+import Rating from '@material-ui/lab/Rating';
 import { red } from '@material-ui/core/colors';
 import moment from 'moment';
 import {
@@ -101,6 +102,10 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
     },
+  },
+  ratingRoot: {
+    display: 'flex',
+    alignItems: 'center',
   },
 }));
 
@@ -226,8 +231,10 @@ const ProductScreen = ({ history, match }) => {
                     <ListItem>
                       <Rating
                         value={product.rating}
-                        text={`${product.numReviews} reviews`}
+                        name="product-rating"
+                        disabled
                       />
+                      {`${product.numReviews} 评论`}
                     </ListItem>
                     <Divider light />
                   </List>
@@ -304,6 +311,7 @@ const ProductScreen = ({ history, match }) => {
                   </List>
                 </Paper>
               </Grid>
+              {/* 评论区 */}
               <Grid className={classes.grid2} item xs={12} sm={12} md={12}>
                 <Paper className={classes.comment} elevation={0}>
                   <Typography gutterBottom variant="h5">
@@ -322,7 +330,7 @@ const ProductScreen = ({ history, match }) => {
                             </ListItemAvatar>
                             <ListItemText
                               primary={
-                                <>
+                                <div className={classes.ratingRoot}>
                                   {review.name}
                                   <Chip
                                     style={{ marginLeft: '0.5rem' }}
@@ -330,8 +338,12 @@ const ProductScreen = ({ history, match }) => {
                                     label={review.role}
                                     size="small"
                                   />
-                                  <Rating value={review.rating} />
-                                </>
+                                  <Rating
+                                    value={review.rating}
+                                    name="review-rating"
+                                    disabled
+                                  />
+                                </div>
                               }
                               secondary={
                                 <>
@@ -359,6 +371,7 @@ const ProductScreen = ({ history, match }) => {
                   )}
                 </Paper>
               </Grid>
+              {/* 写评论区 */}
               <Grid className={classes.grid2} item xs={12} sm={12} md={12}>
                 <Paper className={classes.comment} elevation={0}>
                   <Typography gutterBottom variant="h5">
@@ -422,14 +435,14 @@ const ProductScreen = ({ history, match }) => {
                                   </ListItemAvatar>
                                   <ListItemText
                                     primary={
-                                      <>
+                                      <div className={classes.ratingRoot}>
                                         <Rating
                                           value={values.rating}
-                                          text={
-                                            ratingOption[values.rating - 1].des
-                                          }
-                                        ></Rating>
-                                      </>
+                                          name="comment-rating"
+                                          disabled
+                                        />
+                                        {ratingOption[values.rating - 1].des}
+                                      </div>
                                     }
                                   />
                                 </ListItem>

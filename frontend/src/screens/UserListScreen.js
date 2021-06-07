@@ -58,10 +58,10 @@ const UserListScreen = ({ history }) => {
   const userDelete = useSelector(state => state.userDelete);
   const { success: successDelete } = userDelete;
   useEffect(() => {
-    if (userInfo) {
-      dispatch(listUsers());
-    } else {
+    if (!userInfo || !userInfo.role === 'admin') {
       history.push('/login');
+    } else {
+      dispatch(listUsers());
     }
   }, [dispatch, history, userInfo, successDelete]);
 

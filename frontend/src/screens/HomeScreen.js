@@ -16,6 +16,7 @@ import SkeletonArticle from '../skeletons/SkeletonArticle';
 import SearchBox from '../components/SearchBox';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import PaginationComponent from '../components/Pagination';
+import ProductCarousel from './ProductCarousel';
 const useStyles = makeStyles(theme => {
   return {
     title: {
@@ -64,11 +65,11 @@ const HomeScreen = ({ match }) => {
   const pageNumber = match.params.pageNumber || 1;
   const dispatch = useDispatch();
   const productList = useSelector(state => state.productList);
-  const { loading, error, products, page, pages } = productList;
+  const { loading, error, allProducts, products, page, pages } = productList;
 
   const [keyword, setKeyword] = useState('');
 
-  const filteredProducts = products.filter(
+  const filteredProducts = allProducts.filter(
     product =>
       product.name.toLowerCase().includes(keyword) ||
       product.category.toLowerCase().includes(keyword) ||
@@ -102,7 +103,11 @@ const HomeScreen = ({ match }) => {
         <Message variant="error">{error}</Message>
       ) : (
         <>
-          <SearchBox id="back-to-top-anchor" onChange={onInputChange} />
+          <div id="back-to-top-anchor">
+            <ProductCarousel />
+          </div>
+
+          <SearchBox onChange={onInputChange} />
           <Typography variant="h5" component="h1" className={classes.title}>
             商品上新
           </Typography>
@@ -113,11 +118,17 @@ const HomeScreen = ({ match }) => {
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
           >
-            {filteredProducts.map(product => (
-              <div key={product._id}>
-                <Product product={product} />
-              </div>
-            ))}
+            {keyword
+              ? filteredProducts.map(product => (
+                  <div key={product._id}>
+                    <Product product={product} />
+                  </div>
+                ))
+              : products.map(product => (
+                  <div key={product._id}>
+                    <Product product={product} />
+                  </div>
+                ))}
           </Masonry>
           <Box
             style={{

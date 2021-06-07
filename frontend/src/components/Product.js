@@ -9,7 +9,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { blue, green, pink, yellow } from '@material-ui/core/colors';
-import Rating from './Rating';
+import Rating from '@material-ui/lab/Rating';
 import React from 'react';
 import { Link } from 'react-router-dom';
 const useStyles = makeStyles({
@@ -37,6 +37,10 @@ const useStyles = makeStyles({
     // height: 100,
   },
   root: {},
+  ratingRoot: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   cardActions: {
     padding: '0 16px 8px 16px',
     display: 'flex',
@@ -69,10 +73,10 @@ const Product = ({ product }) => {
             color="textSecondary"
             component="div"
           >
-            <Rating
-              value={product.rating}
-              text={`共${product.numReviews}条评论`}
-            />
+            <div className={classes.ratingRoot}>
+              <Rating value={product.rating} disabled name="product-rating" />
+              {`${product.numReviews}评论`}
+            </div>
           </Typography>
           <Typography variant="h5" component="h2">
             <small>￥</small>
