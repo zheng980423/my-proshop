@@ -4,7 +4,7 @@ import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import MyOrders from './screens/MyOrders';
 import CartScreen from './screens/CartScreen';
-import LoginScreen from './screens/LoginScreen';
+import Login from './screens/Login';
 import { makeStyles } from '@material-ui/core';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container } from '@material-ui/core';
@@ -19,6 +19,7 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListSceen';
+import AdminLoginSceen from './adminScreen/AdminLoginSceen';
 const useStyles = makeStyles(theme => {
   return {
     toolbar: theme.mixins.toolbar,
@@ -36,7 +37,7 @@ const App = () => {
         <Container maxWidth="lg" fixed>
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
-          <Route path="/login" component={LoginScreen} />
+          <Route path="/login" component={Login} />
           <Route path="/register" component={RegisterScreen} />
           <Route path="/profile" component={ProfileScreen} />
           <Route path="/shipping" component={ShippingSceen} />
@@ -57,6 +58,7 @@ const App = () => {
 
           <Route path="/page/:pageNumber" component={HomeScreen} exact />
           <Route path="/" exact component={HomeScreen} />
+          <Route path="/admin/login" exact component={AdminLoginSceen} />
         </Container>
       </main>
       <Footer />

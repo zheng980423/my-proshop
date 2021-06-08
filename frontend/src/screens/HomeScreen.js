@@ -17,6 +17,7 @@ import SearchBox from '../components/SearchBox';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import PaginationComponent from '../components/Pagination';
 import ProductCarousel from './ProductCarousel';
+import HeroSection from '../components/HeroSection';
 const useStyles = makeStyles(theme => {
   return {
     title: {
@@ -66,6 +67,8 @@ const HomeScreen = ({ match }) => {
   const dispatch = useDispatch();
   const productList = useSelector(state => state.productList);
   const { loading, error, allProducts, products, page, pages } = productList;
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
 
   const [keyword, setKeyword] = useState('');
 
@@ -83,7 +86,7 @@ const HomeScreen = ({ match }) => {
 
   useEffect(() => {
     dispatch(listProducts(pageNumber));
-  }, [dispatch, pageNumber]);
+  }, [dispatch, pageNumber, userInfo]);
 
   const classes = useStyles();
   const breakpoints = {
@@ -103,6 +106,8 @@ const HomeScreen = ({ match }) => {
         <Message variant="error">{error}</Message>
       ) : (
         <>
+          {!keyword && <HeroSection userInfo={userInfo} />}
+
           <div id="back-to-top-anchor"></div>
           {!keyword && <ProductCarousel />}
 
@@ -116,6 +121,7 @@ const HomeScreen = ({ match }) => {
             breakpointCols={breakpoints}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
+            id="scroll-to-main-product"
           >
             {keyword
               ? filteredProducts.map(product => (

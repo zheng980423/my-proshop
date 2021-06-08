@@ -15,6 +15,7 @@ import {
   Slide,
   Toolbar,
   Typography,
+  useScrollTrigger,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import Badge from '@material-ui/core/Badge';
@@ -66,6 +67,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+function HideOnScroll(props) {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({ target: window ? window() : undefined });
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
+
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = event => {
@@ -109,120 +124,125 @@ const Header = () => {
 
   return (
     <header>
-      <AppBar className={classes.appbar} elevation={1}>
-        <Container maxWidth="lg" fixed>
-          <Toolbar className={classes.toolbar}>
-            <Typography className={classes.date}>
-              <Link color="inherit" component={RouterLink} to="/">
-                Proshop
-              </Link>
-            </Typography>
+      <HideOnScroll>
+        <AppBar className={classes.appbar} elevation={1}>
+          <Container maxWidth="lg" fixed>
+            <Toolbar className={classes.toolbar}>
+              <Typography className={classes.date}>
+                <Link color="inherit" component={RouterLink} to="/">
+                  Proshop
+                </Link>
+              </Typography>
 
-            <Typography>
-              <IconButton color="inherit" component={RouterLink} to="/cart">
-                <StyledBadge badgeContent={cartItems.length} color="secondary">
-                  <ShoppingCartIcon />
-                </StyledBadge>
-              </IconButton>
-            </Typography>
+              <Typography>
+                <IconButton color="inherit" component={RouterLink} to="/cart">
+                  <StyledBadge
+                    badgeContent={cartItems.length}
+                    color="secondary"
+                  >
+                    <ShoppingCartIcon />
+                  </StyledBadge>
+                </IconButton>
+              </Typography>
 
-            {userInfo ? (
-              //menu avatar
-              <>
-                <Button style={{ color: 'white' }} onClick={handleClick}>
-                  <Avatar
-                    className={classes.small}
-                    src={userInfo.image}
-                    onClick={handleClick}
-                  ></Avatar>
-                  {userInfo.name}
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
+              {userInfo ? (
+                //menu avatar
+                <>
+                  <Button style={{ color: 'white' }} onClick={handleClick}>
+                    <Avatar
+                      className={classes.small}
+                      src={userInfo.image}
+                      onClick={handleClick}
+                    ></Avatar>
+                    {userInfo.name}
+                  </Button>
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem
+                      component={RouterLink}
+                      to="/profile"
+                      onClick={handleClose}
+                    >
+                      个人资料
+                    </MenuItem>
+                    <MenuItem
+                      component={RouterLink}
+                      to="/myorders"
+                      onClick={handleClose}
+                    >
+                      我的订单
+                    </MenuItem>
+
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        handleClickOpen();
+                      }}
+                    >
+                      登出
+                    </MenuItem>
+                  </Menu>
+                  <Modal
+                    open={open}
+                    handleModalClose={handleModalClose}
+                    logoutHandler={logoutHandler}
+                  />
+                </>
+              ) : (
+                <IconButton
+                  className={classes.link}
+                  color="inherit"
+                  component={RouterLink}
+                  to="/login"
                 >
-                  <MenuItem
-                    component={RouterLink}
-                    to="/profile"
-                    onClick={handleClose}
+                  <AccountCircleIcon />
+                </IconButton>
+              )}
+              {userInfo && userInfo.role === 'admin' && (
+                <>
+                  <Button style={{ color: 'white' }} onClick={handleAdminClick}>
+                    欢迎，管理员
+                  </Button>
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={adminAnchorEl}
+                    keepMounted
+                    open={Boolean(adminAnchorEl)}
+                    onClose={handleAdminClose}
                   >
-                    个人资料
-                  </MenuItem>
-                  <MenuItem
-                    component={RouterLink}
-                    to="/myorders"
-                    onClick={handleClose}
-                  >
-                    我的订单
-                  </MenuItem>
-
-                  <MenuItem
-                    onClick={() => {
-                      handleClose();
-                      handleClickOpen();
-                    }}
-                  >
-                    登出
-                  </MenuItem>
-                </Menu>
-                <Modal
-                  open={open}
-                  handleModalClose={handleModalClose}
-                  logoutHandler={logoutHandler}
-                />
-              </>
-            ) : (
-              <IconButton
-                className={classes.link}
-                color="inherit"
-                component={RouterLink}
-                to="/login"
-              >
-                <AccountCircleIcon />
-              </IconButton>
-            )}
-            {userInfo && userInfo.role === 'admin' && (
-              <>
-                <Button style={{ color: 'white' }} onClick={handleAdminClick}>
-                  欢迎，管理员
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={adminAnchorEl}
-                  keepMounted
-                  open={Boolean(adminAnchorEl)}
-                  onClose={handleAdminClose}
-                >
-                  <MenuItem
-                    component={RouterLink}
-                    to="/admin/users"
-                    onClick={handleAdminClose}
-                  >
-                    用户列表
-                  </MenuItem>
-                  <MenuItem
-                    component={RouterLink}
-                    to="/admin/products"
-                    onClick={handleAdminClose}
-                  >
-                    商品列表
-                  </MenuItem>
-                  <MenuItem
-                    component={RouterLink}
-                    to="/admin/orders"
-                    onClick={handleAdminClose}
-                  >
-                    订单列表
-                  </MenuItem>
-                </Menu>
-              </>
-            )}
-          </Toolbar>
-        </Container>
-      </AppBar>
+                    <MenuItem
+                      component={RouterLink}
+                      to="/admin/users"
+                      onClick={handleAdminClose}
+                    >
+                      用户列表
+                    </MenuItem>
+                    <MenuItem
+                      component={RouterLink}
+                      to="/admin/products"
+                      onClick={handleAdminClose}
+                    >
+                      商品列表
+                    </MenuItem>
+                    <MenuItem
+                      component={RouterLink}
+                      to="/admin/orders"
+                      onClick={handleAdminClose}
+                    >
+                      订单列表
+                    </MenuItem>
+                  </Menu>
+                </>
+              )}
+            </Toolbar>
+          </Container>
+        </AppBar>
+      </HideOnScroll>
     </header>
   );
 };

@@ -331,13 +331,12 @@ const ProductScreen = ({ history, match }) => {
                             <ListItemText
                               primary={
                                 <div className={classes.ratingRoot}>
-                                  {review.name}
-                                  <Chip
-                                    style={{ marginLeft: '0.5rem' }}
-                                    color="primary"
-                                    label={review.role}
-                                    size="small"
-                                  />
+                                  {review.name} -{' '}
+                                  {review.role === 'admin'
+                                    ? '管理员'
+                                    : review.role === 'publisher'
+                                    ? '商家'
+                                    : '用户'}
                                   <Rating
                                     value={review.rating}
                                     name="review-rating"
