@@ -1,17 +1,16 @@
 import React from 'react';
-import { Container, Typography } from '@material-ui/core';
+import { Container, Link, Typography } from '@material-ui/core';
 const Footer = () => {
   return (
     <footer>
-      <Container>
-        <Typography
-          align="center"
-          variant="h6"
-          component="h2"
-          color="textSecondary"
-          gutterBottom
-        >
-          Copyright &copy; proshop
+      <Container style={{ marginBottom: '2rem' }}>
+        <Typography variant="body2" color="textSecondary" align="center">
+          {'Copyright © '}
+          <Link color="inherit" href="https://material-ui.com/">
+            Proshop
+          </Link>{' '}
+          {new Date().getFullYear()}
+          {'.'}
         </Typography>
       </Container>
     </footer>

@@ -68,6 +68,24 @@ const createProductReview = asyncHandler(async (req, res) => {
     throw new Error('Product not found');
   }
 });
+
+//@description fetch single product
+//@router Get /api/product/:id/related
+//@access public
+const getRelatedProductById = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  const category = await product.category;
+  const relatedProduct = await Product.find(
+    p => p.category === category && p !== product
+  );
+  if (product) {
+    res.json(relatedProduct);
+  } else {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+});
+
 // @desc    get  top rated Products
 // @route   GET /api/products/top
 // @access  public
@@ -76,4 +94,10 @@ const getTopProducts = asyncHandler(async (req, res) => {
 
   res.json(products);
 });
-export { getProducts, getProductById, createProductReview, getTopProducts };
+export {
+  getProducts,
+  getProductById,
+  createProductReview,
+  getTopProducts,
+  getRelatedProductById,
+};

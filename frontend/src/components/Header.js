@@ -19,6 +19,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import Badge from '@material-ui/core/Badge';
+import Logo from './Logo';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import React, { useState } from 'react';
@@ -130,7 +131,7 @@ const Header = () => {
             <Toolbar className={classes.toolbar}>
               <Typography className={classes.date}>
                 <Link color="inherit" component={RouterLink} to="/">
-                  Proshop
+                  <Logo />
                 </Link>
               </Typography>
 

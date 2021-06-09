@@ -18,6 +18,8 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import PaginationComponent from '../components/Pagination';
 import ProductCarousel from './ProductCarousel';
 import HeroSection from '../components/HeroSection';
+import Glass from '../components/Glass/Glass';
+import Pricing from '../components/Pricing';
 const useStyles = makeStyles(theme => {
   return {
     title: {
@@ -106,6 +108,7 @@ const HomeScreen = ({ match }) => {
         <Message variant="error">{error}</Message>
       ) : (
         <>
+          {/* <Glass /> */}
           {!keyword && <HeroSection userInfo={userInfo} />}
 
           <div id="back-to-top-anchor"></div>
@@ -150,6 +153,15 @@ const HomeScreen = ({ match }) => {
               page={page}
             />
           </Box>
+          <Box
+            style={{
+              width: '100%',
+              marginTop: '2rem',
+            }}
+          >
+            <Pricing />
+          </Box>
+
           <ScrollTop>
             <Fab color="secondary" size="small" aria-label="scroll back to top">
               <KeyboardArrowUpIcon />

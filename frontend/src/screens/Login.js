@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import SkeletonArticle from '../skeletons/SkeletonArticle';

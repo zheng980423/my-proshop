@@ -1,9 +1,7 @@
 body {
   font-family: 'Roboto', sans-serif;
 }
-main {
-  min-height: 80vh;
-}
+
 a {
   color: inherit;
   text-decoration: none;

@@ -68,7 +68,7 @@ export default function AdminLoginSceen({ history }) {
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (!userInfo || !userInfo.role === 'admin') {
+    if (!userInfo.role === 'admin') {
       history.push('/login');
     }
   }, [dispatch, history, userInfo]);
@@ -82,7 +82,7 @@ export default function AdminLoginSceen({ history }) {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            管理员登录
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
