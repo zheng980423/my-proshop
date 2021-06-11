@@ -75,9 +75,9 @@ const createProductReview = asyncHandler(async (req, res) => {
 const getRelatedProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   const category = await product.category;
-  const relatedProduct = await Product.find(
-    p => p.category === category && p !== product
-  );
+  const relatedProduct = await Product.find({ category }).where({
+    _id: { $ne: req.params.id },
+  });
   if (product) {
     res.json(relatedProduct);
   } else {

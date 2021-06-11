@@ -4,7 +4,7 @@ import { StyledSliderItem } from './SlideItemStyles';
 export const StyledSliderWrapper = styled.div`
   overflow: hidden;
   position: relative;
-  background: white;
+  background: #f4f6f8;
   padding: ${props => (props.zoomFactor / props.visibleSlides) * 0.7 + '%'} 0;
   .button-wrapper {
     position: absolute;

@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -130,9 +129,8 @@ export default function Pricing() {
   return (
     <React.Fragment>
       <CssBaseline />
-
       {/* Hero unit */}
-      <Container maxWidth="sm" component="main" className={classes.heroContent}>
+      <Container maxWidth="lg" component="main" className={classes.heroContent}>
         <Typography
           component="h1"
           variant="h2"
@@ -148,7 +146,8 @@ export default function Pricing() {
           color="textSecondary"
           component="p"
         >
-          如果您想体验更优质的服务，请考虑我们的定价方案，15天体验，7天无条件退款,1-1的售后通道，不满意随时咨询我们
+          如果您想体验更优质的服务，请考虑我们的定价方案，15天体验，7天无条件退款，
+          1-1的售后通道，不满意随时咨询我们
         </Typography>
       </Container>
       {/* End hero unit */}

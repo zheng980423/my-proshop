@@ -18,7 +18,6 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import PaginationComponent from '../components/Pagination';
 import ProductCarousel from './ProductCarousel';
 import HeroSection from '../components/HeroSection';
-import Glass from '../components/Glass/Glass';
 import Pricing from '../components/Pricing';
 const useStyles = makeStyles(theme => {
   return {

@@ -18,7 +18,6 @@ import {
   ListItemAvatar,
   Avatar,
   ListItemText,
-  Chip,
   Link,
   Box,
   TextField,
@@ -36,8 +35,8 @@ import { red } from '@material-ui/core/colors';
 import moment from 'moment';
 import {
   listProductDetails,
-  listProducts,
   createProductReview,
+  listRelatedProducts,
 } from '../actions/productActions';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 import Message from '../components/Message';
@@ -143,14 +142,20 @@ const ProductScreen = ({ history, match }) => {
   const productReviewCreate = useSelector(state => state.productReviewCreate);
   const { error: errorProductReview, success: successProductReview } =
     productReviewCreate;
-  const productList = useSelector(state => state.productList);
-  const { products } = productList;
+
+  const productRelated = useSelector(state => state.productRelated);
+  const {
+    loading: loadingRelated,
+    error: errorRelated,
+    products: relatedProducts,
+  } = productRelated;
   useEffect(() => {
     if (successProductReview) {
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
-    dispatch(listProducts());
+
     dispatch(listProductDetails(match.params.id));
+    dispatch(listRelatedProducts(match.params.id));
   }, [dispatch, match.params.id, successProductReview]);
 
   const openPost = _id => history.push(`/product/${_id}`);
@@ -158,13 +163,6 @@ const ProductScreen = ({ history, match }) => {
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
   };
-
-  const filterRule = x => {
-    const category = product.category;
-    return x.category === category && x._id !== match.params.id;
-  };
-
-  const recommendedProducts = products.filter(filterRule);
 
   return (
     <>
@@ -522,14 +520,18 @@ const ProductScreen = ({ history, match }) => {
               </Grid>
             </Grid>
 
-            {!!recommendedProducts.length && (
+            {loadingRelated ? (
+              <SkeletonArticle />
+            ) : errorRelated ? (
+              <Message varinat="error">{errorRelated}</Message>
+            ) : (
               <div className={classes.section}>
                 <Typography gutterBottom variant="h5">
                   您可能也会喜欢
                 </Typography>
                 <Divider />
                 <div className={classes.recommendedPosts}>
-                  {recommendedProducts.map(
+                  {relatedProducts.map(
                     ({ rating, price, numReviews, name, image, _id }) => (
                       <div
                         style={{
