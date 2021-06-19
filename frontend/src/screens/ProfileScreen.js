@@ -6,10 +6,10 @@ const ProfileScreen = ({ history }) => {
   return (
     <>
       <Box
-        sx={{
+        style={{
           backgroundColor: 'background.default',
           minHeight: '100%',
-          py: 3,
+          paddingBottom: '3rem',
         }}
       >
         <Container maxWidth="lg">

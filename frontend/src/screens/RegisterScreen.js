@@ -80,7 +80,7 @@ const RegisterScreen = ({ location, history }) => {
             values,
           }) => (
             <Form>
-              <Box sx={{ mb: 3 }}>
+              <Box style={{ marginBottom: '3rem' }}>
                 <Typography color="textPrimary" variant="h2">
                   注册
                 </Typography>
@@ -169,7 +169,7 @@ const RegisterScreen = ({ location, history }) => {
               {Boolean(touched.policy && errors.policy) && (
                 <FormHelperText error>{errors.policy}</FormHelperText>
               )}
-              <Box sx={{ py: 2 }}>
+              <Box style={{ paddingBottom: '2rem' }}>
                 <Button
                   color="primary"
                   disabled={isSubmitting}

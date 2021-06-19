@@ -28,7 +28,7 @@ const PaymentScreen = ({ location, history }) => {
   const dispatch = useDispatch();
   return (
     <Box
-      sx={{
+      style={{
         backgroundColor: 'background.default',
         display: 'flex',
         flexDirection: 'column',

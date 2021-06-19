@@ -167,12 +167,26 @@ const Login = ({ location, history }) => {
                       立即登录
                     </Button>
                   </Box>
-                  <Typography color="textSecondary" variant="body1">
-                    没创建账户？
-                    <Link component={RouterLink} to="/register" variant="h6">
-                      注册
-                    </Link>
-                  </Typography>
+                  <Box
+                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                  >
+                    <Typography color="textSecondary" variant="body1">
+                      没创建账户？
+                      <Link component={RouterLink} to="/register" variant="h6">
+                        注册
+                      </Link>
+                    </Typography>
+                    <Typography color="textSecondary" variant="body1">
+                      忘记密码？
+                      <Link
+                        component={RouterLink}
+                        to="/forgotpassword"
+                        variant="h6"
+                      >
+                        找回密码
+                      </Link>
+                    </Typography>
+                  </Box>
                 </form>
               )}
             </Formik>

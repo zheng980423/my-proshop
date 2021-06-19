@@ -20,6 +20,7 @@ import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListSceen';
 import AdminLoginSceen from './adminScreen/AdminLoginSceen';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -60,6 +61,11 @@ const App = () => {
           <Route path="/page/:pageNumber" component={HomeScreen} exact />
           <Route path="/" exact component={HomeScreen} />
           <Route path="/admin/login" exact component={AdminLoginSceen} />
+          <Route
+            path="/forgotpassword"
+            exact
+            component={ForgotPasswordScreen}
+          />
         </Container>
       </main>
       <Footer />

@@ -19,7 +19,7 @@ const ShippingScreen = ({ location, history }) => {
 
   return (
     <Box
-      sx={{
+      style={{
         backgroundColor: 'background.default',
         display: 'flex',
         flexDirection: 'column',
