@@ -3,6 +3,9 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
   USER_DETAILS_SUCCESS,
+  USER_FORGOTPASSWORD_FAIL,
+  USER_FORGOTPASSWORD_REQUEST,
+  USER_FORGOTPASSWORD_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -10,6 +13,9 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_RESETPASSWORD_FAIL,
+  USER_RESETPASSWORD_REQUEST,
+  USER_RESETPASSWORD_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
@@ -136,6 +142,69 @@ export const updateUserProfile = user => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const sendFindPasswordEmail = email => async dispatch => {
+  try {
+    dispatch({ type: USER_FORGOTPASSWORD_REQUEST });
+
+    // setTimeout(async () => {
+    //   const { data } = await axios.get('/api/products');
+
+    //   dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
+    // }, 3000);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const { data } = await axios.post(
+      '/api/auth/forgotpassword',
+      { email },
+      config
+    );
+
+    dispatch({ type: USER_FORGOTPASSWORD_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_FORGOTPASSWORD_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+export const resetPassword = (resettoken, password) => async dispatch => {
+  try {
+    dispatch({ type: USER_RESETPASSWORD_REQUEST });
+
+    // setTimeout(async () => {
+    //   const { data } = await axios.get('/api/products');
+
+    //   dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
+    // }, 3000);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const { data } = await axios.put(
+      `/api/auth/resetpassword/${resettoken}`,
+      { password },
+      config
+    );
+
+    dispatch({ type: USER_RESETPASSWORD_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_RESETPASSWORD_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

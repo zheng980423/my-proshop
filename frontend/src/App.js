@@ -21,6 +21,7 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListSceen';
 import AdminLoginSceen from './adminScreen/AdminLoginSceen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import ResetPasswordSceen from './screens/ResetPasswordSceen';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -65,6 +66,10 @@ const App = () => {
             path="/forgotpassword"
             exact
             component={ForgotPasswordScreen}
+          />
+          <Route
+            path="/resetpassword/:resettoken"
+            component={ResetPasswordSceen}
           />
         </Container>
       </main>

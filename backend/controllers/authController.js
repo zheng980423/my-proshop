@@ -21,9 +21,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // // Create reset url
-  const resetUrl = `${req.protocol}://${req.get(
-    'host'
-  )}/api/auth/resetpassword/${resetToken}`;
+  const resetUrl = `http://localhost:3000/resetpassword/${resetToken}`;
 
   //frontend
   const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
@@ -35,7 +33,10 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
       message,
     });
 
-    res.status(200).json({ success: true, data: 'Email sent' });
+    res.status(200).json({
+      success: true,
+      data: `我们已经将重置密码邮件发送到 ${user.email} 请查收`,
+    });
   } catch (err) {
     console.log(err);
     user.resetPasswordToken = undefined;
@@ -50,22 +51,24 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
     success: true,
     data: user,
   });
+  return;
 });
 // @desc      Reset password
 // @route     PUT /api/v1/auth/resetpassword/:resettoken
 // @access    Public
 const resetPassword = asyncHandler(async (req, res, next) => {
   // Get hashed token
+
   const resetPasswordToken = crypto
     .createHash('sha256')
     .update(req.params.resettoken)
     .digest('hex');
-
+  console.log(resetPasswordToken);
   const user = await User.findOne({
     resetPasswordToken,
     resetPasswordExpire: { $gt: Date.now() },
   });
-
+  console.log(user);
   if (!user) {
     res.status(400);
     throw new Error('无效凭证');
