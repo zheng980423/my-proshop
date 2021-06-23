@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import {
   Box,
   Button,
@@ -29,7 +29,7 @@ const ProductEditScreen = ({ history, match }) => {
   const [category, setCategory] = useState('');
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
-  const [uploading, setUploading] = useState(false);
+  // const [uploading, setUploading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -60,28 +60,28 @@ const ProductEditScreen = ({ history, match }) => {
       }
     }
   }, [dispatch, productId, successUpdate, product, history]);
-  const uploadFileHandler = async e => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append('image', file);
-    setUploading(true);
+  // const uploadFileHandler = async e => {
+  //   const file = e.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append('image', file);
+  //   setUploading(true);
 
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      };
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     };
 
-      const { data } = await axios.post('/api/upload', formData, config);
+  //     const { data } = await axios.post('/api/upload', formData, config);
 
-      setImage(data);
-      setUploading(false);
-    } catch (error) {
-      console.error(error);
-      setUploading(false);
-    }
-  };
+  //     setImage(data);
+  //     setUploading(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setUploading(false);
+  //   }
+  // };
 
   const submitHandler = e => {
     e.preventDefault();

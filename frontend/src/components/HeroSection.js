@@ -88,7 +88,11 @@ const HeroSection = ({ userInfo }) => {
             </Grid>
             {!userInfo && (
               <Grid item>
-                <Button variant="outlined" color="primary">
+                <Button
+                  variant="outlined"
+                  onClick={handleClick}
+                  color="primary"
+                >
                   查询定价
                 </Button>
               </Grid>

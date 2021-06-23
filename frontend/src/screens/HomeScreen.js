@@ -5,6 +5,7 @@ import {
   useScrollTrigger,
   Zoom,
   Fab,
+  Chip,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +23,7 @@ import Pricing from '../components/Pricing';
 const useStyles = makeStyles(theme => {
   return {
     title: {
-      padding: ' 0 0 1.5rem 0',
+      margin: ' 0 0 1.5rem 0',
     },
     root: {
       position: 'fixed',
@@ -80,6 +81,15 @@ const HomeScreen = ({ match }) => {
       product.brand.toLowerCase().includes(keyword)
   );
 
+  const [clickedCategory, setClickedCategory] = React.useState('');
+
+  useEffect(() => {
+    console.log(clickedCategory);
+  }, [clickedCategory]);
+  const filteredCategoryProducts = allProducts.filter(product =>
+    product.category.toLowerCase().includes(clickedCategory.toLowerCase())
+  );
+
   const onInputChange = e => {
     e.preventDefault();
     setKeyword(e.target.value.toLowerCase());
@@ -108,15 +118,23 @@ const HomeScreen = ({ match }) => {
       ) : (
         <>
           {/* <Glass /> */}
-          {!keyword && <HeroSection userInfo={userInfo} />}
+          {!clickedCategory && !keyword && <HeroSection userInfo={userInfo} />}
 
           <div id="back-to-top-anchor"></div>
-          {!keyword && <ProductCarousel />}
+          {!clickedCategory && !keyword && <ProductCarousel />}
 
-          <SearchBox onChange={onInputChange} />
-          <Typography variant="h5" component="h1" className={classes.title}>
-            商品上新
-          </Typography>
+          <SearchBox
+            onChange={onInputChange}
+            clickedCategory={clickedCategory}
+            setClickedCategory={setClickedCategory}
+          />
+          {!clickedCategory && !keyword && (
+            <Chip
+              label="商品上新"
+              variant="outlined"
+              className={classes.title}
+            />
+          )}
 
           {/* //masonry-css */}
           <Masonry
@@ -125,7 +143,13 @@ const HomeScreen = ({ match }) => {
             columnClassName="my-masonry-grid_column"
             id="scroll-to-main-product"
           >
-            {keyword
+            {clickedCategory
+              ? filteredCategoryProducts.map(product => (
+                  <div key={product._id}>
+                    <Product product={product} />
+                  </div>
+                ))
+              : keyword
               ? filteredProducts.map(product => (
                   <div key={product._id}>
                     <Product product={product} />
@@ -137,30 +161,34 @@ const HomeScreen = ({ match }) => {
                   </div>
                 ))}
           </Masonry>
-          <Box
-            style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: '2rem',
-            }}
-          >
-            <PaginationComponent
-              style={{ width: '100%' }}
-              pages={pages}
-              page={page}
-            />
-          </Box>
-          <Box
-            style={{
-              width: '100%',
-              marginTop: '2rem',
-            }}
-          >
-            <Pricing />
-          </Box>
+          {!clickedCategory && !keyword && (
+            <>
+              <Box
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginTop: '2rem',
+                }}
+              >
+                <PaginationComponent
+                  style={{ width: '100%' }}
+                  pages={pages}
+                  page={page}
+                />
+              </Box>
 
+              <Box
+                style={{
+                  width: '100%',
+                  marginTop: '2rem',
+                }}
+              >
+                <Pricing />
+              </Box>
+            </>
+          )}
           <ScrollTop>
             <Fab color="secondary" size="small" aria-label="scroll back to top">
               <KeyboardArrowUpIcon />
