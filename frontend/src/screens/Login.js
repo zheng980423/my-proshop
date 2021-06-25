@@ -126,7 +126,7 @@ const Login = ({ location, history }) => {
                       color="textSecondary"
                       variant="body1"
                     >
-                      或者 用邮箱账号登录
+                      或者 使用QQ邮箱登录
                     </Typography>
                   </Box>
                   <TextField
@@ -134,6 +134,7 @@ const Login = ({ location, history }) => {
                     fullWidth
                     helperText={touched.email && errors.email}
                     label="邮箱地址"
+                    placeholder="xxx@qq.com"
                     margin="normal"
                     name="email"
                     onBlur={handleBlur}
@@ -148,6 +149,7 @@ const Login = ({ location, history }) => {
                     helperText={touched.password && errors.password}
                     label="密码"
                     margin="normal"
+                    placeholder="密码不得少于6位"
                     name="password"
                     onBlur={handleBlur}
                     onChange={handleChange}

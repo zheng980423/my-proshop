@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 import {
   Box,
   Button,
@@ -9,6 +9,7 @@ import {
   Divider,
   Grid,
   TextField,
+  makeStyles,
 } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,9 +20,21 @@ import Message from '../components/Message';
 
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 
+const useStyles = makeStyles(theme => ({
+  media: {
+    paddingTop: '56.25%', // 16:9
+    height: '200px',
+    maxWidth: '100%',
+    width: '100%',
+    objectFit: 'cover',
+  },
+  input: {
+    display: 'none',
+  },
+}));
 const ProductEditScreen = ({ history, match }) => {
   const productId = match.params.id;
-
+  const classes = useStyles();
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState('');
@@ -29,8 +42,8 @@ const ProductEditScreen = ({ history, match }) => {
   const [category, setCategory] = useState('');
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
-  // const [uploading, setUploading] = useState(false);
-
+  // const [uploading, setUploading] = useState(null);
+  const [file, setFile] = useState(null);
   const dispatch = useDispatch();
 
   const adminProductDetails = useSelector(state => state.adminProductDetails);
@@ -52,14 +65,14 @@ const ProductEditScreen = ({ history, match }) => {
       } else {
         setName(product.name);
         setPrice(product.price);
-        setImage(product.image);
+        setImage(file);
         setBrand(product.brand);
         setCategory(product.category);
         setCountInStock(product.countInStock);
         setDescription(product.description);
       }
     }
-  }, [dispatch, productId, successUpdate, product, history]);
+  }, [dispatch, productId, successUpdate, product, history, file]);
   // const uploadFileHandler = async e => {
   //   const file = e.target.files[0];
   //   const formData = new FormData();
@@ -83,9 +96,21 @@ const ProductEditScreen = ({ history, match }) => {
   //   }
   // };
 
-  const submitHandler = e => {
+  const submitHandler = async e => {
     e.preventDefault();
     // // UPDATE PRODUCT
+    if (file) {
+      const data = new FormData();
+      const fileName = Date.now() + file.name;
+      data.append('name', fileName);
+      data.append('file', file);
+      product.image = fileName;
+      console.log(product);
+      try {
+        await axios.post('/api/upload', data);
+      } catch (err) {}
+    }
+
     dispatch(
       updateProduct({
         _id: productId,
@@ -103,10 +128,10 @@ const ProductEditScreen = ({ history, match }) => {
   return (
     <>
       <Box
-        sx={{
+        style={{
           backgroundColor: 'background.default',
           minHeight: '100%',
-          py: 3,
+          paddingBottom: '3rem',
         }}
       >
         <Container maxWidth="lg">
@@ -159,13 +184,38 @@ const ProductEditScreen = ({ history, match }) => {
                               />
                             </Grid>
                             <Grid item md={6} xs={12}>
+                              <input
+                                accept="image/*"
+                                className={classes.input}
+                                id="contained-button-file"
+                                multiple
+                                onChange={e => {
+                                  setFile(e.target.files[0]);
+                                  setImage(e.target.files[0]);
+                                }}
+                                type="file"
+                              />
+                              <label htmlFor="contained-button-file">
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  component="span"
+                                >
+                                  上传照片
+                                </Button>
+                              </label>
                               <TextField
                                 fullWidth
                                 label="图片"
                                 name="image"
-                                onChange={e => setImage(e.target.value)}
+                                onChange={e => {
+                                  setFile(e.target.files[0]);
+                                  setImage(e.target.files[0]);
+                                  console.log(e.target.files[0]);
+                                  console.log(image);
+                                }}
                                 required
-                                value={image}
+                                value={file}
                                 variant="outlined"
                               />
                             </Grid>

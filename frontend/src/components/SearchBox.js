@@ -115,7 +115,6 @@ const SearchBox = ({ clickedCategory, setClickedCategory, ...res }) => {
     setAnchorEl(null);
   };
 
-  // const [clickedCategory, setClickedCategory] = React.useState('');
   const clickIngredient = value => {
     setClickedCategory(value);
     setAnchorEl(null);

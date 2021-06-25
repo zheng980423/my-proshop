@@ -23,6 +23,8 @@ import AdminLoginSceen from './adminScreen/AdminLoginSceen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import ResetPasswordSceen from './screens/ResetPasswordSceen';
 
+import MessengerScreen from './screens/MessengerScreen';
+
 const useStyles = makeStyles(theme => {
   return {
     toolbar: theme.mixins.toolbar,
@@ -32,6 +34,7 @@ const useStyles = makeStyles(theme => {
 
 const App = () => {
   const classes = useStyles();
+
   return (
     <Router>
       <Header />
@@ -71,6 +74,8 @@ const App = () => {
             path="/resetpassword/:resettoken"
             component={ResetPasswordSceen}
           />
+
+          <Route path="/messenger" component={MessengerScreen} />
         </Container>
       </main>
       <Footer />
