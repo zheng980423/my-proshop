@@ -10,6 +10,11 @@ const useStyles = makeStyles(theme => ({
   messenger: {
     height: '90vh',
     display: 'flex',
+    '@media (max-width:780px)': {
+      // eslint-disable-line no-useless-computed-key
+      flexDirection: 'column',
+      height: '100%',
+    },
   },
   chatMenu: {
     flex: '3.5',

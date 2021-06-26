@@ -6,6 +6,7 @@
 
 .messageTop {
   display: flex;
+  align-items: flex-start;
 }
 
 .messageImg {
@@ -13,7 +14,7 @@
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 
 .messageText {
@@ -39,4 +40,11 @@
 }
 .message.own .messageTop {
   flex-direction: row-reverse;
+}
+@media (max-width: 1000px) {
+  .messageImg {
+    width: 30px;
+    height: 30px;
+    margin-right: 0px;
+  }
 }
