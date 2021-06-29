@@ -43,6 +43,25 @@ const getUserProfile = asyncHandler(async (req, res) => {
     throw new Error('用户不存在');
   }
 });
+//@description 获取已登录的用户信息
+//@router GET /api/users/:userId
+//@access private
+const getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.userId);
+
+  if (user) {
+    res.json({
+      _id: user.userId,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      image: user.image,
+    });
+  } else {
+    res.status(404);
+    throw new Error('用户不存在');
+  }
+});
 
 //@description 更新用户信息
 //@router PUT /api/users/profile
@@ -99,4 +118,10 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('用户数据无效');
   }
 });
-export { authUser, getUserProfile, registerUser, updateUserProfile };
+export {
+  authUser,
+  getUserProfile,
+  getUserById,
+  registerUser,
+  updateUserProfile,
+};

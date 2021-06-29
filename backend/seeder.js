@@ -6,6 +6,8 @@ import products from './data/products.js';
 import User from './models/userModel.js';
 import Product from './models/productModel.js';
 import Order from './models/orderModel.js';
+import Message from './models/messageModel.js';
+import Conversation from './models/conversationModel.js';
 import connectDB from './config/db.js';
 dotenv.config();
 connectDB();
@@ -15,6 +17,8 @@ const importData = async () => {
     await Order.deleteMany();
     await Product.deleteMany();
     await User.deleteMany();
+    await Message.deleteMany();
+    await Conversation.deleteMany();
 
     const createdUsers = await User.insertMany(users);
     const adminUser = createdUsers[0]._id;
@@ -38,6 +42,8 @@ const destroyData = async () => {
     await Order.deleteMany();
     await Product.deleteMany();
     await User.deleteMany();
+    await Message.deleteMany();
+    await Conversation.deleteMany();
     console.log('Data Destroyed!'.red.inverse);
     process.exit();
   } catch (error) {

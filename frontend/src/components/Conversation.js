@@ -2,7 +2,9 @@
 // import { useEffect, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 const useStyles = makeStyles(theme => ({
   conversation: {
     display: 'flex',
@@ -31,28 +33,27 @@ const useStyles = makeStyles(theme => ({
 }));
 const Conversation = ({ conversation, currentUser }) => {
   const classes = useStyles();
-  // const [user, setUser] = useState(null);
+  const [user, setUser] = useState([]);
   // const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const userLogin = useSelector(state => state.userLogin);
-  const { userInfo } = userLogin;
-  // useEffect(() => {
-  //   const friendId = conversation.members.find(m => m !== currentUser._id);
 
-  //   const getUser = async () => {
-  //     try {
-  //       const res = await axios('/users?userId=' + friendId);
-  //       setUser(res.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getUser();
-  // }, [currentUser, conversation]);
+  useEffect(() => {
+    const friendId = conversation.members.find(m => m !== currentUser._id);
+
+    const getUser = async () => {
+      try {
+        const res = await axios.get('/api/users/' + friendId);
+        setUser(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUser();
+  }, [currentUser, conversation]);
 
   return (
     <div className={classes.conversation}>
-      <img className={classes.conversationImg} src={userInfo.image} alt="" />
-      <span className={classes.conversationName}>{userInfo.name}</span>
+      <img className={classes.conversationImg} src={user?.image} alt="" />
+      <span className={classes.conversationName}>{user?.name}</span>
     </div>
   );
 };

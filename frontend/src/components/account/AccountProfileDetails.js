@@ -40,7 +40,7 @@ const AccountProfileDetails = ({ history }) => {
     } else {
       if (!user || !user.name) {
         dispatch({ type: USER_UPDATE_PROFILE_RESET });
-        dispatch(getUserDetails('profile'));
+        dispatch(getUserDetails(userInfo._id));
       } else {
         setName(user.name);
         setEmail(user.email);
