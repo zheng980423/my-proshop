@@ -22,32 +22,32 @@ const NavItem = ({ href, icon: Icon, title, ...rest }) => {
   return (
     <ListItem
       disableGutters
-      sx={{
+      style={{
         display: 'flex',
-        py: 0,
+        paddingBottom: 0,
       }}
       {...rest}
     >
       <Button
         component={RouterLink}
-        sx={{
+        style={{
           color: 'text.secondary',
           fontWeight: 'medium',
           justifyContent: 'flex-start',
           letterSpacing: 0,
-          py: 1.25,
+          paddingBottom: 1.25,
           textTransform: 'none',
           width: '100%',
           ...(active && {
             color: 'primary.main',
           }),
           '& svg': {
-            mr: 1,
+            marginRight: '8px',
           },
         }}
         to={href}
       >
-        {Icon && <Icon size="20" />}
+        {Icon && <Icon size="20" style={{ marginRight: '8px' }} />}
         <span>{title}</span>
       </Button>
     </ListItem>

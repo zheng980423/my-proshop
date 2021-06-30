@@ -6,7 +6,7 @@ import MyOrders from './screens/MyOrders';
 import CartScreen from './screens/CartScreen';
 import Login from './screens/Login';
 import { makeStyles } from '@material-ui/core';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Container } from '@material-ui/core';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -25,6 +25,10 @@ import ResetPasswordSceen from './screens/ResetPasswordSceen';
 
 import MessengerScreen from './screens/MessengerScreen';
 
+import MainLayout from './components/MainLayout';
+import DashboardLayout from './components/DashboardLayout';
+import SwitchBase from '@material-ui/core/internal/SwitchBase';
+
 const useStyles = makeStyles(theme => {
   return {
     toolbar: theme.mixins.toolbar,
@@ -32,53 +36,101 @@ const useStyles = makeStyles(theme => {
   };
 });
 
+const MessengerLayoutRoute = ({ component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={matchProps => (
+        <DashboardLayout>
+          <Component {...matchProps} />
+        </DashboardLayout>
+      )}
+    />
+  );
+};
+const MainLayoutRoute = ({ component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={matchProps => (
+        <MainLayout>
+          <Component {...matchProps} />
+        </MainLayout>
+      )}
+    />
+  );
+};
+
 const App = () => {
   const classes = useStyles();
 
   return (
     <Router>
-      <Header />
-      <div className={classes.toolbar}></div>
-      <main className={classes.main}>
-        <Container maxWidth="lg" fixed>
-          <Route path="/product/:id" component={ProductScreen} />
-          <Route path="/cart/:id?" component={CartScreen} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={RegisterScreen} />
-          <Route path="/profile" component={ProfileScreen} />
-          <Route path="/shipping" component={ShippingSceen} />
-          <Route path="/payment" component={PaymentScreen} />
-          <Route path="/placeorder" component={PlaceOrderScreen} />
-          <Route path="/order/:id" component={OrderScreen} />
-          <Route path="/myorders" component={MyOrders} />
-          <Route path="/admin/users" component={UserListScreen} />
-          <Route path="/admin/products" exact component={ProductListScreen} />
-          <Route
-            path="/admin/products/:pageNumber"
-            component={ProductListScreen}
-            exact
-          />
-          <Route path="/admin/orders" component={OrderListScreen} />
-          <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
-          <Route path="/admin/user/:id/edit" component={UserEditScreen} />
+      <Switch>
+        <MainLayoutRoute path="/product/:id" component={ProductScreen} />
+        <MainLayoutRoute path="/cart/:id?" component={CartScreen} />
+        <MainLayoutRoute path="/login" component={Login} />
+        <MainLayoutRoute path="/register" component={RegisterScreen} />
+        <MainLayoutRoute path="/profile" component={ProfileScreen} />
+        <MainLayoutRoute path="/shipping" component={ShippingSceen} />
+        <MainLayoutRoute path="/payment" component={PaymentScreen} />
+        <MainLayoutRoute path="/placeorder" component={PlaceOrderScreen} />
+        <MainLayoutRoute path="/order/:id" component={OrderScreen} />
+        <MainLayoutRoute path="/myorders" component={MyOrders} />
+        <MainLayoutRoute path="/admin/users" component={UserListScreen} />
+        <MainLayoutRoute
+          path="/admin/products"
+          exact
+          component={ProductListScreen}
+        />
+        <MainLayoutRoute
+          path="/admin/products/:pageNumber"
+          component={ProductListScreen}
+          exact
+        />
+        <MainLayoutRoute path="/admin/orders" component={OrderListScreen} />
+        <MainLayoutRoute
+          path="/admin/product/:id/edit"
+          component={ProductEditScreen}
+        />
+        <MainLayoutRoute
+          path="/admin/user/:id/edit"
+          component={UserEditScreen}
+        />
 
-          <Route path="/page/:pageNumber" component={HomeScreen} exact />
-          <Route path="/" exact component={HomeScreen} />
-          <Route path="/admin/login" exact component={AdminLoginSceen} />
-          <Route
-            path="/forgotpassword"
-            exact
-            component={ForgotPasswordScreen}
-          />
-          <Route
-            path="/resetpassword/:resettoken"
-            component={ResetPasswordSceen}
-          />
-
-          <Route path="/messenger" component={MessengerScreen} />
-        </Container>
-      </main>
-      <Footer />
+        <MainLayoutRoute
+          path="/page/:pageNumber"
+          component={HomeScreen}
+          exact
+        />
+        <MainLayoutRoute path="/" exact component={HomeScreen} />
+        <MainLayoutRoute
+          path="/admin/login"
+          exact
+          component={AdminLoginSceen}
+        />
+        <MainLayoutRoute
+          path="/forgotpassword"
+          exact
+          component={ForgotPasswordScreen}
+        />
+        <MainLayoutRoute
+          path="/resetpassword/:resettoken"
+          component={ResetPasswordSceen}
+        />
+        <MessengerLayoutRoute
+          path="/messenger"
+          component={MessengerScreen}
+          exact
+        />
+        {/* <Switch>
+        <DashboardLayout>
+          <Switch>
+            <Route path="/messenger" component={MessengerScreen} exact />
+          </Switch>
+        </DashboardLayout>
+      </Switch> */}
+      </Switch>
     </Router>
   );
 };

@@ -1,8 +1,6 @@
 import Footer from './Footer';
 import Header from './Header';
-import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
-
 import { Container } from '@material-ui/core';
 const useStyles = makeStyles(theme => {
   return {
@@ -11,7 +9,7 @@ const useStyles = makeStyles(theme => {
   };
 });
 
-const MainLayout = () => {
+const MainLayout = ({ children }) => {
   const classes = useStyles();
 
   return (
@@ -20,7 +18,7 @@ const MainLayout = () => {
       <div className={classes.toolbar}></div>
       <main className={classes.main}>
         <Container maxWidth="lg" fixed>
-          <Outlet />
+          {children}
         </Container>
       </main>
       <Footer />

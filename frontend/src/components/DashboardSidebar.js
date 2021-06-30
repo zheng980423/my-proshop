@@ -83,24 +83,24 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
 
   const content = (
     <Box
-      sx={{
+      style={{
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
       }}
     >
       <Box
-        sx={{
+        style={{
           alignItems: 'center',
           display: 'flex',
           flexDirection: 'column',
-          p: 2,
+          padding: '16px',
         }}
       >
         <Avatar
           component={RouterLink}
-          src={user.avatar}
-          sx={{
+          // src={user.avatar}
+          style={{
             cursor: 'pointer',
             width: 64,
             height: 64,
@@ -115,7 +115,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         </Typography>
       </Box>
       <Divider />
-      <Box sx={{ p: 2 }}>
+      <Box style={{ padding: '16px' }}>
         <List>
           {items.map(item => (
             <NavItem
@@ -127,12 +127,12 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           ))}
         </List>
       </Box>
-      <Box sx={{ flexGrow: 1 }} />
+      <Box style={{ flexGrow: 1 }} />
       <Box
-        sx={{
+        style={{
           backgroundColor: 'background.default',
-          m: 2,
-          p: 2,
+          margin: '16px',
+          padding: '16px',
         }}
       >
         <Typography align="center" gutterBottom variant="h4">
@@ -142,10 +142,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           Upgrade to PRO version and access 20 more screens
         </Typography>
         <Box
-          sx={{
+          style={{
             display: 'flex',
             justifyContent: 'center',
-            pt: 2,
+            paddingTop: '16px',
+            backgroundColor: 'background.default',
           }}
         >
           <Button
@@ -170,7 +171,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           open={openMobile}
           variant="temporary"
           PaperProps={{
-            sx: {
+            style: {
               width: 256,
             },
           }}
@@ -184,7 +185,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           open
           variant="persistent"
           PaperProps={{
-            sx: {
+            style: {
               width: 256,
               top: 64,
               height: 'calc(100% - 64px)',

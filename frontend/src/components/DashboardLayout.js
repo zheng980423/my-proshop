@@ -1,34 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
-
-// const DashboardLayoutRoot = experimentalStyled('div')(({ theme }) => ({
-//   backgroundColor: theme.palette.background.default,
-//   display: 'flex',
-//   height: '100%',
-//   overflow: 'hidden',
-//   width: '100%',
-// }));
-
-// const DashboardLayoutWrapper = experimentalStyled('div')(({ theme }) => ({
-//   display: 'flex',
-//   flex: '1 1 auto',
-//   overflow: 'hidden',
-//   paddingTop: 64,
-//   [theme.breakpoints.up('lg')]: {
-//     paddingLeft: 256,
-//   },
-// }));
-
-// const DashboardLayoutContainer = experimentalStyled('div')({
-//   display: 'flex',
-//   flex: '1 1 auto',
-//   overflow: 'hidden',
-// });
-
-// const DashboardLayoutContent = experimentalStyled('div')({
-//   flex: '1 1 auto',
-//   height: '100%',
-//   overflow: 'auto',
-// });
+import { useState } from 'react';
+import DashboardNavbar from './DashboardNavbar';
+import DashboardSidebar from './DashboardSidebar';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,9 +16,9 @@ const useStyles = makeStyles(theme => ({
     flex: '1 1 auto',
     overflow: 'hidden',
     paddingTop: 64,
-    // [theme.breakpoints.up('lg')]: {
-    //   paddingLeft: 256,
-    // },
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: 256,
+    },
   },
   container: {
     display: 'flex',
@@ -61,9 +34,15 @@ const useStyles = makeStyles(theme => ({
 
 const DashboardLayout = ({ children }) => {
   const classes = useStyles();
+  const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
     <div className={classes.root}>
+      <DashboardNavbar onMobileNavOpen={() => setMobileNavOpen(true)} />
+      <DashboardSidebar
+        onMobileClose={() => setMobileNavOpen(false)}
+        openMobile={isMobileNavOpen}
+      />
       <div className={classes.wrapper}>
         <div className={classes.container}>
           <div className={classes.content}>{children}</div>
