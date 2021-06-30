@@ -27,9 +27,19 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    location: { type: String, default: '火星' },
+    gender: {
+      type: String,
+      enum: ['男', '女', '保密'],
+      default: '保密',
+    },
+    biography: {
+      type: String,
+      default: '我的个性签名',
+    },
     role: {
       type: String,
-      enum: ['user', 'publisher'],
+      enum: ['user', 'publisher', 'admin'],
       default: 'user',
     },
     resetPasswordToken: String,

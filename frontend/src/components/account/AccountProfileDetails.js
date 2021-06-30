@@ -19,6 +19,9 @@ import { USER_UPDATE_PROFILE_RESET } from '../../constants/userConstants';
 const AccountProfileDetails = ({ history }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [biography, setBiography] = useState('');
+  const [gender, setGender] = useState('');
+  const [location, setLocation] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
@@ -32,7 +35,7 @@ const AccountProfileDetails = ({ history }) => {
   const { userInfo } = userLogin;
 
   const userUpdateProfile = useSelector(state => state.userUpdateProfile);
-  const { success } = userUpdateProfile;
+  const { success, error: errorUpdate } = userUpdateProfile;
 
   useEffect(() => {
     if (!userInfo) {
@@ -44,6 +47,9 @@ const AccountProfileDetails = ({ history }) => {
       } else {
         setName(user.name);
         setEmail(user.email);
+        setGender(user.gender);
+        setBiography(user.biography);
+        setLocation(user.location);
       }
     }
   }, [dispatch, history, userInfo, user]);
@@ -53,14 +59,30 @@ const AccountProfileDetails = ({ history }) => {
     if (password !== confirmPassword) {
       setMessage('Passwords do not match');
     } else {
-      dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      dispatch(
+        updateUserProfile({
+          id: user._id,
+          name,
+          email,
+          biography,
+          location,
+          gender,
+          password,
+        })
+      );
     }
   };
 
   return (
     <>
       {message && <Message variant="error">{message}</Message>}
-      {success && <Message variant="success">个人信息更新成功</Message>}
+      {success ? (
+        <Message variant="success">个人信息更新成功</Message>
+      ) : errorUpdate ? (
+        <Message variant="error">{errorUpdate}</Message>
+      ) : (
+        <></>
+      )}
 
       {loading ? (
         <SkeletonArticle />
@@ -95,6 +117,40 @@ const AccountProfileDetails = ({ history }) => {
                       onChange={e => setEmail(e.target.value)}
                       required
                       value={email}
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      label="地址"
+                      name="location"
+                      onChange={e => setLocation(e.target.value)}
+                      required
+                      value={location}
+                      variant="outlined"
+                    />
+                  </Grid>
+
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      label="性别"
+                      name="gender"
+                      onChange={e => setGender(e.target.value)}
+                      required
+                      value={gender}
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="个性签名"
+                      name="biography"
+                      onChange={e => setBiography(e.target.value)}
+                      required
+                      value={biography}
                       variant="outlined"
                     />
                   </Grid>

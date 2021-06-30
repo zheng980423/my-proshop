@@ -81,14 +81,17 @@ export default function PlaceOrderScreen({ history }) {
     );
   };
   useEffect(() => {
+    if (!userInfo) {
+      history.push('/');
+    }
     if (success) {
       history.push(`/order/${order._id}`);
     }
     // eslint-disable-next-line
-  }, [history, success]);
+  }, [history, success, userInfo]);
   return (
     <Box
-      sx={{
+      style={{
         backgroundColor: 'background.default',
         display: 'flex',
         flexDirection: 'column',

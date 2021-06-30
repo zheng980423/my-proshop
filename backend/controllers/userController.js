@@ -55,6 +55,9 @@ const getUserById = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      gender: user.gender,
+      location: user.location,
+      biography: user.biography,
       image: user.image,
     });
   } else {
@@ -68,10 +71,18 @@ const getUserById = asyncHandler(async (req, res) => {
 //@access private
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-
+  const { email } = req.body;
+  const userExists = await User.findOne({ email });
+  if (userExists._id !== user._id) {
+    res.status(400);
+    throw new Error('啊偶，该用户已经存在了,请换一个邮箱试试');
+  }
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
+    user.biography = req.body.biography || user.biography;
+    user.location = req.body.location || user.location;
+    user.gender = req.body.gender || user.gender;
     if (req.body.password) {
       user.password = req.body.password;
     }
@@ -80,7 +91,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       _id: updatatedUser._id,
       name: updatatedUser.name,
       email: updatatedUser.email,
-      role: updatatedUser.role,
+      biography: updatatedUser.biography,
+      gender: updatatedUser.gender,
+      location: updatatedUser.location,
       image: updatatedUser.image,
     });
   } else {

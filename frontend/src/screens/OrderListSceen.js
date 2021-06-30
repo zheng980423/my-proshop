@@ -103,7 +103,7 @@ const OrderListScreen = ({ history }) => {
   };
 
   return (
-    <DashboardLayout>
+    <>
       <>
         <Box
           style={{
@@ -276,7 +276,7 @@ const OrderListScreen = ({ history }) => {
           </Container>
         </Box>
       </>
-    </DashboardLayout>
+    </>
   );
 };
 

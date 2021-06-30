@@ -132,7 +132,7 @@ const UserListScreen = ({ history }) => {
   };
 
   return (
-    <DashboardLayout>
+    <>
       <>
         <Box
           style={{
@@ -326,7 +326,7 @@ const UserListScreen = ({ history }) => {
           </Container>
         </Box>
       </>
-    </DashboardLayout>
+    </>
   );
 };
 function Modal({ open, handleClose, customer, deleteHandler }) {
