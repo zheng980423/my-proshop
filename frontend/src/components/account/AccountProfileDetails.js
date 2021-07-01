@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../Message';
 import SkeletonArticle from '../../skeletons/SkeletonArticle';
@@ -17,6 +18,7 @@ import {
 import { USER_UPDATE_PROFILE_RESET } from '../../constants/userConstants';
 
 const AccountProfileDetails = ({ history }) => {
+  const usehis = useHistory();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [biography, setBiography] = useState('');
@@ -52,7 +54,12 @@ const AccountProfileDetails = ({ history }) => {
         setLocation(user.location);
       }
     }
-  }, [dispatch, history, userInfo, user]);
+    if (success) {
+      setTimeout(() => {
+        usehis.go(0);
+      }, 1500);
+    }
+  }, [dispatch, history, success, userInfo, user, usehis]);
 
   const submitHandler = e => {
     e.preventDefault();

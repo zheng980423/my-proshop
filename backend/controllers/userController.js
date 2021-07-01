@@ -71,12 +71,7 @@ const getUserById = asyncHandler(async (req, res) => {
 //@access private
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-  const { email } = req.body;
-  const userExists = await User.findOne({ email });
-  if (userExists._id !== user._id) {
-    res.status(400);
-    throw new Error('啊偶，该用户已经存在了,请换一个邮箱试试');
-  }
+
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;

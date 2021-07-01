@@ -20,7 +20,6 @@ import {
   Chip,
 } from '@material-ui/core';
 
-import DashboardLayout from '../components/DashboardLayout';
 import {
   Box,
   Button,

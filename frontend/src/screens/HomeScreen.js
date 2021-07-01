@@ -20,6 +20,7 @@ import PaginationComponent from '../components/Pagination';
 import ProductCarousel from './ProductCarousel';
 import HeroSection from '../components/HeroSection';
 import Pricing from '../components/Pricing';
+
 const useStyles = makeStyles(theme => {
   return {
     title: {

@@ -29,7 +29,7 @@ import {
 } from '@material-ui/core';
 
 import { Edit } from 'react-feather';
-import DashboardLayout from '../components/DashboardLayout';
+
 import {
   Box,
   Button,

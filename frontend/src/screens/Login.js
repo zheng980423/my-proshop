@@ -7,6 +7,7 @@ import SkeletonArticle from '../skeletons/SkeletonArticle';
 import { login } from '../actions/userActions';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { ReactComponent as LoginSvg } from '../svgs/login.svg';
 import {
   Box,
   Button,
@@ -78,47 +79,16 @@ const Login = ({ location, history }) => {
                 values,
               }) => (
                 <form onSubmit={handleSubmit}>
-                  <Box style={{ marginBottom: '3rem' }}>
-                    <Typography color="textPrimary" variant="h2">
-                      登录
-                    </Typography>
-                    <Typography
-                      color="textSecondary"
-                      gutterBottom
-                      variant="body2"
-                    >
-                      用内置平台登录
-                    </Typography>
+                  <Box>
+                    <Grid container justify="center" align="center" spacing={3}>
+                      <Grid item xs={12} md={12}></Grid>
+                      <LoginSvg style={{ width: '400px', height: '400px' }} />
+                    </Grid>
                   </Box>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} md={6}>
-                      <Button
-                        color="primary"
-                        fullWidth
-                        startIcon={<FacebookIcon />}
-                        onClick={handleSubmit}
-                        size="large"
-                        variant="contained"
-                      >
-                        Login with Facebook
-                      </Button>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <Button
-                        fullWidth
-                        startIcon={<GoogleIcon />}
-                        onClick={handleSubmit}
-                        size="large"
-                        variant="contained"
-                      >
-                        Login with Google
-                      </Button>
-                    </Grid>
-                  </Grid>
                   <Box
                     style={{
-                      paddingBottom: '1rem',
-                      paddingTop: '3rem',
+                      paddingBottom: '8px',
+                      paddingTop: '24px',
                     }}
                   >
                     <Typography
@@ -126,7 +96,7 @@ const Login = ({ location, history }) => {
                       color="textSecondary"
                       variant="body1"
                     >
-                      或者 使用QQ邮箱登录
+                      使用QQ邮箱登录
                     </Typography>
                   </Box>
                   <TextField
@@ -189,6 +159,45 @@ const Login = ({ location, history }) => {
                       </Link>
                     </Typography>
                   </Box>
+                  <Box
+                    style={{
+                      paddingBottom: '1rem',
+                      paddingTop: '3rem',
+                    }}
+                  >
+                    <Typography
+                      align="center"
+                      color="textSecondary"
+                      variant="body1"
+                    >
+                      或者 使用内置平台登录
+                    </Typography>
+                  </Box>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={6}>
+                      <Button
+                        color="primary"
+                        fullWidth
+                        startIcon={<FacebookIcon />}
+                        onClick={handleSubmit}
+                        size="large"
+                        variant="contained"
+                      >
+                        Login with Facebook
+                      </Button>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Button
+                        fullWidth
+                        startIcon={<GoogleIcon />}
+                        onClick={handleSubmit}
+                        size="large"
+                        variant="contained"
+                      >
+                        Login with Google
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </form>
               )}
             </Formik>
