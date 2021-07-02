@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { ReactComponent as AddToCartSvg } from '../svgs/addToCart.svg';
 import {
   makeStyles,
   Grow,
@@ -203,6 +204,11 @@ const CartScreen = ({ match, location, history }) => {
 
             <Grid className={classes.grid2} item xs={12} sm={12} md={5}>
               <Paper className={classes.paper}>
+                <Grid container justify="center" align="center" spacing={3}>
+                  <Grid item xs={12} md={12}>
+                    <AddToCartSvg style={{ width: '400px', height: '400px' }} />
+                  </Grid>
+                </Grid>
                 <List
                   component="div"
                   className={classes.root}

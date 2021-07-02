@@ -6,11 +6,13 @@ import {
   Radio,
   FormControlLabel,
   RadioGroup,
+  Grid,
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Form, Formik, useField } from 'formik';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ReactComponent as PaymentSvg } from '../svgs/payment.svg';
 import { savePaymentMethod } from '../actions/cartActions';
 import CheckoutSteps from '../components/CheckoutSteps';
 
@@ -54,44 +56,67 @@ const PaymentScreen = ({ location, history }) => {
         >
           {({ isSubmitting, values }) => (
             <Form>
-              <Box sx={{ mb: 3 }}>
-                <Typography color="textPrimary" variant="h2">
-                  支付详情
-                </Typography>
-                <Typography color="textSecondary" gutterBottom variant="body2">
-                  新选择您的支付方式
-                </Typography>
-              </Box>
-              <RadioGroup
-                aria-label="paymentMethod"
-                name="paymentMethod"
-                value={values.paymentMethod}
-              >
-                <MyRadio
-                  name="paymentMethod"
-                  type="radio"
-                  value="PayPal"
-                  label="PayPal or CreditCard"
-                />
-                <MyRadio
-                  name="paymentMethod"
-                  type="radio"
-                  value="Stripe"
-                  label="Stripe"
-                />
-              </RadioGroup>
-              <Box sx={{ py: 2 }}>
-                <Button
-                  color="primary"
-                  disabled={isSubmitting}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
+              <Grid container justify="center" align="center" spacing={3}>
+                <Grid item xs={12} md={6}>
+                  <PaymentSvg style={{ width: '400px', height: '400px' }} />
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                  }}
                 >
-                  下一步
-                </Button>
-              </Box>
+                  <>
+                    <Box style={{ margin: '24px 0' }}>
+                      <Typography color="textPrimary" variant="h2">
+                        支付详情
+                      </Typography>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="body2"
+                      >
+                        新选择您的支付方式
+                      </Typography>
+                    </Box>
+                    <RadioGroup
+                      aria-label="paymentMethod"
+                      name="paymentMethod"
+                      value={values.paymentMethod}
+                    >
+                      <MyRadio
+                        name="paymentMethod"
+                        type="radio"
+                        value="PayPal"
+                        label="PayPal or CreditCard"
+                      />
+                      <MyRadio
+                        name="paymentMethod"
+                        type="radio"
+                        value="Stripe"
+                        label="Stripe"
+                      />
+                    </RadioGroup>
+                    <Box style={{ paddingBottom: '16px' }}>
+                      <Button
+                        color="primary"
+                        disabled={isSubmitting}
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                      >
+                        下一步
+                      </Button>
+                    </Box>
+                  </>
+                </Grid>
+              </Grid>
             </Form>
           )}
         </Formik>

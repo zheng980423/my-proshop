@@ -339,7 +339,7 @@ function Modal({ open, handleClose, customer, deleteHandler }) {
         TransitionComponent={Transition}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Register
+          删除用户
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">

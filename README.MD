@@ -2,6 +2,10 @@
 
 ![proshop 的 设计图预览](./frontend/public/images/previews.jpg)
 
+# Propshop
+
+一个全栈电子商城项目
+
 ## 介绍
 
 你好！ 👋
@@ -10,20 +14,26 @@
 
 欢迎探索我的项目! 😉
 
+## 主要技术栈
+
+**前端:** React, Redux, Material-ui
+
+**后端:** Node, Express, MongoDB
+
 ## 综述
 
-项目所使用的技术栈...
+#### 项目所使用的技术
 
 1. 前端构架
 
-- 使用的框架为 React，页面为一个大组件(`screen`),大组件有许多小组件(`components`)
-- 使用 React-Router-Dom 处理路由，包括自动跳转，匹配路由参数等
-- 使用 Redux 管理项目状态，主要应用于管理前后交互的数据状态的管理，如商品详情获取，用户数据获取等等，主要状态有三个(`loading,success,error`),Redux 使用的主要流程为(src 文件夹下：`constants=>reducers=>actions=>store.js`)
+- 使用的框架为 React，主要用到了(`useState,useEffect,useRef`)等 Hooks,使用 React 完成项目的组件式开发
+- 使用 React-Router-Dom 处理路由，使用(`Link,useHistory`)等 Hooks 处理自动跳转，匹配路由参数等
+- 使用 Redux 管理项目状态，主要应用于管理前后交互的数据状态的管理，如商品详情获取，用户数据获取等等，使用的 Hooks 有(``useDispatch,useSelector`),数据处理的主要状态有三个(`loading,success,error`),Redux 使用的主要流程为(src 文件夹下：`constants=>reducers=>actions=>store.js`)
 - Material-ui 是一个基于 React 的前端组件库，极大提高了组件开发的效率，主要使用的组价有(`Button、Container、Card、Message`等等)
-- 使用 Formik 以及 Yup 处理表单提交，库同时提供了表单提交错误的处理
-- 考虑到可访问性，使用了骨架屏(`skeletion`)组件来显示获取数据的过程
-- 使用 axios 与后端进行接口调试，并处理前后端数据交互
-- 使用 json-web-server 进行接口的模拟以及联调
+- 使用 Formik 以及 Yup 处理表单提交，项目提供了完整的表单错误处理方案
+- 项目具有良好的可访问性，使用了骨架屏(`skeletion`)组件来显示获取数据的过程
+- 使用 json-web-server 进行后端接口的模拟以及联调
+- 使用 axios 与后端进行接口联调，并处理前后端数据交互
 - 使用 WebSocket 完成聊天室的模块建设
 - 前端主要负责 MVC 框架中的 V(`View`)部分
 
@@ -89,11 +99,62 @@
 
 ![管理商品界面](./frontend/public/images/process/adminProducts.jpg)
 
+## API 参考
+
+#### 获取所有商品
+
+```http
+  GET /api/products
+```
+
+| 参数 | 类型 | 描述         |
+| :--- | :--- | :----------- |
+| `无` | `无` | 无需添加参数 |
+
+#### 根据 id 获取单个商品
+
+```http
+  GET /api/products/${id}
+```
+
+| 参数 | 类型     | 描述                         |
+| :--- | :------- | :--------------------------- |
+| `id` | `string` | **必须**. 获取商品的 id 号码 |
+
+#### 更多 API 详情,请访问 https://github.com/zheng980423
+
+## 环境变量
+
+为了运行此项目，您需要在主文件夹中添加.env 文件，并配置以下参数
+
+`NODE_ENV=development`
+`PORT = 5000`
+`MONGO_URI = mongodb+srv://zwf1234:zwf1234@zwfproshop.dcdc6.mongodb.net/proshop-2?retryWrites=true&w=majority`
+`JWT_SECRET=1231243532`
+`PAYPAL_CLIENT_ID =请自行申请 PAYPAL_CLIENT_ID`
+`SMTP_HOST=smtp.qq.com`
+`SMTP_PORT = 465`
+`SMTP_SERVICE=QQ`
+`SMTP_EMAIL=你的QQ邮箱@qq.com`
+`SMTP_PASSWORD=请前往QQ邮箱申请`
+`FROM_EMAIL=你的QQ邮箱@qq.com`
+
+## 运行项目
+
+请使用以下指令运行项目
+
+```bash
+  npm install
+  cd frontend
+  npm install
+  npm run dev
+```
+
 ## 我从这个项目中学到的东西
 
-深刻理解了前端工程化，组件化，深入认识了前后端分离模式，MVC 框架，增加了与 UI 和后端工程师的联系
+深刻理解了前端工程化，组件化，深入认识了前后端分离模式，MVC 框架，增强了与 UI 设计师 和后端工程师的合作能力
 
-使用这些库以及依赖， 让我学到了很多东西!做这个项目的时候，让我深刻体会到前端工程化，以及后端例如 Redux,处理数据交互的时候调试的时候更简单了， 除了学习这些库之外, 我同样意识到高效的写代码，以及写可以复用的代码的重要性, 尤其是当项目发展壮大的时候,简洁高效的代码就变得更加重要了. 🙂
+深刻体会到前端工程化，以及后端开发,例如 ,在前端中使用了 Redux,处理数据交互的时候调试的时候更简单了， 除了学习这些库之外, 我同样意识到高效的写代码，以及写可以复用的代码的重要性, 尤其是当项目发展壮大的时候,简洁高效的代码就变得更加重要了. 🙂
 
 所以—当项目功能越写越多的时候，写代码的时候有时候会很乱... 所以，我有时并不知道我的代码的简洁性以及可复用性怎么样. 😥 我希望能提高自己，如果我的代码写的有问题的话欢迎向我反馈，谢谢! 👍
 

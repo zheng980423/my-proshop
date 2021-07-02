@@ -7,6 +7,7 @@ import {
   Fab,
   Chip,
 } from '@material-ui/core';
+import Meta from '../components/Meta';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
@@ -108,6 +109,7 @@ const HomeScreen = ({ match }) => {
   };
   return (
     <>
+      <Meta />
       {loading ? (
         <Typography variant="h2" component="h1" className={classes.title}>
           {[1, 2, 3, 4, 5].map(n => (
@@ -122,6 +124,7 @@ const HomeScreen = ({ match }) => {
           {!clickedCategory && !keyword && <HeroSection userInfo={userInfo} />}
 
           <div id="back-to-top-anchor"></div>
+
           {!clickedCategory && !keyword && <ProductCarousel />}
 
           <SearchBox

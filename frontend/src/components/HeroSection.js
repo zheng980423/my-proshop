@@ -84,7 +84,7 @@ const HeroSection = ({ userInfo }) => {
           <Typography
             component="h1"
             variant="h1"
-            align={largeScreen ? '' : 'center'}
+            align={largeScreen ? 'inherit' : 'center'}
             color="textPrimary"
             gutterBottom
           >

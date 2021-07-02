@@ -5,6 +5,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
+import HomeIcon from '@material-ui/icons/Home';
+import { ReactComponent as PlaceOrderSvg } from '../svgs/placeOrder.svg';
 import {
   Avatar,
   Box,
@@ -31,6 +33,8 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     marginTop: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
   },
   large: {
     width: theme.spacing(7),
@@ -130,53 +134,73 @@ export default function PlaceOrderScreen({ history }) {
             )}
           </List>
           <Paper className={classes.paper}>
-            <List disablePadding>
-              <ListItem className={classes.listItem} button>
-                <Typography variant="h5">订单详细</Typography>
-              </ListItem>
-              <Divider />
-              <ListItem className={classes.listItem} button divider>
-                <Typography>商品总价:</Typography>
-                <Typography>${cart.itemsPrice}</Typography>
-              </ListItem>
-              <ListItem className={classes.listItem} button divider>
-                <Typography>邮寄价格:</Typography>
-                <Typography>${cart.shippingPrice}</Typography>
-              </ListItem>
-              <ListItem className={classes.listItem} button divider>
-                <Typography>税价:</Typography>
-                <Typography>${cart.taxPrice}</Typography>
-              </ListItem>
-              <ListItem className={classes.listItem} button divider>
-                <Typography>总计:</Typography>
-                <Typography>${cart.totalPrice}</Typography>
-              </ListItem>
+            <Grid container justify="center" align="center" spacing={3}>
+              <Grid item xs={12} md={6}>
+                <PlaceOrderSvg style={{ width: '400px', height: '400px' }} />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                md={6}
+                style={{
+                  display: 'flex',
 
-              {error && (
-                <ListItem className={classes.listItem} button divider>
-                  <Message variant="error">{error}</Message>{' '}
-                </ListItem>
-              )}
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                }}
+              >
+                <div>
+                  <List disablePadding>
+                    <ListItem className={classes.listItem} button>
+                      <Typography variant="h5">订单详细</Typography>
+                    </ListItem>
+                    <Divider />
+                    <ListItem className={classes.listItem} button divider>
+                      <Typography>商品总价:</Typography>
+                      <Typography>${cart.itemsPrice}</Typography>
+                    </ListItem>
+                    <ListItem className={classes.listItem} button divider>
+                      <Typography>邮寄价格:</Typography>
+                      <Typography>${cart.shippingPrice}</Typography>
+                    </ListItem>
+                    <ListItem className={classes.listItem} button divider>
+                      <Typography>税价:</Typography>
+                      <Typography>${cart.taxPrice}</Typography>
+                    </ListItem>
+                    <ListItem className={classes.listItem} button divider>
+                      <Typography>总计:</Typography>
+                      <Typography>${cart.totalPrice}</Typography>
+                    </ListItem>
 
-              <ListItem className={classes.listItem}>
-                <Typography style={{ width: '100%' }}>
-                  <Button
-                    // endIcon={<ArrowRightAltIcon />}
-                    variant="contained"
-                    color="primary"
-                    className={classes.addtocartbtn}
-                    disabled={cartItems.length === 0}
-                    onClick={placeOrderHandler}
-                  >
-                    下单
-                  </Button>
-                </Typography>
-              </ListItem>
-            </List>
+                    {error && (
+                      <ListItem className={classes.listItem} button divider>
+                        <Message variant="error">{error}</Message>{' '}
+                      </ListItem>
+                    )}
+
+                    <ListItem className={classes.listItem}>
+                      <Typography style={{ width: '100%' }}>
+                        <Button
+                          // endIcon={<ArrowRightAltIcon />}
+                          variant="contained"
+                          color="primary"
+                          className={classes.addtocartbtn}
+                          disabled={cartItems.length === 0}
+                          onClick={placeOrderHandler}
+                        >
+                          下单
+                        </Button>
+                      </Typography>
+                    </ListItem>
+                  </List>
+                </div>
+              </Grid>
+            </Grid>
           </Paper>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <Typography variant="h5" gutterBottom className={classes.title}>
+                <HomeIcon />
                 邮寄地址
               </Typography>
               <Typography gutterBottom>{name}</Typography>
