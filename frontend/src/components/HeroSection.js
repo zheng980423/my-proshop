@@ -96,7 +96,7 @@ const HeroSection = ({ userInfo }) => {
           </Typography>
           <Typography
             variant="h4"
-            align={largeScreen ? '' : 'center'}
+            align={largeScreen ? 'inherit' : 'center'}
             color="textSecondary"
             paragraph
             style={{ margin: largeScreen ? '32px 0' : '16px 0' }}

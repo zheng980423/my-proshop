@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { Link as RouterLink } from 'react-router-dom';
 // import Rating from '../components/Rating';
+import { ReactComponent as EmptySvg } from '../svgs/empty.svg';
 import Rating from '@material-ui/lab/Rating';
 import { red } from '@material-ui/core/colors';
 import moment from 'moment';
@@ -321,7 +322,21 @@ const ProductScreen = ({ history, match }) => {
                     </Typography>
                     <Divider />
                     {product.reviews.length === 0 ? (
-                      <Message variant="info">没有评论</Message>
+                      <>
+                        <Message variant="info">没有评论发表一条吧</Message>
+                        <Grid
+                          container
+                          justify="center"
+                          align="center"
+                          spacing={3}
+                        >
+                          <Grid item xs={12} md={12}>
+                            <EmptySvg
+                              style={{ width: '400px', height: '400px' }}
+                            />
+                          </Grid>
+                        </Grid>
+                      </>
                     ) : (
                       <List style={{ width: '100%' }}>
                         {product.reviews.map(review => (
