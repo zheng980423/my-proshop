@@ -5,12 +5,12 @@ import {
   useScrollTrigger,
   Zoom,
   Fab,
-  Chip,
 } from '@material-ui/core';
 import Meta from '../components/Meta';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
 import Masonry from 'react-masonry-css';
 import Product from '../components/Product';
 import Message from '../components/Message';
@@ -26,6 +26,11 @@ const useStyles = makeStyles(theme => {
   return {
     title: {
       margin: ' 0 0 1.5rem 0',
+    },
+    new: {
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: '0.5rem',
     },
     root: {
       position: 'fixed',
@@ -133,11 +138,13 @@ const HomeScreen = ({ match }) => {
             setClickedCategory={setClickedCategory}
           />
           {!clickedCategory && !keyword && (
-            <Chip
-              label="商品上新"
-              variant="outlined"
-              className={classes.title}
-            />
+            <div className={classes.new}>
+              <WhatshotIcon color="secondary" />
+              <span style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
+                {' '}
+                商品上新
+              </span>
+            </div>
           )}
 
           {/* //masonry-css */}

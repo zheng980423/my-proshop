@@ -9,6 +9,7 @@ import {
   Button,
   ListItemText,
   Typography,
+  useMediaQuery,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
@@ -48,9 +49,18 @@ const StyledMenuItem = withStyles(theme => ({
 
 const useStyles = makeStyles(theme => {
   return {
+    noClikWrapper: {
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
     wrapper: {
       display: 'flex',
       justifyContent: 'space-between',
+
+      [theme.breakpoints.down('md')]: {
+        flexDirection: 'column',
+        margin: '1rem 0',
+      },
     },
     inputWrapper: {
       display: 'flex',
@@ -68,9 +78,14 @@ const useStyles = makeStyles(theme => {
       alignItems: 'center',
       // background: '#eef3f6',
       borderRadius: '8px',
-      paddingLeft: '16px',
+      // paddingLeft: '16px',
       // color: '#b3c5cd',
       margin: '3rem  0',
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+        margin: '1rem  0',
+        paddingLeft: '0px',
+      },
     },
     input: {
       border: 'none',
@@ -88,10 +103,16 @@ const useStyles = makeStyles(theme => {
     btnWrapper: {
       display: 'flex',
       alignItems: 'center',
-      justifyItems: 'center',
+      justifyContent: 'center',
+      [theme.breakpoints.down('md')]: {
+        justifyContent: 'space-between',
+      },
     },
     btn: {
       marginLeft: '1rem',
+      [theme.breakpoints.down('md')]: {
+        marginLeft: '0',
+      },
     },
   };
 });
@@ -99,6 +120,8 @@ const SearchBox = ({ clickedCategory, setClickedCategory, ...res }) => {
   const classes = useStyles();
   const productList = useSelector(state => state.productList);
   const { allProducts } = productList;
+  const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+  // const smallScreen = useMediaQuery(theme => theme.breakpoints.up('sm'));
   const allCategories = () => {
     const categoryArray = [];
     allProducts.map(product => categoryArray.push(product.category));
@@ -124,7 +147,7 @@ const SearchBox = ({ clickedCategory, setClickedCategory, ...res }) => {
   };
 
   return (
-    <div className={classes.wrapper}>
+    <div className={clickedCategory ? classes.wrapper : classes.noClikWrapper}>
       {!clickedCategory ? (
         <div className={classes.inputWrapper}>
           <SearchRounded color="inherit" />
