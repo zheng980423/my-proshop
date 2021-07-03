@@ -22,16 +22,21 @@ import {
   Box,
   TextField,
   MenuItem,
+  useMediaQuery,
+  IconButton,
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import MessageIcon from '@material-ui/icons/Message';
+import CreateIcon from '@material-ui/icons/Create';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Link as RouterLink } from 'react-router-dom';
-// import Rating from '../components/Rating';
 import { ReactComponent as EmptySvg } from '../svgs/empty.svg';
 import Rating from '@material-ui/lab/Rating';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { red } from '@material-ui/core/colors';
 import moment from 'moment';
 import {
@@ -86,7 +91,11 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     backgroundColor: theme.palette.background.default,
   },
-  grid1: {},
+  new: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '0.5rem',
+  },
   section: {
     borderRadius: '20px',
     margin: '10px',
@@ -144,7 +153,8 @@ const ProductScreen = ({ history, match }) => {
   const productReviewCreate = useSelector(state => state.productReviewCreate);
   const { error: errorProductReview, success: successProductReview } =
     productReviewCreate;
-
+  const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+  const smallScreen = useMediaQuery(theme => theme.breakpoints.up('sm'));
   const productRelated = useSelector(state => state.productRelated);
   const {
     loading: loadingRelated,
@@ -168,14 +178,14 @@ const ProductScreen = ({ history, match }) => {
 
   return (
     <>
-      <Button
+      <IconButton
         className={classes.margin}
         style={{ marginBottom: '1.5rem' }}
         component={RouterLink}
         to="/"
       >
-        Go Back
-      </Button>
+        <ArrowBackIcon />
+      </IconButton>
 
       {loading ? (
         [1, 2, 3, 4, 5].map(n => <SkeletonArticle key={n}></SkeletonArticle>)
@@ -317,9 +327,13 @@ const ProductScreen = ({ history, match }) => {
                 {/* 评论区 */}
                 <Grid className={classes.grid2} item xs={12} sm={12} md={12}>
                   <Paper className={classes.comment} elevation={0}>
-                    <Typography gutterBottom variant="h5">
-                      评论区
-                    </Typography>
+                    <div className={classes.new}>
+                      <MessageIcon color="secondary" />
+                      <span style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
+                        {' '}
+                        评论区
+                      </span>
+                    </div>
                     <Divider />
                     {product.reviews.length === 0 ? (
                       <>
@@ -332,7 +346,18 @@ const ProductScreen = ({ history, match }) => {
                         >
                           <Grid item xs={12} md={12}>
                             <EmptySvg
-                              style={{ width: '400px', height: '400px' }}
+                              style={{
+                                height: largeScreen
+                                  ? '500px'
+                                  : smallScreen
+                                  ? '400px'
+                                  : '200px',
+                                width: largeScreen
+                                  ? '500px'
+                                  : smallScreen
+                                  ? '400px'
+                                  : '200px',
+                              }}
                             />
                           </Grid>
                         </Grid>
@@ -390,9 +415,12 @@ const ProductScreen = ({ history, match }) => {
                 {/* 写评论区 */}
                 <Grid className={classes.grid2} item xs={12} sm={12} md={12}>
                   <Paper className={classes.comment} elevation={0}>
-                    <Typography gutterBottom variant="h5">
-                      写一条评论
-                    </Typography>
+                    <div className={classes.new}>
+                      <CreateIcon color="secondary" />
+                      <span style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
+                        写一条评论
+                      </span>
+                    </div>
                     <Divider />
                     {errorProductReview ? (
                       <Message variant="error">{errorProductReview}</Message>
@@ -547,9 +575,12 @@ const ProductScreen = ({ history, match }) => {
                 <Message varinat="error">{errorRelated}</Message>
               ) : (
                 <div className={classes.section}>
-                  <Typography gutterBottom variant="h5">
-                    您可能也会喜欢
-                  </Typography>
+                  <div className={classes.new}>
+                    <FavoriteIcon color="secondary" />
+                    <span style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
+                      你可能也会喜欢
+                    </span>
+                  </div>
                   <Divider />
                   <div className={classes.recommendedPosts}>
                     {relatedProducts.map(

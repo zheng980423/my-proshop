@@ -57,7 +57,7 @@ const Product = ({ product }) => {
             <CardMedia
               className={classes.productImg}
               component="img"
-              alt="Contemplative Reptile"
+              alt={product.name}
               image={product.image}
               title={product.name}
             />

@@ -24,8 +24,9 @@ import {
 } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import LocalMallIcon from '@material-ui/icons/LocalMall';
 import Message from '../components/Message';
 import { Link as RouterLink } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
@@ -108,18 +109,19 @@ const CartScreen = ({ match, location, history }) => {
 
   return (
     <>
-      <Button
+      <IconButton
         className={classes.margin}
         style={{ marginBottom: '1.5rem' }}
         component={RouterLink}
         to="/"
       >
-        继 续 购 物
-      </Button>
+        <ArrowBackIcon />
+      </IconButton>
 
-      <Typography variant="h5" component="h1" className={classes.title}>
-        购物车
-      </Typography>
+      <div className={classes.new}>
+        <LocalMallIcon color="secondary" />
+        <span style={{ fontWeight: 'bold', fontSize: '1.5rem' }}> 购物车</span>
+      </div>
       <Grow in>
         <Container className={classes.container}>
           <Grid
@@ -211,12 +213,12 @@ const CartScreen = ({ match, location, history }) => {
                     <AddToCartSvg
                       style={{
                         height: largeScreen
-                          ? '500px'
+                          ? '365px'
                           : smallScreen
-                          ? '400px'
+                          ? '420px'
                           : '200px',
                         width: largeScreen
-                          ? '500px'
+                          ? '365px'
                           : smallScreen
                           ? '400px'
                           : '200px',
