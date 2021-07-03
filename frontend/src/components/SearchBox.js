@@ -9,7 +9,6 @@ import {
   Button,
   ListItemText,
   Typography,
-  useMediaQuery,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
@@ -56,7 +55,6 @@ const useStyles = makeStyles(theme => {
     wrapper: {
       display: 'flex',
       justifyContent: 'space-between',
-
       [theme.breakpoints.down('md')]: {
         flexDirection: 'column',
         margin: '1rem 0',
@@ -64,7 +62,7 @@ const useStyles = makeStyles(theme => {
     },
     inputWrapper: {
       display: 'flex',
-      width: '50%',
+      width: '70%',
       alignItems: 'center',
       background: '#eef3f6',
       borderRadius: '8px',
@@ -76,10 +74,7 @@ const useStyles = makeStyles(theme => {
       display: 'flex',
       width: '50%',
       alignItems: 'center',
-      // background: '#eef3f6',
       borderRadius: '8px',
-      // paddingLeft: '16px',
-      // color: '#b3c5cd',
       margin: '3rem  0',
       [theme.breakpoints.down('md')]: {
         width: '100%',
@@ -120,8 +115,6 @@ const SearchBox = ({ clickedCategory, setClickedCategory, ...res }) => {
   const classes = useStyles();
   const productList = useSelector(state => state.productList);
   const { allProducts } = productList;
-  const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
-  // const smallScreen = useMediaQuery(theme => theme.breakpoints.up('sm'));
   const allCategories = () => {
     const categoryArray = [];
     allProducts.map(product => categoryArray.push(product.category));
