@@ -45,6 +45,7 @@ const useStyles = makeStyles(theme => ({
 const HeroSection = ({ userInfo }) => {
   const classes = useStyles();
   const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+  const smallScreen = useMediaQuery(theme => theme.breakpoints.up('sm'));
   const handleClick = event => {
     const anchor = (event.target.ownerDocument || document).querySelector(
       '#scroll-to-main-product'
@@ -76,8 +77,8 @@ const HeroSection = ({ userInfo }) => {
         <Grid xs={12} sm={12} md={6} item>
           <Lottie
             options={defaultOptions}
-            height={largeScreen ? 500 : 400}
-            width={largeScreen ? 500 : 400}
+            height={largeScreen ? 500 : smallScreen ? 400 : 200}
+            width={largeScreen ? 500 : smallScreen ? 400 : 200}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} className={classes.textGroup}>

@@ -7,6 +7,7 @@ import {
   FormControlLabel,
   RadioGroup,
   Grid,
+  useMediaQuery,
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Form, Formik, useField } from 'formik';
@@ -27,6 +28,8 @@ const PaymentScreen = ({ location, history }) => {
   if (!shippingAddress) {
     history.push('/shipping');
   }
+  const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+  const smallScreen = useMediaQuery(theme => theme.breakpoints.up('sm'));
   const dispatch = useDispatch();
   return (
     <Box
@@ -38,7 +41,7 @@ const PaymentScreen = ({ location, history }) => {
         justifyContent: 'center',
       }}
     >
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <CheckoutSteps activeStep={2}></CheckoutSteps>
         <Formik
           initialValues={{
@@ -58,7 +61,20 @@ const PaymentScreen = ({ location, history }) => {
             <Form>
               <Grid container justify="center" align="center" spacing={3}>
                 <Grid item xs={12} md={6}>
-                  <PaymentSvg style={{ width: '400px', height: '400px' }} />
+                  <PaymentSvg
+                    style={{
+                      height: largeScreen
+                        ? '500px'
+                        : smallScreen
+                        ? '400px'
+                        : '200px',
+                      width: largeScreen
+                        ? '500px'
+                        : smallScreen
+                        ? '400px'
+                        : '200px',
+                    }}
+                  />
                 </Grid>
                 <Grid
                   item

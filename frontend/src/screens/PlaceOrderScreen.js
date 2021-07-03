@@ -15,6 +15,7 @@ import {
   Divider,
   ListItemAvatar,
   Paper,
+  useMediaQuery,
 } from '@material-ui/core';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { useDispatch, useSelector } from 'react-redux';
@@ -54,7 +55,8 @@ export default function PlaceOrderScreen({ history }) {
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
   const { name } = userInfo;
-
+  const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+  const smallScreen = useMediaQuery(theme => theme.breakpoints.up('sm'));
   const addDecimals = num => {
     return (Math.round(num * 100) / 100).toFixed(2);
   };
@@ -136,7 +138,20 @@ export default function PlaceOrderScreen({ history }) {
           <Paper className={classes.paper}>
             <Grid container justify="center" align="center" spacing={3}>
               <Grid item xs={12} md={6}>
-                <PlaceOrderSvg style={{ width: '400px', height: '400px' }} />
+                <PlaceOrderSvg
+                  style={{
+                    height: largeScreen
+                      ? '500px'
+                      : smallScreen
+                      ? '400px'
+                      : '200px',
+                    width: largeScreen
+                      ? '500px'
+                      : smallScreen
+                      ? '400px'
+                      : '200px',
+                  }}
+                />
               </Grid>
               <Grid
                 item

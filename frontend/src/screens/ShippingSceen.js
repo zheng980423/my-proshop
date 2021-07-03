@@ -5,6 +5,7 @@ import {
   Box,
   Container,
   Grid,
+  useMediaQuery,
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
@@ -18,7 +19,8 @@ const ShippingScreen = ({ location, history }) => {
   const cart = useSelector(state => state.cart);
   const { shippingAddress } = cart;
   const dispatch = useDispatch();
-
+  const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+  const smallScreen = useMediaQuery(theme => theme.breakpoints.up('sm'));
   return (
     <Box
       style={{
@@ -66,7 +68,20 @@ const ShippingScreen = ({ location, history }) => {
             <Form>
               <Grid container justify="center" align="center" spacing={3}>
                 <Grid item xs={12} md={6}>
-                  <AddressSvg style={{ width: '400px', height: '400px' }} />
+                  <AddressSvg
+                    style={{
+                      height: largeScreen
+                        ? '500px'
+                        : smallScreen
+                        ? '400px'
+                        : '200px',
+                      width: largeScreen
+                        ? '500px'
+                        : smallScreen
+                        ? '400px'
+                        : '200px',
+                    }}
+                  />
                 </Grid>
                 <Grid
                   item

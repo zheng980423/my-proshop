@@ -20,6 +20,7 @@ import {
   FormControl,
   Button,
   Link,
+  useMediaQuery,
 } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -90,7 +91,8 @@ const CartScreen = ({ match, location, history }) => {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart);
   const { cartItems } = cart;
-
+  const smallScreen = useMediaQuery(theme => theme.breakpoints.up('sm'));
+  const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
   const classes = useStyles();
   const removeFromCartHandler = id => {
     dispatch(removeFromCart(id));
@@ -206,7 +208,20 @@ const CartScreen = ({ match, location, history }) => {
               <Paper className={classes.paper}>
                 <Grid container justify="center" align="center" spacing={3}>
                   <Grid item xs={12} md={12}>
-                    <AddToCartSvg style={{ width: '400px', height: '400px' }} />
+                    <AddToCartSvg
+                      style={{
+                        height: largeScreen
+                          ? '500px'
+                          : smallScreen
+                          ? '400px'
+                          : '200px',
+                        width: largeScreen
+                          ? '500px'
+                          : smallScreen
+                          ? '400px'
+                          : '200px',
+                      }}
+                    />
                   </Grid>
                 </Grid>
                 <List
