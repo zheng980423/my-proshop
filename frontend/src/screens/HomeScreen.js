@@ -21,6 +21,7 @@ import PaginationComponent from '../components/Pagination';
 import ProductCarousel from './ProductCarousel';
 import HeroSection from '../components/HeroSection';
 import Pricing from '../components/Pricing';
+import { motion } from 'framer-motion';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -112,6 +113,14 @@ const HomeScreen = ({ match }) => {
     1100: 2,
     700: 1,
   };
+  const animation = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
   return (
     <>
       <Meta />
@@ -153,6 +162,10 @@ const HomeScreen = ({ match }) => {
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
             id="scroll-to-main-product"
+            component={motion.div}
+            variants={animation}
+            initial="hidden"
+            animate="visible"
           >
             {clickedCategory
               ? filteredCategoryProducts.map(product => (

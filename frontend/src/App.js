@@ -21,7 +21,6 @@ import AdminLoginSceen from './adminScreen/AdminLoginSceen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import ResetPasswordSceen from './screens/ResetPasswordSceen';
 import MainLayout from './components/MainLayout';
-
 // const DashBoardLayoutRoute = ({ component: Component, ...rest }) => {
 //   return (
 //     <Route

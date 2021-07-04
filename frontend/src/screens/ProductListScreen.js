@@ -41,6 +41,7 @@ import Message from '../components/Message';
 import AddIcon from '@material-ui/icons/Add';
 import PaginationComponent from '../components/Pagination';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import { motion } from 'framer-motion';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -164,7 +165,14 @@ const ProductListScreen = ({ history, match }) => {
   const createProductHandler = () => {
     dispatch(createProduct());
   };
-
+  const animation = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
   return (
     <>
       <Helmet>
@@ -174,7 +182,7 @@ const ProductListScreen = ({ history, match }) => {
         style={{
           backgroundColor: 'background.default',
           minHeight: '100%',
-          paddingBottom: '3rem',
+          paddingBottom: '24px',
         }}
       >
         <Container maxWidth="lg">
@@ -229,7 +237,15 @@ const ProductListScreen = ({ history, match }) => {
                 </Box>
               </Box>
               <Box style={{ paddingTop: '3rem' }}>
-                <Grid container spacing={3}>
+                <Grid
+                  container
+                  spacing={3}
+                  component={motion.div}
+                  layout
+                  variants={animation}
+                  initial="hidden"
+                  animate="visible"
+                >
                   {products.map(product => (
                     <Grid item key={product._id} lg={4} md={6} xs={12}>
                       <Card

@@ -6,6 +6,7 @@ import React from 'react';
 import Lottie from 'react-lottie';
 import { Link as RouterLink } from 'react-router-dom';
 import animationData from '../lotties/ecommerce-ani.json';
+import { motion } from 'framer-motion';
 const useStyles = makeStyles(theme => ({
   heroContent: {
     backgroundColor: theme.palette.background.default,
@@ -83,7 +84,22 @@ const HeroSection = ({ userInfo }) => {
         </Grid>
         <Grid item xs={12} sm={12} md={6} className={classes.textGroup}>
           <Typography
-            component="h1"
+            component={motion.div}
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {
+                scale: 0.8,
+                opacity: 0,
+              },
+              visible: {
+                scale: 1,
+                opacity: 1,
+                transition: {
+                  delay: 0.4,
+                },
+              },
+            }}
             variant="h1"
             align={largeScreen ? 'inherit' : 'center'}
             color="textPrimary"
@@ -96,7 +112,22 @@ const HeroSection = ({ userInfo }) => {
               : '你想要的东西在proshop中都能找到！'}
           </Typography>
           <Typography
-            variant="h4"
+            component={motion.div}
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {
+                scale: 0.8,
+                opacity: 0,
+              },
+              visible: {
+                scale: 1,
+                opacity: 1,
+                transition: {
+                  delay: 0.4,
+                },
+              },
+            }}
             align={largeScreen ? 'inherit' : 'center'}
             color="textSecondary"
             paragraph
@@ -111,6 +142,22 @@ const HeroSection = ({ userInfo }) => {
           <div className={classes.heroButtons}>
             <Grid
               container
+              component={motion.div}
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {
+                  scale: 0.8,
+                  opacity: 0,
+                },
+                visible: {
+                  scale: 1,
+                  opacity: 1,
+                  transition: {
+                    delay: 0.4,
+                  },
+                },
+              }}
               spacing={2}
               justify={largeScreen ? 'flex-start' : 'center'}
             >

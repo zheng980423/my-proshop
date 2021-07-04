@@ -38,6 +38,7 @@ import { ReactComponent as EmptySvg } from '../svgs/empty.svg';
 import Rating from '@material-ui/lab/Rating';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { red } from '@material-ui/core/colors';
+import { motion } from 'framer-motion';
 import moment from 'moment';
 import {
   listProductDetails,
@@ -57,6 +58,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '100%',
     width: '100%',
     objectFit: 'cover',
+    opacity: '0.9',
   },
   description: {
     padding: theme.spacing(2),
@@ -209,6 +211,8 @@ const ProductScreen = ({ history, match }) => {
                 <Grid item xs={12} sm={12} md={7}>
                   <Card className={classes.mediaCard}>
                     <CardMedia
+                      component={motion.div}
+                      whileHover={{ opacity: 1 }}
                       onClick={() => setSelectedImg(product.image)}
                       className={classes.media}
                       image={
@@ -369,7 +373,12 @@ const ProductScreen = ({ history, match }) => {
                     ) : (
                       <List style={{ width: '100%' }}>
                         {product.reviews.map(review => (
-                          <div key={review._id}>
+                          <motion.div
+                            key={review._id}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1 }}
+                          >
                             <ListItem alignItems="flex-start">
                               <ListItemAvatar>
                                 <Avatar alt={review.name} src={review.image} />
@@ -410,7 +419,7 @@ const ProductScreen = ({ history, match }) => {
                               />
                             </ListItem>
                             <Divider variant="inset" component="li" />
-                          </div>
+                          </motion.div>
                         ))}
                       </List>
                     )}
