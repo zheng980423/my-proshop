@@ -21,10 +21,10 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // // Create reset url
-  const resetUrl = `http://localhost:3000/resetpassword/${resetToken}`;
+  const resetUrl = `https://zwf-myshop.herokuapp.com//resetpassword/${resetToken}`;
 
   //frontend
-  const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+  const message = `您收到此邮件的原因是你(或者其他人)尝试修改您的密码，请点击以下链接修改: \n\n ${resetUrl}`;
 
   try {
     await sendEmail({
