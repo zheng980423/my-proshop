@@ -49,7 +49,11 @@ const useStyles = makeStyles(theme => ({
     width: theme.spacing(7),
     height: theme.spacing(7),
   },
-
+  new: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '0.5rem',
+  },
   margin: {
     margin: theme.spacing(2),
     marginLeft: '0px',

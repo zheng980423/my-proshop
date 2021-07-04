@@ -48,6 +48,7 @@ import SkeletonArticle from '../skeletons/SkeletonArticle';
 import Message from '../components/Message';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 import Meta from '../components/Meta';
+import Modal from '../components/Modal/Modal';
 
 const useStyles = makeStyles(theme => ({
   media: {
@@ -121,6 +122,7 @@ const useStyles = makeStyles(theme => ({
 
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1);
+  const [selectedImg, setSelectedImg] = useState(null);
 
   const ratingOption = [
     {
@@ -207,6 +209,7 @@ const ProductScreen = ({ history, match }) => {
                 <Grid item xs={12} sm={12} md={7}>
                   <Card className={classes.mediaCard}>
                     <CardMedia
+                      onClick={() => setSelectedImg(product.image)}
                       className={classes.media}
                       image={
                         product.image ? product.image : '/images/airpods.jpg'
@@ -215,6 +218,7 @@ const ProductScreen = ({ history, match }) => {
                     />
                   </Card>
                 </Grid>
+
                 <Grid className={classes.grid2} item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper} elevation={0}>
                     <div className={classes.description}>
@@ -608,6 +612,9 @@ const ProductScreen = ({ history, match }) => {
               )}
             </Container>
           </Grow>
+          {selectedImg && (
+            <Modal setSelectedImg={setSelectedImg} selectedImg={selectedImg} />
+          )}
         </>
       )}
     </>

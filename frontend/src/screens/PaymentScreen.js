@@ -8,6 +8,7 @@ import {
   RadioGroup,
   Grid,
   useMediaQuery,
+  Grow,
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Form, Formik, useField } from 'formik';
@@ -32,112 +33,114 @@ const PaymentScreen = ({ location, history }) => {
   const smallScreen = useMediaQuery(theme => theme.breakpoints.up('sm'));
   const dispatch = useDispatch();
   return (
-    <Box
-      style={{
-        backgroundColor: 'background.default',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        justifyContent: 'center',
-      }}
-    >
-      <Container maxWidth="lg">
-        <CheckoutSteps activeStep={2}></CheckoutSteps>
-        <Formik
-          initialValues={{
-            paymentMethod: paymentMethod,
-          }}
-          validationSchema={Yup.object().shape()}
-          onSubmit={(data, { resetForm, setSubmitting }) => {
-            setSubmitting(true);
-            const { paymentMethod } = data;
-            dispatch(savePaymentMethod(paymentMethod));
-            resetForm();
-            setSubmitting(false);
-            history.push('/placeorder');
-          }}
-        >
-          {({ isSubmitting, values }) => (
-            <Form>
-              <Grid container justify="center" align="center" spacing={3}>
-                <Grid item xs={12} md={6}>
-                  <PaymentSvg
+    <Grow in>
+      <Box
+        style={{
+          backgroundColor: 'background.default',
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          justifyContent: 'center',
+        }}
+      >
+        <Container maxWidth="lg">
+          <CheckoutSteps activeStep={2}></CheckoutSteps>
+          <Formik
+            initialValues={{
+              paymentMethod: paymentMethod,
+            }}
+            validationSchema={Yup.object().shape()}
+            onSubmit={(data, { resetForm, setSubmitting }) => {
+              setSubmitting(true);
+              const { paymentMethod } = data;
+              dispatch(savePaymentMethod(paymentMethod));
+              resetForm();
+              setSubmitting(false);
+              history.push('/placeorder');
+            }}
+          >
+            {({ isSubmitting, values }) => (
+              <Form>
+                <Grid container justify="center" align="center" spacing={3}>
+                  <Grid item xs={12} md={6}>
+                    <PaymentSvg
+                      style={{
+                        height: largeScreen
+                          ? '500px'
+                          : smallScreen
+                          ? '400px'
+                          : '200px',
+                        width: largeScreen
+                          ? '500px'
+                          : smallScreen
+                          ? '400px'
+                          : '200px',
+                      }}
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
                     style={{
-                      height: largeScreen
-                        ? '500px'
-                        : smallScreen
-                        ? '400px'
-                        : '200px',
-                      width: largeScreen
-                        ? '500px'
-                        : smallScreen
-                        ? '400px'
-                        : '200px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
                     }}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <>
-                    <Box style={{ margin: '24px 0' }}>
-                      <Typography color="textPrimary" variant="h2">
-                        支付详情
-                      </Typography>
-                      <Typography
-                        color="textSecondary"
-                        gutterBottom
-                        variant="body2"
-                      >
-                        新选择您的支付方式
-                      </Typography>
-                    </Box>
-                    <RadioGroup
-                      aria-label="paymentMethod"
-                      name="paymentMethod"
-                      value={values.paymentMethod}
-                    >
-                      <MyRadio
+                  >
+                    <>
+                      <Box style={{ margin: '24px 0' }}>
+                        <Typography color="textPrimary" variant="h2">
+                          支付详情
+                        </Typography>
+                        <Typography
+                          color="textSecondary"
+                          gutterBottom
+                          variant="body2"
+                        >
+                          新选择您的支付方式
+                        </Typography>
+                      </Box>
+                      <RadioGroup
+                        aria-label="paymentMethod"
                         name="paymentMethod"
-                        type="radio"
-                        value="PayPal"
-                        label="PayPal or CreditCard"
-                      />
-                      <MyRadio
-                        name="paymentMethod"
-                        type="radio"
-                        value="Stripe"
-                        label="Stripe"
-                      />
-                    </RadioGroup>
-                    <Box style={{ paddingBottom: '16px' }}>
-                      <Button
-                        color="primary"
-                        disabled={isSubmitting}
-                        fullWidth
-                        size="large"
-                        type="submit"
-                        variant="contained"
+                        value={values.paymentMethod}
                       >
-                        下一步
-                      </Button>
-                    </Box>
-                  </>
+                        <MyRadio
+                          name="paymentMethod"
+                          type="radio"
+                          value="PayPal"
+                          label="PayPal or CreditCard"
+                        />
+                        <MyRadio
+                          name="paymentMethod"
+                          type="radio"
+                          value="Stripe"
+                          label="Stripe"
+                        />
+                      </RadioGroup>
+                      <Box style={{ paddingBottom: '16px' }}>
+                        <Button
+                          color="primary"
+                          disabled={isSubmitting}
+                          fullWidth
+                          size="large"
+                          type="submit"
+                          variant="contained"
+                        >
+                          下一步
+                        </Button>
+                      </Box>
+                    </>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Form>
-          )}
-        </Formik>
-      </Container>
-    </Box>
+              </Form>
+            )}
+          </Formik>
+        </Container>
+      </Box>
+    </Grow>
   );
 };
 
