@@ -139,7 +139,7 @@ const products = [
   },
   {
     name: '牛油果',
-    image: '/images/Avocado.jpg',
+    image: '/images/avocado.jpg',
     description: '产自巴西的牛油果，超级好吃哦',
     brand: 'Farm',
     category: 'Fruit',
