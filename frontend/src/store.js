@@ -35,6 +35,7 @@ import {
   userForgotPasswordReducer,
   userResetPasswordReducer,
   userFollowReducer,
+  userUnfollowReducer,
 } from './reducers/userReducers';
 const reducer = combineReducers({
   productList: productListReducer,
@@ -50,6 +51,7 @@ const reducer = combineReducers({
   userForgotPassword: userForgotPasswordReducer,
   userResetPassword: userResetPasswordReducer,
   userFollow: userFollowReducer,
+  userUnfollow: userUnfollowReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,

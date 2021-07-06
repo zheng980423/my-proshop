@@ -61,6 +61,8 @@ const getUserById = asyncHandler(async (req, res) => {
       location: user.location,
       biography: user.biography,
       image: user.image,
+      followers: user.followers,
+      followings: user.followings,
     });
   } else {
     res.status(404);

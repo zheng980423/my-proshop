@@ -3,7 +3,10 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
   USER_DETAILS_SUCCESS,
+  USER_FOLLOW_FAIL,
+  USER_FOLLOW_REQUEST,
   USER_FOLLOW_RESET,
+  USER_FOLLOW_SUCCESS,
   USER_FORGOTPASSWORD_FAIL,
   USER_FORGOTPASSWORD_REQUEST,
   USER_FORGOTPASSWORD_SUCCESS,
@@ -17,7 +20,10 @@ import {
   USER_RESETPASSWORD_FAIL,
   USER_RESETPASSWORD_REQUEST,
   USER_RESETPASSWORD_SUCCESS,
+  USER_UNFOLLOW_FAIL,
+  USER_UNFOLLOW_REQUEST,
   USER_UNFOLLOW_RESET,
+  USER_UNFOLLOW_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
@@ -216,26 +222,47 @@ export const resetPassword = (resettoken, password) => async dispatch => {
     });
   }
 };
-export const follow = (name, email, password) => async dispatch => {
+export const follow = (id, followerId) => async dispatch => {
   try {
-    dispatch({ type: USER_REGISTER_REQUEST });
+    dispatch({ type: USER_FOLLOW_REQUEST });
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
-    const { data } = await axios.post(
-      '/api/users',
-      { name, email, password },
+    const { data } = await axios.put(
+      `/api/users/${id}/follow`,
+      { userId: followerId },
       config
     );
-
-    dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
-    dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-    localStorage.setItem('userInfo', JSON.stringify(data));
+    dispatch({ type: USER_FOLLOW_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
-      type: USER_REGISTER_FAIL,
+      type: USER_FOLLOW_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+export const unfollow = (id, followerId) => async dispatch => {
+  try {
+    dispatch({ type: USER_UNFOLLOW_REQUEST });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const { data } = await axios.put(
+      `/api/users/${id}/unfollow`,
+      { userId: followerId },
+      config
+    );
+    dispatch({ type: USER_UNFOLLOW_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_UNFOLLOW_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

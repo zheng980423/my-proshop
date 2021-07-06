@@ -21,6 +21,9 @@ import {
   USER_RESETPASSWORD_REQUEST,
   USER_RESETPASSWORD_RESET,
   USER_RESETPASSWORD_SUCCESS,
+  USER_UNFOLLOW_FAIL,
+  USER_UNFOLLOW_REQUEST,
+  USER_UNFOLLOW_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
@@ -115,6 +118,18 @@ export const userFollowReducer = (state = {}, action) => {
     case USER_FOLLOW_SUCCESS:
       return { loading: false, success: true, result: action.payload };
     case USER_FOLLOW_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+export const userUnfollowReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_UNFOLLOW_REQUEST:
+      return { loading: true };
+    case USER_UNFOLLOW_SUCCESS:
+      return { loading: false, success: true, result: action.payload };
+    case USER_UNFOLLOW_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

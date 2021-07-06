@@ -46,6 +46,7 @@ import {
   createProductReview,
   listRelatedProducts,
 } from '../actions/productActions';
+import { follow, unfollow } from '../actions/userActions';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 import Message from '../components/Message';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
@@ -130,7 +131,7 @@ const useStyles = makeStyles(theme => ({
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1);
   const [selectedImg, setSelectedImg] = useState(null);
-
+  const [currentId, setCurrentId] = useState('');
   const ratingOption = [
     {
       rating: 1,
@@ -158,8 +159,10 @@ const ProductScreen = ({ history, match }) => {
   const productDetails = useSelector(state => state.productDetails);
   const { loading, error, product } = productDetails;
   const userLogin = useSelector(state => state.userLogin);
+
   const { userInfo } = userLogin;
   const productReviewCreate = useSelector(state => state.productReviewCreate);
+
   const { error: errorProductReview, success: successProductReview } =
     productReviewCreate;
   const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
@@ -170,6 +173,18 @@ const ProductScreen = ({ history, match }) => {
     error: errorRelated,
     products: relatedProducts,
   } = productRelated;
+  const userFollow = useSelector(state => state.userFollow);
+  const {
+    loading: loadingFollow,
+    success: successFollow,
+    error: errorFollow,
+  } = userFollow;
+  const userUnfollow = useSelector(state => state.userUnfollow);
+  const {
+    loading: loadingUnfollow,
+    success: successUnfollow,
+    error: errorUnfollow,
+  } = userUnfollow;
 
   useEffect(() => {
     if (successProductReview) {
@@ -181,9 +196,14 @@ const ProductScreen = ({ history, match }) => {
   }, [dispatch, match.params.id, successProductReview]);
 
   // //follow handler
-  //   const handleClick=() => {
-
-  // }
+  const handleClick = (id, followerId, followingOrNot) => {
+    setCurrentId(id);
+    if (!followingOrNot) {
+      dispatch(follow(id, followerId));
+    } else {
+      dispatch(unfollow(id, followerId));
+    }
+  };
 
   //related product settion
   const openPost = _id => history.push(`/product/${_id}`);
@@ -206,6 +226,10 @@ const ProductScreen = ({ history, match }) => {
         [1, 2, 3, 4, 5].map(n => <SkeletonArticle key={n}></SkeletonArticle>)
       ) : error ? (
         <Message variant="error">{error}</Message>
+      ) : errorFollow ? (
+        <Message variant="error">{errorFollow}</Message>
+      ) : errorUnfollow ? (
+        <Message variant="error">{errorUnfollow}</Message>
       ) : (
         <>
           <Meta title={product.name}></Meta>
@@ -410,7 +434,7 @@ const ProductScreen = ({ history, match }) => {
                                         <Button
                                           variant="contained"
                                           color={
-                                            userInfo.followings.includes(
+                                            userInfo?.followings.includes(
                                               review.user
                                             )
                                               ? 'secondary'
@@ -426,11 +450,31 @@ const ProductScreen = ({ history, match }) => {
                                               <AddIcon />
                                             )
                                           }
-                                          // onClick={() => { handleClick }}
+                                          onClick={() => {
+                                            handleClick(
+                                              review.user,
+                                              userInfo._id,
+                                              userInfo.followings.includes(
+                                                review.user
+                                              )
+                                            );
+                                          }}
                                         >
-                                          {userInfo.followings.includes(
-                                            review.user
-                                          )
+                                          {loadingFollow &&
+                                          currentId === review.user
+                                            ? '正在关注'
+                                            : loadingUnfollow &&
+                                              currentId === review.user
+                                            ? '取消关注中'
+                                            : successFollow &&
+                                              currentId === review.user
+                                            ? '关注成功'
+                                            : successUnfollow &&
+                                              currentId === review.user
+                                            ? '取消关注成功'
+                                            : userInfo.followings.includes(
+                                                review.user
+                                              )
                                             ? '取消关注'
                                             : '关注'}
                                         </Button>

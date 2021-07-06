@@ -40,6 +40,10 @@ const AccountProfile = ({ history }) => {
               <Typography color="textSecondary" variant="body1">
                 {`个性签名： ${user.biography}`}
               </Typography>
+              <Typography color="textSecondary" variant="body1">
+                我的关注:{user.followings ? user.followings.length : 0}
+                关注我的:{user.followers ? user.followers.length : 0}
+              </Typography>
             </>
           )}
         </Box>
