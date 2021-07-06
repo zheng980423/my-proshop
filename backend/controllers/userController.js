@@ -16,6 +16,8 @@ const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       role: user.role,
       image: user.image,
+      followers: user.followers,
+      followings: user.followings,
       token: generateToken(user._id),
     });
   } else {
@@ -126,10 +128,57 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('用户数据无效');
   }
 });
+//@description 注册用户
+//@router put /api/users/:id/follow
+//@access private
+const followUser = asyncHandler(async (req, res) => {
+  if (req.body.userId !== req.params.id) {
+    try {
+      const user = await User.findById(req.params.id);
+      const currentUser = await User.findById(req.body.userId);
+      if (!user.followers.includes(req.body.userId)) {
+        await user.updateOne({ $push: { followers: req.body.userId } });
+        await currentUser.updateOne({ $push: { followings: req.params.id } });
+        res.status(200).json('关注成功');
+      } else {
+        res.status(403).json('您已经关注了该用户');
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403);
+    throw new Error('您不能关注自己');
+  }
+});
+//@description 注册用户
+//@router put /api/users/:id/unfollow
+//@access private
+const unFollowUser = asyncHandler(async (req, res) => {
+  if (req.body.userId !== req.params.id) {
+    try {
+      const user = await User.findById(req.params.id);
+      const currentUser = await User.findById(req.body.userId);
+      if (user.followers.includes(req.body.userId)) {
+        await user.updateOne({ $pull: { followers: req.body.userId } });
+        await currentUser.updateOne({ $pull: { followings: req.params.id } });
+        res.status(200).json('取消关注成功');
+      } else {
+        res.status(403).json('您并没有关注该用户');
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json('you cant unfollow yourself');
+  }
+});
 export {
   authUser,
   getUserProfile,
   getUserById,
   registerUser,
   updateUserProfile,
+  followUser,
+  unFollowUser,
 };

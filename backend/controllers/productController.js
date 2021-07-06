@@ -48,6 +48,7 @@ const createProductReview = asyncHandler(async (req, res) => {
       name: user.name,
       rating: Number(rating),
       comment,
+      userId: user._id,
       user,
       role: user.role,
       image: user.image,

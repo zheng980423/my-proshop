@@ -42,6 +42,14 @@ const userSchema = mongoose.Schema(
       enum: ['user', 'publisher', 'admin'],
       default: 'user',
     },
+    followers: {
+      type: Array,
+      default: [],
+    },
+    followings: {
+      type: Array,
+      default: [],
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },

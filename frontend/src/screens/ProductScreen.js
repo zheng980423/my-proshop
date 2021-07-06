@@ -32,6 +32,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import MessageIcon from '@material-ui/icons/Message';
 import CreateIcon from '@material-ui/icons/Create';
+import AddIcon from '@material-ui/icons/Add';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Link as RouterLink } from 'react-router-dom';
 import { ReactComponent as EmptySvg } from '../svgs/empty.svg';
@@ -104,6 +105,10 @@ const useStyles = makeStyles(theme => ({
     margin: '10px',
     flex: 1,
   },
+  followBtn: {
+    borderRadius: '50px',
+    marginLeft: '0.5rem',
+  },
   imageSection: {
     marginLeft: '20px',
     [theme.breakpoints.down('sm')]: {
@@ -165,6 +170,7 @@ const ProductScreen = ({ history, match }) => {
     error: errorRelated,
     products: relatedProducts,
   } = productRelated;
+
   useEffect(() => {
     if (successProductReview) {
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
@@ -174,8 +180,13 @@ const ProductScreen = ({ history, match }) => {
     dispatch(listRelatedProducts(match.params.id));
   }, [dispatch, match.params.id, successProductReview]);
 
-  const openPost = _id => history.push(`/product/${_id}`);
+  // //follow handler
+  //   const handleClick=() => {
 
+  // }
+
+  //related product settion
+  const openPost = _id => history.push(`/product/${_id}`);
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
   };
@@ -385,19 +396,57 @@ const ProductScreen = ({ history, match }) => {
                               </ListItemAvatar>
                               <ListItemText
                                 primary={
-                                  <div className={classes.ratingRoot}>
-                                    {review.name} -{' '}
-                                    {review.role === 'admin'
-                                      ? '管理员'
-                                      : review.role === 'publisher'
-                                      ? '商家'
-                                      : '用户'}
-                                    <Rating
-                                      value={review.rating}
-                                      name="review-rating"
-                                      disabled
-                                    />
-                                  </div>
+                                  <>
+                                    <div className={classes.ratingRoot}>
+                                      {review.name} -{' '}
+                                      {review.role === 'admin'
+                                        ? '管理员'
+                                        : review.role === 'publisher'
+                                        ? '商家'
+                                        : '用户'}
+                                      {!userInfo ? (
+                                        <></>
+                                      ) : review.user !== userInfo._id ? (
+                                        <Button
+                                          variant="contained"
+                                          color={
+                                            userInfo.followings.includes(
+                                              review.user
+                                            )
+                                              ? 'secondary'
+                                              : 'primary'
+                                          }
+                                          className={classes.followBtn}
+                                          startIcon={
+                                            userInfo.followings.includes(
+                                              review.user
+                                            ) ? (
+                                              <></>
+                                            ) : (
+                                              <AddIcon />
+                                            )
+                                          }
+                                          // onClick={() => { handleClick }}
+                                        >
+                                          {userInfo.followings.includes(
+                                            review.user
+                                          )
+                                            ? '取消关注'
+                                            : '关注'}
+                                        </Button>
+                                      ) : (
+                                        <></>
+                                      )}
+                                    </div>
+                                    <div>
+                                      {' '}
+                                      <Rating
+                                        value={review.rating}
+                                        name="review-rating"
+                                        disabled
+                                      />
+                                    </div>
+                                  </>
                                 }
                                 secondary={
                                   <>
@@ -413,7 +462,7 @@ const ProductScreen = ({ history, match }) => {
                                       {review.comment}
                                     </Typography>
 
-                                    {moment(review.createdAt).format('LLL')}
+                                    {moment(review.createdAt).format('l')}
                                   </>
                                 }
                               />
@@ -572,7 +621,7 @@ const ProductScreen = ({ history, match }) => {
                     ) : (
                       <Message variant="info">
                         请{' '}
-                        <Link component={RouterLink} to="/">
+                        <Link component={RouterLink} to="/login">
                           登录
                         </Link>
                         进行评论

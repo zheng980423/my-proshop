@@ -3,6 +3,9 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
   USER_DETAILS_SUCCESS,
+  USER_FOLLOW_FAIL,
+  USER_FOLLOW_REQUEST,
+  USER_FOLLOW_SUCCESS,
   USER_FORGOTPASSWORD_FAIL,
   USER_FORGOTPASSWORD_REQUEST,
   USER_FORGOTPASSWORD_RESET,
@@ -101,6 +104,18 @@ export const userResetPasswordReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case USER_RESETPASSWORD_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+export const userFollowReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_FOLLOW_REQUEST:
+      return { loading: true };
+    case USER_FOLLOW_SUCCESS:
+      return { loading: false, success: true, result: action.payload };
+    case USER_FOLLOW_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

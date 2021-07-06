@@ -34,6 +34,7 @@ import {
   userUpdateProfileReducer,
   userForgotPasswordReducer,
   userResetPasswordReducer,
+  userFollowReducer,
 } from './reducers/userReducers';
 const reducer = combineReducers({
   productList: productListReducer,
@@ -48,6 +49,7 @@ const reducer = combineReducers({
   userUpdateProfile: userUpdateProfileReducer,
   userForgotPassword: userForgotPasswordReducer,
   userResetPassword: userResetPasswordReducer,
+  userFollow: userFollowReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
