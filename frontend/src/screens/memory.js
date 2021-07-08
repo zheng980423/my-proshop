@@ -32,7 +32,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import MessageIcon from '@material-ui/icons/Message';
 import CreateIcon from '@material-ui/icons/Create';
-// import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@material-ui/icons/Add';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Link as RouterLink } from 'react-router-dom';
 import { ReactComponent as EmptySvg } from '../svgs/empty.svg';
@@ -46,7 +46,7 @@ import {
   createProductReview,
   listRelatedProducts,
 } from '../actions/productActions';
-// import { follow, unfollow } from '../actions/userActions';
+import { follow, unfollow } from '../actions/userActions';
 import SkeletonArticle from '../skeletons/SkeletonArticle';
 import Message from '../components/Message';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
@@ -131,7 +131,7 @@ const useStyles = makeStyles(theme => ({
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1);
   const [selectedImg, setSelectedImg] = useState(null);
-  // const [currentId, setCurrentId] = useState('');
+  const [currentId, setCurrentId] = useState('');
   const ratingOption = [
     {
       rating: 1,
@@ -173,18 +173,18 @@ const ProductScreen = ({ history, match }) => {
     error: errorRelated,
     products: relatedProducts,
   } = productRelated;
-  // const userFollow = useSelector(state => state.userFollow);
-  // const {
-  //   loading: loadingFollow,
-  //   success: successFollow,
-  //   error: errorFollow,
-  // } = userFollow;
-  // const userUnfollow = useSelector(state => state.userUnfollow);
-  // const {
-  //   loading: loadingUnfollow,
-  //   success: successUnfollow,
-  //   error: errorUnfollow,
-  // } = userUnfollow;
+  const userFollow = useSelector(state => state.userFollow);
+  const {
+    loading: loadingFollow,
+    success: successFollow,
+    error: errorFollow,
+  } = userFollow;
+  const userUnfollow = useSelector(state => state.userUnfollow);
+  const {
+    loading: loadingUnfollow,
+    success: successUnfollow,
+    error: errorUnfollow,
+  } = userUnfollow;
 
   useEffect(() => {
     if (successProductReview) {
@@ -196,14 +196,14 @@ const ProductScreen = ({ history, match }) => {
   }, [dispatch, match.params.id, successProductReview]);
 
   // //follow handler
-  // const handleClick = (id, followerId, followingOrNot) => {
-  //   setCurrentId(id);
-  //   if (!followingOrNot) {
-  //     dispatch(follow(id, followerId));
-  //   } else {
-  //     dispatch(unfollow(id, followerId));
-  //   }
-  // };
+  const handleClick = (id, followerId, followingOrNot) => {
+    setCurrentId(id);
+    if (!followingOrNot) {
+      dispatch(follow(id, followerId));
+    } else {
+      dispatch(unfollow(id, followerId));
+    }
+  };
 
   //related product settion
   const openPost = _id => history.push(`/product/${_id}`);
@@ -226,6 +226,10 @@ const ProductScreen = ({ history, match }) => {
         [1, 2, 3, 4, 5].map(n => <SkeletonArticle key={n}></SkeletonArticle>)
       ) : error ? (
         <Message variant="error">{error}</Message>
+      ) : errorFollow ? (
+        <Message variant="error">{errorFollow}</Message>
+      ) : errorUnfollow ? (
+        <Message variant="error">{errorUnfollow}</Message>
       ) : (
         <>
           <Meta title={product.name}></Meta>
@@ -424,6 +428,59 @@ const ProductScreen = ({ history, match }) => {
                                         : review.role === 'publisher'
                                         ? '商家'
                                         : '用户'}
+                                      {!userInfo ? (
+                                        <></>
+                                      ) : review.user !== userInfo._id ? (
+                                        <Button
+                                          variant="contained"
+                                          color={
+                                            userInfo?.followings.includes(
+                                              review.user
+                                            )
+                                              ? 'secondary'
+                                              : 'primary'
+                                          }
+                                          className={classes.followBtn}
+                                          startIcon={
+                                            userInfo.followings.includes(
+                                              review.user
+                                            ) ? (
+                                              <></>
+                                            ) : (
+                                              <AddIcon />
+                                            )
+                                          }
+                                          onClick={() => {
+                                            handleClick(
+                                              review.user,
+                                              userInfo._id,
+                                              userInfo.followings.includes(
+                                                review.user
+                                              )
+                                            );
+                                          }}
+                                        >
+                                          {loadingFollow &&
+                                          currentId === review.user
+                                            ? '正在关注'
+                                            : loadingUnfollow &&
+                                              currentId === review.user
+                                            ? '取消关注中'
+                                            : successFollow &&
+                                              currentId === review.user
+                                            ? '关注成功'
+                                            : successUnfollow &&
+                                              currentId === review.user
+                                            ? '取消关注成功'
+                                            : userInfo.followings.includes(
+                                                review.user
+                                              )
+                                            ? '取消关注'
+                                            : '关注'}
+                                        </Button>
+                                      ) : (
+                                        <></>
+                                      )}
                                     </div>
                                     <div>
                                       {' '}

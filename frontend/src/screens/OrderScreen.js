@@ -24,6 +24,7 @@ import { deliverOrder } from '../actions/adminActions';
 import Message from '../components/Message';
 import { ORDER_PAY_RESET } from '../constants/orderConstants';
 import { ADMIN_ORDER_DELIVER_RESET } from '../constants/adminConstants';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   listItem: {
@@ -269,7 +270,7 @@ export default function OrderScreen({ match, history }) {
                 </Grid>
                 {order.isDelivered ? (
                   <Message variant="success">
-                    已于 {order.deliveredAt}发货
+                    已于{moment(order.createdAt).format('l')}发货
                   </Message>
                 ) : (
                   <Message variant="error">还没发货</Message>
@@ -288,7 +289,9 @@ export default function OrderScreen({ match, history }) {
                   </Grid>
                 </Grid>
                 {order.isPaid ? (
-                  <Message variant="success">已于 {order.paidAt}支付</Message>
+                  <Message variant="success">
+                    已于 {moment(order.paidAt).format('l')}支付
+                  </Message>
                 ) : (
                   <Message variant="error">还没支付</Message>
                 )}
